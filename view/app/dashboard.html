@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard</title>
+    <title>CloudShare - Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
@@ -32,42 +32,40 @@
               class="w-full h-full object-cover"
             />
           </div>
-          <h2 class="text-xl font-semibold">Shakil Ahmad</h2>
-          <p class="text-sm text-white text-opacity-80 mt-1">
-            shakil@gmail.com
-          </p>
+          <h2 class="text-xl font-semibold capitalize" id="fullname"></h2>
+          <p class="text-sm text-white text-opacity-80 mt-1" id="email"></p>
         </div>
 
         <!-- Navigation -->
         <nav class="mt-8 px-4 space-y-2">
           <a
-            href="./dashboard.html"
+            href="/dashboard"
             class="flex items-center px-4 py-3 rounded-lg text-white active-nav-item transition-all duration-300"
           >
             <i class="ri-apps-line mr-2 text-lg"></i>
             <span class="font-medium">Dashboard</span>
           </a>
           <a
-            href="./my-files.html"
+            href="/files"
             class="flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300"
           >
             <i class="ri-file-3-line mr-2 text-lg"></i>
             <span class="font-medium">My Files</span>
           </a>
           <a
-            href="./history.html"
+            href="history"
             class="flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300"
           >
             <i class="ri-history-line mr-2 text-lg"></i>
             <span class="font-medium">History</span>
           </a>
-          <a
-            href="#"
-            class="flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300 mt-8"
+          <button
+            onclick="logout()"
+            class="w-full flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300 mt-8"
           >
             <i class="ri-logout-circle-r-line mr-2 text-lg"></i>
             <span class="font-medium">Logout</span>
-          </a>
+          </button>
         </nav>
       </div>
 
@@ -244,6 +242,7 @@
 
     <script src="../js/env.js"></script>
     <script src="../js/session.js"></script>
+    <script src="../js/logout.js"></script>
     <script src="../js/toggleSidebar.js"></script>
     <script src="../js/dashboard.js"></script>
   </body>

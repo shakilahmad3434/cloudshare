@@ -1,13 +1,18 @@
 axios.defaults.baseURL = SERVER
+let user = null;
+window.onload = () => {
+  checkSession()
+}
 
 const checkSession = async () => {
   const session = await getSession()
   
+  document.getElementById('fullname').innerHTML = session.fullname
+  document.getElementById('email').innerHTML = session.email
+  
   if(!session)
     return location.href = '/login'
 }
-
-checkSession()
 
 async function dashboard(){
   try {

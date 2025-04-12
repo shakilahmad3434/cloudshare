@@ -18,4 +18,12 @@ router.get('/dashboard', (req, res) => {
   res.sendFile(path.join(process.cwd(), "view", "app/dashboard.html"))
 })
 
+router.get('/files', (req, res) => {
+  res.sendFile(path.join(process.cwd(), "view", "app/files.html"))
+})
+
+router.get('/history', (req, res) => {
+  res.sendFile(path.join(process.cwd(), "view", "app/history.html"))
+})
+
 module.exports = router;

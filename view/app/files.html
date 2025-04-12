@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Files | Admin Dashboard</title>
+    <title>My Files - CloudShare</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../css/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
   <body class="bg-gray-100 font-sans">
     <div class="flex h-screen overflow-hidden">
@@ -38,33 +39,33 @@
         <!-- Navigation -->
         <nav class="mt-8 px-4 space-y-2">
           <a
-            href="./dashboard.html"
+            href="/dashboard"
             class="flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300"
           >
             <i class="ri-apps-line mr-2 text-lg"></i>
             <span class="font-medium">Dashboard</span>
           </a>
           <a
-            href="./my-files.html"
+            href="/files"
             class="flex items-center px-4 py-3 rounded-lg text-white active-nav-item transition-all duration-300"
           >
             <i class="ri-file-3-line mr-2 text-lg"></i>
             <span class="font-medium">My Files</span>
           </a>
           <a
-            href="./history.html"
+            href="/history"
             class="flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300"
           >
             <i class="ri-history-line mr-2 text-lg"></i>
             <span class="font-medium">History</span>
           </a>
-          <a
-            href="#"
-            class="flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300 mt-8"
+          <button
+            onclick="logout()"
+            class="w-full flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300 mt-8"
           >
             <i class="ri-logout-circle-r-line mr-2 text-lg"></i>
             <span class="font-medium">Logout</span>
-          </a>
+        </button>
         </nav>
       </div>
 
@@ -346,9 +347,10 @@
       </div>
     </div>
 
-    <script src="../js/index.js"></script>
-    <!-- Load Axios from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="../js/my-files.js"></script>
+    <script src="../js/env.js"></script>
+    <script src="../js/session.js"></script>
+    <script src="../js/logout.js"></script>
+    <script src="../js/toggleSidebar.js"></script>
+    <script src="../js/files.js"></script>
   </body>
 </html>
