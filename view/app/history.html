@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History | Admin Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+  <link rel="stylesheet" href="../css/index.css">
+
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <div class="w-64 sidebar-gradient text-white flex-shrink-0 shadow-xl overflow-hidden transition-all duration-300 ease-in" id="sidebar">
+      <!-- Profile Section -->
+      <div class="flex flex-col items-center py-8 px-4">
+        <div class="w-20 h-20 rounded-full bg-white bg-opacity-20 flex items-center justify-center mb-4 backdrop-blur-sm border-2 border-white border-opacity-30">
+          <img src="../images/avt.png" alt="Profile Pic for User" class="w-full h-full object-cover">
+        </div>
+        <h2 class="text-xl font-semibold">Shakil Ahmad</h2>
+        <p class="text-sm text-white text-opacity-80 mt-1">shakil@gmail.com</p>
+      </div>
+      
+      <!-- Navigation -->
+      <nav class="mt-8 px-4 space-y-2">
+        <a href="./dashboard.html" class="flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300">
+          <i class="ri-apps-line mr-2 text-lg"></i>
+          <span class="font-medium">Dashboard</span>
+        </a>
+        <a href="./my-files.html" class="flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300">
+          <i class="ri-file-3-line mr-2 text-lg"></i>
+          <span class="font-medium">My Files</span>
+        </a>
+        <a href="./history.html" class="flex items-center px-4 py-3 rounded-lg text-white active-nav-item transition-all duration-300">
+          <i class="ri-history-line mr-2 text-lg"></i>
+          <span class="font-medium">History</span>
+        </a>
+        <a href="#" class="flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300 mt-8">
+          <i class="ri-logout-circle-r-line mr-2 text-lg"></i>
+          <span class="font-medium">Logout</span>
+        </a>
+      </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden transition-all duration-300 ease-in-out">
+      <!-- Header -->
+      <header class="bg-white shadow-lg border-b-2 border-emerald-600">
+        <div class="flex justify-between items-center py-4 px-6">
+          <div class="flex items-center">
+            <div class="text-3xl font-bold text-emerald-600 mr-2">
+              <i class="ri-planet-fill"></i>
+            </div>
+            <h1 class="text-2xl font-bold text-gray-800">Fileorbit</h1>
+          </div>
+          <div class="flex items-center space-x-4">
+            <button class="py-1 px-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-colors">
+              <i class="ri-search-line text-xl"></i>
+            </button>
+            <button class="py-1 px-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-colors">
+              <i class="ri-notification-4-line text-xl"></i>
+            </button>
+            <button onclick="toggleSidebar()" class="py-1 px-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-colors">
+              <i class="ri-menu-2-line text-xl"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Dashboard Content -->
+      <div class="flex-1 overflow-y-auto p-6 bg-gray-50">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-2xl font-bold text-gray-800">History</h2>
+        </div>
+
+
+        <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+          <!-- Table Header -->
+          <div class="grid grid-cols-12 gap-4 px-6 py-3 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-500 uppercase tracking-wider">
+            <div class="col-span-5">Filename</div>
+            <div class="col-span-2">Type</div>
+            <div class="col-span-2">Email</div>
+            <div class="col-span-2">Datetime</div>
+            <div class="col-span-1 text-right">Action</div>
+          </div>
+  
+          <!-- Table Rows -->
+          <div class="divide-y divide-gray-200">
+            <!-- File Row 1 -->
+            <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row">
+              <div class="col-span-5 flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                  <i class="ri-image-fill"></i>
+                </div>
+                <span class="font-medium text-gray-800 truncate">Introduction to html</span>
+              </div>
+              <div class="col-span-2 text-gray-600">Image</div>
+              <div class="col-span-2 text-gray-600">20.03 MB</div>
+              <div class="col-span-2 text-gray-600">24 June 2025</div>
+              <div class="col-span-1 flex justify-end space-x-2">
+                <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 action-btn transition-colors">
+                  <i class="ri-delete-bin-fill text-xl"></i>
+                </button>
+              </div>
+            </div>
+  
+            <!-- File Row 2 -->
+            <div class="divide-y divide-gray-200">
+              <!-- File Row 1 -->
+              <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row">
+                <div class="col-span-5 flex items-center space-x-3">
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                    <i class="ri-image-fill"></i>
+                  </div>
+                  <span class="font-medium text-gray-800 truncate">Introduction to html</span>
+                </div>
+                <div class="col-span-2 text-gray-600">Image</div>
+                <div class="col-span-2 text-gray-600">20.03 MB</div>
+                <div class="col-span-2 text-gray-600">24 June 2025</div>
+                <div class="col-span-1 flex justify-end space-x-2">
+                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 action-btn transition-colors">
+                    <i class="ri-delete-bin-fill text-xl"></i>
+                  </button>
+                </div>
+              </div>
+  
+            <!-- File Row 3 -->
+            <div class="divide-y divide-gray-200">
+              <!-- File Row 1 -->
+              <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row">
+                <div class="col-span-5 flex items-center space-x-3">
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600">
+                    <i class="ri-image-fill"></i>
+                  </div>
+                  <span class="font-medium text-gray-800 truncate">Introduction to html</span>
+                </div>
+                <div class="col-span-2 text-gray-600">Image</div>
+                <div class="col-span-2 text-gray-600">20.03 MB</div>
+                <div class="col-span-2 text-gray-600">24 June 2025</div>
+                <div class="col-span-1 flex justify-end space-x-2">
+                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 action-btn transition-colors">
+                    <i class="ri-delete-bin-fill text-xl"></i>
+                  </button>
+                </div>
+              </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/index.js"></script>
+</body>
+</html>

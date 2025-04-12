@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../css/index.css" />
+    <!-- Load Axios from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body class="bg-gray-100 font-sans">
+    <div class="flex h-screen overflow-hidden">
+      <!-- Sidebar -->
+      <div
+        class="w-64 sidebar-gradient text-white flex-shrink-0 shadow-xl overflow-hidden transition-all duration-300 ease-in"
+        id="sidebar"
+      >
+        <!-- Profile Section -->
+        <div class="flex flex-col items-center py-8 px-4">
+          <div
+            class="w-20 h-20 rounded-full bg-white bg-opacity-20 flex items-center justify-center mb-4 backdrop-blur-sm border-2 border-white border-opacity-30"
+          >
+            <img
+              src="../images/avt.png"
+              alt="Profile Pic for User"
+              class="w-full h-full object-cover"
+            />
+          </div>
+          <h2 class="text-xl font-semibold">Shakil Ahmad</h2>
+          <p class="text-sm text-white text-opacity-80 mt-1">
+            shakil@gmail.com
+          </p>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="mt-8 px-4 space-y-2">
+          <a
+            href="./dashboard.html"
+            class="flex items-center px-4 py-3 rounded-lg text-white active-nav-item transition-all duration-300"
+          >
+            <i class="ri-apps-line mr-2 text-lg"></i>
+            <span class="font-medium">Dashboard</span>
+          </a>
+          <a
+            href="./my-files.html"
+            class="flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300"
+          >
+            <i class="ri-file-3-line mr-2 text-lg"></i>
+            <span class="font-medium">My Files</span>
+          </a>
+          <a
+            href="./history.html"
+            class="flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300"
+          >
+            <i class="ri-history-line mr-2 text-lg"></i>
+            <span class="font-medium">History</span>
+          </a>
+          <a
+            href="#"
+            class="flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300 mt-8"
+          >
+            <i class="ri-logout-circle-r-line mr-2 text-lg"></i>
+            <span class="font-medium">Logout</span>
+          </a>
+        </nav>
+      </div>
+
+      <!-- Main Content -->
+      <div
+        class="flex-1 flex flex-col overflow-hidden transition-all duration-300 ease-in-out"
+      >
+        <!-- Header -->
+        <header class="bg-white shadow-lg border-b-2 border-emerald-600">
+          <div class="flex justify-between items-center py-4 px-6">
+            <div class="flex items-center">
+              <div class="text-3xl font-bold text-emerald-600 mr-2">
+                <i class="ri-planet-fill"></i>
+              </div>
+              <h1 class="text-2xl font-bold text-gray-800">Fileorbit</h1>
+            </div>
+            <div class="flex items-center space-x-4">
+              <button
+                class="py-1 px-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-colors"
+              >
+                <i class="ri-search-line text-xl"></i>
+              </button>
+              <button
+                class="py-1 px-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-colors"
+              >
+                <i class="ri-notification-4-line text-xl"></i>
+              </button>
+              <button
+                onclick="toggleSidebar()"
+                class="py-1 px-2 rounded-full hover:bg-gray-100 text-gray-600 hover:text-gray-800 transition-colors"
+              >
+                <i class="ri-menu-2-line text-xl"></i>
+              </button>
+            </div>
+          </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="flex-1 overflow-y-auto p-6 bg-gray-50">
+          <div class="max-w-7xl mx-auto">
+            <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+              Dashboard Overview
+            </h2>
+
+            <!-- Stats Cards -->
+            <div
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+            >
+              <!-- Videos Card -->
+              <div
+                class="bg-white rounded-xl shadow-sm overflow-hidden transition-transform hover:scale-[1.02]"
+              >
+                <div class="flex items-center p-6">
+                  <div
+                    class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl w-16 h-16 flex items-center justify-center shadow-md"
+                  >
+                    <i class="ri-video-on-fill text-white text-2xl"></i>
+                  </div>
+                  <div class="ml-4">
+                    <h3 class="text-lg text-gray-500 font-medium">Videos</h3>
+                    <p class="text-3xl font-bold text-gray-800" id="video">
+                      25,609
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Audio Card -->
+              <div
+                class="bg-white rounded-xl shadow-sm overflow-hidden transition-transform hover:scale-[1.02]"
+              >
+                <div class="flex items-center p-6">
+                  <div
+                    class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl w-16 h-16 flex items-center justify-center shadow-md"
+                  >
+                    <i class="ri-music-2-fill text-white text-2xl"></i>
+                  </div>
+                  <div class="ml-4">
+                    <h3 class="text-lg text-gray-500 font-medium">Audio</h3>
+                    <p class="text-3xl font-bold text-gray-800" id="audio">
+                      15,662
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PDF Card -->
+              <div
+                class="bg-white rounded-xl shadow-sm overflow-hidden transition-transform hover:scale-[1.02]"
+              >
+                <div class="flex items-center p-6">
+                  <div
+                    class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl w-16 h-16 flex items-center justify-center shadow-md"
+                  >
+                    <i class="ri-file-pdf-2-fill text-white text-2xl"></i>
+                  </div>
+                  <div class="ml-4">
+                    <h3 class="text-lg text-gray-500 font-medium">PDF</h3>
+                    <p class="text-3xl font-bold text-gray-800" id="pdf">
+                      25,609
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Image Card -->
+              <div
+                class="bg-white rounded-xl shadow-sm overflow-hidden transition-transform hover:scale-[1.02]"
+              >
+                <div class="flex items-center p-6">
+                  <div
+                    class="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl w-16 h-16 flex items-center justify-center shadow-md"
+                  >
+                    <i class="ri-file-image-fill text-white text-2xl"></i>
+                  </div>
+                  <div class="ml-4">
+                    <h3 class="text-lg text-gray-500 font-medium">Images</h3>
+                    <p class="text-3xl font-bold text-gray-800" id="image">
+                      750
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Files Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div
+                class="bg-white rounded-xl shadow-sm p-6 transition-transform hover:scale-[1.01]"
+              >
+                <div class="flex justify-between items-center mb-4">
+                  <h3 class="text-xl font-semibold text-gray-700">
+                    Recent Files
+                  </h3>
+                  <button
+                    class="text-emerald-600 hover:text-emerald-700 text-sm font-medium"
+                  >
+                    View All
+                  </button>
+                </div>
+                <div
+                  class="h-60 flex flex-col items-center justify-center text-gray-400 bg-gray-50 rounded-lg"
+                >
+                  <i class="ri-folder-open-fill text-4xl mb-2"></i>
+                  <p>No recent files</p>
+                </div>
+              </div>
+
+              <div
+                class="bg-white rounded-xl shadow-sm p-6 transition-transform hover:scale-[1.01]"
+              >
+                <div class="flex justify-between items-center mb-4">
+                  <h3 class="text-xl font-semibold text-gray-700">
+                    Recent Shared
+                  </h3>
+                  <button
+                    class="text-emerald-600 hover:text-emerald-700 text-sm font-medium"
+                  >
+                    View All
+                  </button>
+                </div>
+                <div
+                  class="h-60 flex flex-col items-center justify-center text-gray-400 bg-gray-50 rounded-lg"
+                >
+                  <i class="ri-share-fill text-4xl mb-2"></i>
+                  <p>No shared files</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/env.js"></script>
+    <script src="../js/session.js"></script>
+    <script src="../js/toggleSidebar.js"></script>
+    <script src="../js/dashboard.js"></script>
+  </body>
+</html>

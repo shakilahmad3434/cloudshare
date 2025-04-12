@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="./images/fileorbit.png">
+    <title>CloudShare - Simple File Sharing Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.0.1/remixicon.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+
+                    <div class="flex-shrink-0 flex items-center">
+                        <i class="ri-cloud-line text-blue-600 text-3xl mr-2"></i>
+                        <span class="font-bold text-xl text-gray-800">CloudShare</span>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="#" class="border-blue-500 text-gray-900 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Home
+                        </a>
+                        <a href="#features" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Features
+                        </a>
+                        <a href="#pricing" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            Pricing
+                        </a>
+                        <a href="#" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                            About
+                        </a>
+                    </div>
+                
+                <div class="hidden sm:ml-6 sm:flex sm:items-center">
+                    <a href="/login" class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Sign In</a>
+                    <a href="/signup" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-700 ml-3">Get Started</a>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" class="mobile-menu-button bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <i class="ri-menu-line h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile menu, show/hide based on menu state. -->
+        <div class="sm:hidden hidden mobile-menu">
+            <div class="pt-2 pb-3 space-y-1">
+                <a href="#" class="bg-blue-50 border-blue-500 text-blue-700 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Home</a>
+                <a href="#features" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Features</a>
+                <a href="#pricing" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">Pricing</a>
+                <a href="#" class="border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 block pl-3 pr-4 py-2 border-l-4 text-base font-medium">About</a>
+                <div class="pt-4 pb-3 border-t border-gray-200">
+                    <a href="/login" class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100">Sign In</a>
+                    <a href="/signup" class="block px-4 py-2 text-base font-medium text-white bg-blue-600 hover:bg-blue-700 mt-1 rounded-md">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h1 class="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
+                        Secure Cloud Storage for All Your Files
+                    </h1>
+                    <p class="text-lg text-blue-100 mb-8">
+                        Store, share, and collaborate on files with ease. Access your data anywhere, anytime, on any device.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="/signup" class="bg-white text-blue-700 px-6 py-3 rounded-lg font-medium text-center hover:bg-blue-50 transition">
+                            Get Started Free
+                        </a>
+                        <a href="#" class="border border-blue-200 text-white px-6 py-3 rounded-lg font-medium text-center hover:bg-blue-700 transition flex items-center justify-center">
+                            <i class="ri-play-circle-line mr-2"></i> Watch Demo
+                        </a>
+                    </div>
+                </div>
+                <div class="hidden md:block">
+                    <img src="./images/cloud-storage.png" alt="CloudShare Dashboard" class="rounded-lg shadow-xl" />
+                </div>
+            </div>
+        </div>
+        <div class="bg-white w-full h-12 md:h-24 rounded-t-[50%]"></div>
+    </section>
+
+    <!-- Trusted By Section -->
+    <section class="bg-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-gray-500 font-medium mb-6">Trusted by 10,000+ businesses worldwide</p>
+            <div class="flex flex-wrap justify-center gap-x-12 gap-y-6">
+                <div class="flex items-center text-gray-400">
+                    <i class="ri-microsoft-fill text-3xl mr-2"></i>
+                    <span class="font-semibold text-gray-500">Microsoft</span>
+                </div>
+                <div class="flex items-center text-gray-400">
+                    <i class="ri-amazon-fill text-3xl mr-2"></i>
+                    <span class="font-semibold text-gray-500">Amazon</span>
+                </div>
+                <div class="flex items-center text-gray-400">
+                    <i class="ri-netflix-fill text-3xl mr-2"></i>
+                    <span class="font-semibold text-gray-500">Netflix</span>
+                </div>
+                <div class="flex items-center text-gray-400">
+                    <i class="ri-google-fill text-3xl mr-2"></i>
+                    <span class="font-semibold text-gray-500">Google</span>
+                </div>
+                <div class="flex items-center text-gray-400">
+                    <i class="ri-apple-fill text-3xl mr-2"></i>
+                    <span class="font-semibold text-gray-500">Apple</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">Everything You Need in One Platform</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+                    CloudShare provides powerful features to manage your files efficiently and securely.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition">
+                    <div class="bg-blue-100 rounded-lg w-12 h-12 flex items-center justify-center mb-5">
+                        <i class="ri-shield-check-line text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Secure Storage</h3>
+                    <p class="text-gray-600">
+                        Your files are encrypted both in transit and at rest, ensuring your data remains private and secure.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition">
+                    <div class="bg-blue-100 rounded-lg w-12 h-12 flex items-center justify-center mb-5">
+                        <i class="ri-share-forward-line text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Easy Sharing</h3>
+                    <p class="text-gray-600">
+                        Share files with anyone with a simple link. Control access with password protection and expiration dates.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition">
+                    <div class="bg-blue-100 rounded-lg w-12 h-12 flex items-center justify-center mb-5">
+                        <i class="ri-team-line text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Team Collaboration</h3>
+                    <p class="text-gray-600">
+                        Work together on files in real-time. Comment, edit, and track changes across your team.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition">
+                    <div class="bg-blue-100 rounded-lg w-12 h-12 flex items-center justify-center mb-5">
+                        <i class="ri-device-line text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Access Anywhere</h3>
+                    <p class="text-gray-600">
+                        Access your files from any device. Our platform works seamlessly on desktop, mobile, and tablet.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition">
+                    <div class="bg-blue-100 rounded-lg w-12 h-12 flex items-center justify-center mb-5">
+                        <i class="ri-history-line text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Version History</h3>
+                    <p class="text-gray-600">
+                        Never lose your work with automatic version tracking. Restore previous versions with a single click.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="bg-gray-50 rounded-xl p-8 hover:shadow-lg transition">
+                    <div class="bg-blue-100 rounded-lg w-12 h-12 flex items-center justify-center mb-5">
+                        <i class="ri-search-line text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Smart Search</h3>
+                    <p class="text-gray-600">
+                        Find any file instantly with our powerful search. Filter by type, date, or content within documents.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">How CloudShare Works</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+                    Get started in minutes with our simple and intuitive platform.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="text-center">
+                    <div class="bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-5 text-2xl font-bold">1</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Create an Account</h3>
+                    <p class="text-gray-600">
+                        Sign up with your email or social accounts. No credit card required for the free tier.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="text-center">
+                    <div class="bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-5 text-2xl font-bold">2</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Upload Your Files</h3>
+                    <p class="text-gray-600">
+                        Drag and drop files or use our desktop app to sync existing folders automatically.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="text-center">
+                    <div class="bg-blue-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-5 text-2xl font-bold">3</div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Share & Collaborate</h3>
+                    <p class="text-gray-600">
+                        Share files securely with your team or clients, and collaborate in real-time.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">Simple, Transparent Pricing</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+                    Choose the plan that works for you. All plans come with a 14-day free trial.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Basic Plan -->
+                <div class="border border-gray-200 rounded-xl p-8 hover:shadow-lg transition">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Basic</h3>
+                    <p class="text-gray-600 mb-5">Perfect for personal use</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-gray-900">$0</span>
+                        <span class="text-gray-500">/month</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="ri-check-line text-green-500 mr-2"></i>
+                            <span class="text-gray-600">5 GB Storage</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ri-check-line text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Basic File Sharing</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ri-check-line text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Mobile Access</span>
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="ri-close-line mr-2"></i>
+                            <span>Team Collaboration</span>
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="ri-close-line mr-2"></i>
+                            <span>Advanced Security</span>
+                        </li>
+                    </ul>
+                    <a href="/signup" class="block text-center bg-gray-100 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition">
+                        Get Started
+                    </a>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="border-2 border-blue-600 rounded-xl p-8 shadow-lg relative">
+                    <div class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        MOST POPULAR
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Pro</h3>
+                    <p class="text-gray-600 mb-5">For professionals & small teams</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-gray-900">$12</span>
+                        <span class="text-gray-500">/month</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="ri-check-line text-green-500 mr-2"></i>
+                            <span class="text-gray-600">100 GB Storage</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ri-check-line text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Advanced Sharing</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ri-check-line text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Mobile Access</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ri-check-line text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Team Collaboration</span>
+                        </li>
+                        <li class="flex items-center text-gray-400">
+                            <i class="ri-close-line mr-2"></i>
+                            <span>Advanced Security</span>
+                        </li>
+                    </ul>
+                    <a href="/signup" class="block text-center bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition">
+                        Start 14-Day Trial
+                    </a>
+                </div>
+
+                <!-- Business Plan -->
+                <div class="border border-gray-200 rounded-xl p-8 hover:shadow-lg transition">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Business</h3>
+                    <p class="text-gray-600 mb-5">For organizations & enterprises</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold text-gray-900">$30</span>
+                        <span class="text-gray-500">/month</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center">
+                            <i class="ri-check-line text-green-500 mr-2"></i>
+                            <span class="text-gray-600">1 TB Storage</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ri-check-line text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Enterprise Sharing</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ri-check-line text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Mobile Access</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ri-check-line text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Team Collaboration</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="ri-check-line text-green-500 mr-2"></i>
+                            <span class="text-gray-600">Advanced Security</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="block text-center bg-gray-100 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition">
+                        Contact Sales
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900 sm:text-4xl">What Our Customers Say</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-2xl mx-auto">
+                    Thousands of teams trust CloudShare for their file sharing needs.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full">
+                          <img src="./images/avt.png" alt="Customer" class="w-full h-full object-cover" />
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-900">Sarah Johnson</h4>
+                            <p class="text-gray-500">Marketing Director</p>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-3">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <p class="text-gray-600">
+                        "CloudShare has transformed how our marketing team collaborates. The file organization and sharing capabilities have saved us countless hours of work."
+                    </p>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                      <div class="w-12 h-12 rounded-full">
+                        <img src="./images/avt.png" alt="Customer" class="w-full h-full object-cover" />
+                      </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-900">Michael Chen</h4>
+                            <p class="text-gray-500">Software Engineer</p>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-3">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                    </div>
+                    <p class="text-gray-600">
+                        "As a developer, I need secure and reliable file storage. CloudShare's version history and access controls give me peace of mind that our code is protected."
+                    </p>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="bg-white p-8 rounded-xl shadow-sm">
+                    <div class="flex items-center mb-4">
+                      <div class="w-12 h-12 rounded-full">
+                        <img src="./images/avt.png" alt="Customer" class="w-full h-full object-cover" />
+                      </div>
+                        <div class="ml-4">
+                            <h4 class="font-bold text-gray-900">Emily Rodriguez</h4>
+                            <p class="text-gray-500">Design Team Lead</p>
+                        </div>
+                    </div>
+                    <div class="flex text-yellow-400 mb-3">
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-fill"></i>
+                        <i class="ri-star-half-fill"></i>
+                    </div>
+                    <p class="text-gray-600">
+                        "The ability to preview design files directly in CloudShare has streamlined our approval process. It's become an essential tool for our design team."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-16 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold sm:text-4xl mb-6">Ready to Get Started?</h2>
+            <p class="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
+                Join thousands of users who trust CloudShare for their file sharing needs. Start your free trial today.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="/signup" class="bg-white text-blue-700 px-8 py-4 rounded-lg font-medium text-center hover:bg-blue-50 transition">
+                    Start Your Free Trial
+                </a>
+                <a href="#" class="border border-blue-200 text-white px-8 py-4 rounded-lg font-medium text-center hover:bg-blue-700 transition">
+                    Contact Sales
+                </a>
+            </div>
+            <p class="text-blue-100 mt-4">No credit card required. Cancel anytime.</p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-16 bg-white">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-extrabold text-gray-900 sm:text-4xl">Frequently Asked Questions</h2>
+          <p class="mt-4 text-xl text-gray-500 max-w-2xl mx-auto">
+            Have questions? We're here to help.
+          </p>
+        </div>
+  
+        <div class="space-y-6" id="faq-container">
+          <!-- FAQ Item 1 -->
+          <div class="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
+            <button class="faq-button w-full flex justify-between items-center px-6 py-5 text-left focus:outline-none">
+              <span class="text-lg font-semibold text-gray-900">How secure is CloudShare?</span>
+              <i class="ri-add-line text-blue-600 text-xl transition-transform duration-200"></i>
+            </button>
+            <div class="faq-content hidden px-6 pb-5">
+              <p class="text-gray-600">
+                CloudShare uses end-to-end encryption to ensure your data is secure both in transit and at rest. We also offer additional security features like two-factor authentication and access controls.
+              </p>
+            </div>
+          </div>
+  
+          <!-- FAQ Item 2 -->
+          <div class="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
+            <button class="faq-button w-full flex justify-between items-center px-6 py-5 text-left focus:outline-none">
+              <span class="text-lg font-semibold text-gray-900">Can I access my files offline?</span>
+              <i class="ri-add-line text-blue-600 text-xl transition-transform duration-200"></i>
+            </button>
+            <div class="faq-content hidden px-6 pb-5">
+              <p class="text-gray-600">
+                Yes, with our desktop and mobile apps, you can select files for offline access. These files will be synchronized when you reconnect to the internet.
+              </p>
+            </div>
+          </div>
+  
+          <!-- FAQ Item 3 -->
+          <div class="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
+            <button class="faq-button w-full flex justify-between items-center px-6 py-5 text-left focus:outline-none">
+              <span class="text-lg font-semibold text-gray-900">How much storage do I get?</span>
+              <i class="ri-add-line text-blue-600 text-xl transition-transform duration-200"></i>
+            </button>
+            <div class="faq-content hidden px-6 pb-5">
+              <p class="text-gray-600">
+                Our Basic plan offers 5GB of free storage. Pro users get 100GB, and Business users get 1TB. If you need more storage, contact our sales team for custom enterprise solutions.
+              </p>
+            </div>
+          </div>
+  
+          <!-- FAQ Item 4 -->
+          <div class="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
+            <button class="faq-button w-full flex justify-between items-center px-6 py-5 text-left focus:outline-none">
+              <span class="text-lg font-semibold text-gray-900">Can I share files with people who don't use CloudShare?</span>
+              <i class="ri-add-line text-blue-600 text-xl transition-transform duration-200"></i>
+            </button>
+            <div class="faq-content hidden px-6 pb-5">
+              <p class="text-gray-600">
+                Yes, you can share files with anyone via a secure link, even if they don't have a CloudShare account. You can also set passwords and expiration dates for shared links.
+              </p>
+            </div>
+          </div>
+  
+          <!-- FAQ Item 5 -->
+          <div class="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200">
+            <button class="faq-button w-full flex justify-between items-center px-6 py-5 text-left focus:outline-none">
+              <span class="text-lg font-semibold text-gray-900">Do you support version control?</span>
+              <i class="ri-add-line text-blue-600 text-xl transition-transform duration-200"></i>
+            </button>
+            <div class="faq-content hidden px-6 pb-5">
+              <p class="text-gray-600">
+                Yes, CloudShare automatically keeps version history for all your files. You can view and restore previous versions at any time, ensuring you never lose important work.
+              </p>
+            </div>
+          </div>
+        </div>
+  
+        <div class="text-center mt-12">
+          <p class="text-gray-600 mb-2">Still have questions?</p>
+          <a href="#" class="inline-flex items-center text-blue-600 font-medium hover:text-blue-700 transition-colors">
+            Contact our support team
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white pt-16 pb-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+              <!-- Company Info -->
+              <div class="col-span-1 md:col-span-1">
+                  <div class="flex items-center mb-4">
+                      <i class="ri-cloud-line text-blue-400 text-2xl mr-2"></i>
+                      <span class="font-bold text-xl">CloudShare</span>
+                  </div>
+                  <p class="text-gray-400 mb-4">
+                      Secure file sharing and storage for individuals and teams of all sizes.
+                  </p>
+                  <div class="flex space-x-4">
+                      <a href="#" class="text-gray-400 hover:text-white">
+                          <i class="ri-twitter-fill text-xl"></i>
+                      </a>
+                      <a href="#" class="text-gray-400 hover:text-white">
+                          <i class="ri-facebook-fill text-xl"></i>
+                      </a>
+                      <a href="#" class="text-gray-400 hover:text-white">
+                          <i class="ri-instagram-line text-xl"></i>
+                      </a>
+                      <a href="#" class="text-gray-400 hover:text-white">
+                          <i class="ri-linkedin-fill text-xl"></i>
+                      </a>
+                  </div>
+              </div>
+
+              <!-- Product Links -->
+              <div>
+                  <h4 class="text-lg font-bold mb-4">Product</h4>
+                  <ul class="space-y-2">
+                      <li><a href="#" class="text-gray-400 hover:text-white">Features</a></li>
+                      <li><a href="#" class="text-gray-400 hover:text-white">Pricing</a></li>
+                      <li><a href="#" class="text-gray-400 hover:text-white">Security</a></li>
+                      <li><a href="#" class="text-gray-400 hover:text-white">Integrations</a></li>
+                      <li><a href="#" class="text-gray-400 hover:text-white">Updates</a></li>
+                  </ul>
+              </div>
+
+              <!-- Resources Links -->
+              <div>
+                  <h4 class="text-lg font-bold mb-4">Resources</h4>
+                  <ul class="space-y-2">
+                      <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                      <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                      <li><a href="#" class="text-gray-400 hover:text-white">Tutorials</a></li>
+                      <li><a href="#" class="text-gray-400 hover:text-white">Documentation</a></li>
+                      <li><a href="#" class="text-gray-400 hover:text-white">Community</a></li>
+                  </ul>
+              </div>
+
+              <!-- Company Links -->
+              <div>
+                  <h4 class="text-lg font-bold mb-4">Company</h4>
+                  <ul class="space-y-2">
+                      <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                      <li><a href="#" class="text-gray-400 hover:text-white">Careers</a></li>
+                      <li><a href="#" class="text-gray-400 hover:text-white">Press</a></li>
+                      <li><a href="#" class="text-gray-400 hover:text-white">Contact</a></li>
+                      <li><a href="#" class="text-gray-400 hover:text-white">Partners</a></li>
+                  </ul>
+              </div>
+          </div>
+
+          <!-- Bottom Footer -->
+          <div class="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center">
+              <div class="mb-4 md:mb-0">
+                  <p class="text-gray-400">&copy; 2025 CloudShare. All rights reserved.</p>
+              </div>
+              <div class="flex space-x-6">
+                  <a href="#" class="text-gray-400 hover:text-white">Terms of Service</a>
+                  <a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a>
+                  <a href="#" class="text-gray-400 hover:text-white">Cookie Policy</a>
+              </div>
+          </div>
+      </div>
+  </footer>
+
+  <script src="./js/index.js"></script>
+</body>
+</html>
