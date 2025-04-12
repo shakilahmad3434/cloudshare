@@ -7,11 +7,11 @@ window.onload = () => {
 const checkSession = async () => {
   const session = await getSession()
   
-  document.getElementById('fullname').innerHTML = session.fullname
-  document.getElementById('email').innerHTML = session.email
-  
   if(!session)
     return location.href = '/login'
+  
+  document.getElementById('fullname').innerHTML = session?.fullname
+  document.getElementById('email').innerHTML = session?.email
 }
 
 async function dashboard(){
