@@ -14,8 +14,9 @@ const createFile = async (req, res) => {
       size: file.size,
     };
 
-    const newFile = await FileModel.create(payload);
-    res.status(200).json(newFile);
+    const data = await FileModel.create(payload);
+    res.status(200).json(data);
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

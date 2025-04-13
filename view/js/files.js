@@ -10,8 +10,9 @@ const cancelUpload = document.getElementById("cancelUpload");
 
 window.onload = () => {
   checkSession()
+  fetchFiles()
 }
-
+// check session for user logged or not
 const checkSession = async () => {
   const session = await getSession()
   
@@ -21,6 +22,7 @@ const checkSession = async () => {
   document.getElementById('fullname').innerHTML = session?.fullname
   document.getElementById('email').innerHTML = session?.email
 }
+
 
 // Modal Functions
 
@@ -32,68 +34,13 @@ function openModal() {
   }, 10);
 }
 
+// close Modal Function
 function closeModalFunc() {
   modalBackdrop.classList.add("opacity-0");
   modalContent.classList.add("modal-enter");
   setTimeout(() => {
     uploadModal.classList.add("hidden");
   }, 300);
-}
-
-// Simulated Upload Function
-function simulateUpload() {
-  const progressBar = document.getElementById("progressBar");
-  const uploadPercent = document.getElementById("uploadPercent");
-  const uploadProgress = document.getElementById("uploadProgress");
-  const uploadSpeed = document.getElementById("uploadSpeed");
-  const uploadRemaining = document.getElementById("uploadRemaining");
-  const uploadFileName = document.getElementById("uploadFileName");
-
-  let progress = 0;
-  let simulationInterval;
-
-  // Show progress area
-  uploadProgress.classList.remove("hidden");
-
-  // Get file name from input or use placeholder
-  const fileInput = document.getElementById("fileUpload");
-  const fileName =
-    fileInput.files.length > 0
-      ? fileInput.files[0].name
-      : document.getElementById("fileName").value || "file.jpg";
-
-  uploadFileName.textContent = fileName;
-
-  // Start progress simulation
-  simulationInterval = setInterval(() => {
-    progress += Math.random() * 8;
-    if (progress >= 100) {
-      progress = 100;
-      clearInterval(simulationInterval);
-
-      // Show success message
-      setTimeout(() => {
-        alert("File uploaded successfully!");
-        closeModalFunc();
-        resetUploadForm();
-      }, 500);
-    }
-
-    // Update UI
-    progressBar.style.width = `${progress}%`;
-    uploadPercent.textContent = `${Math.round(progress)}%`;
-
-    // Simulate speed and remaining time
-    const speed = Math.round(Math.random() * 1000) + 500;
-    uploadSpeed.textContent = `${speed} KB/s`;
-
-    const remaining = Math.round(((100 - progress) * 100) / speed);
-    if (remaining <= 0) {
-      uploadRemaining.textContent = "finishing...";
-    } else {
-      uploadRemaining.textContent = `${remaining} seconds left`;
-    }
-  }, 200);
 }
 
 //Form Reset
@@ -118,22 +65,92 @@ modalContent.addEventListener("click", (e) => {
   e.stopPropagation();
 });
 
+const formatTime = (seconds) => {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+};
+
+const humanFileSize = (size) =>
+  size >= 1e9
+    ? (size / 1e9).toFixed(2) + ' GB'
+    : size >= 1e6
+    ? (size / 1e6).toFixed(2) + ' MB'
+    : size >= 1e3
+    ? (size / 1e3).toFixed(2) + ' KB'
+    : size + ' B';
+
 // Form submission handler
 document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+  const progressBar = document.getElementById("progressBar");
+  const uploadPercent = document.getElementById("uploadPercent");
+  const uploadProgress = document.getElementById("uploadProgress");
+  const uploadSpeed = document.getElementById("uploadSpeed");
+  const uploadedSize = document.getElementById('uploadedSize');
+  const uploadRemaining = document.getElementById("uploadRemaining");
+  const uploadFileName = document.getElementById("uploadFileName");
+  const uploadBtn = document.getElementById('upload-btn')
+  const startTime = Date.now();
+
   try {
     const form = e.target
-    console.log(form)
     const formData = new FormData(form)
-    const {data} = await axios.post('/api/file', formData)
-    console.log(data)
+    const options = {
+      onUploadProgress: function ({loaded, total, progress, bytes, estimated, rate}) {
+        const elapsedTime = (Date.now() - startTime) / 1000; // in seconds
+        const uploaded = humanFileSize(loaded);
+        const totalSize = humanFileSize(total);
+        const percent = (progress * 100).toFixed(2) + '%';
+        const speed = humanFileSize(rate || bytes / elapsedTime) + '/s';
+        const timeRemaining = estimated
+          ? `${Math.ceil(estimated)}s remaining`
+          : 'Time Up';
+  
+        uploadedSize.innerHTML = `${uploaded} / ${totalSize}`;
+        uploadPercent.innerHTML = percent
+        progressBar.style.width = percent;
+        uploadSpeed.innerHTML = speed
+        uploadRemaining.innerHTML = timeRemaining
+
+        // Get file name from input or use placeholder
+        const fileInput = document.getElementById("fileUpload");
+        const fileName =
+          fileInput.files.length > 0
+            ? fileInput.files[0].name
+            : document.getElementById("fileName").value || "file.jpg";
+
+        uploadFileName.textContent = fileName;
+            
+      },
+    }
+
+    uploadBtn.disabled = true
+    // Show progress area
+    uploadProgress.classList.remove("hidden");
+    const {data} = await axios.post('/api/file', formData, options)
+    uploadBtn.disabled = false
+    fetchFiles()
+    // Show success message
+    setTimeout(() => {
+      toast.success(`${data.filename} has been uploaded!`)
+    }, 2000);
 
   } catch (err) {
-    console.log(err)
-    console.log(err.response ? err.response.data.message : err.message)
+    // const errr = JSON.parse((err.response.data).text())
+    // console.log(errr)
+    toast.error(err.response ? err.response.data.message : err.message)
+  } finally {
+    setTimeout(() => {
+      closeModalFunc();
+      resetUploadForm();
+    }, 2000);
+
+    uploadBtn.disabled = false
   }
-  simulateUpload();
+
 });
+
 
 // Upload zone drag and drop functionality
 const uploadZone = document.querySelector(".upload-zone");
@@ -171,3 +188,68 @@ fileUpload.addEventListener("change", (e) => {
     document.getElementById("fileName").value = fileName.split(".")[0];
   }
 });
+
+
+const fetchFiles = async () => {
+  const tableData = document.getElementById('table-data')
+  const totalFiles = document.getElementById('totalFiles')
+  try {
+    const {data} = await axios.get('/api/file')
+    tableData.innerHTML = "";
+    totalFiles.innerHTML = `Showing 1-4 of ${data.length + 1} files`
+    data.forEach((data) => {
+      const ui = `
+      <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row" key="${data._id}">
+        <div class="col-span-5 flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-lg file-image flex items-center justify-center file-icon">
+            <i class="ri-image-fill text-xl"></i>
+          </div>
+          <div class="truncate">
+            <span class="font-medium text-gray-800 block truncate capitalize">${data.filename}</span>
+            <span class="text-xs text-gray-500">Last modified: ${moment(data.createdAt).format('MMM Do YY, h:mm a')}</span>  
+          </div>
+        </div>
+        <div class="col-span-2 text-gray-600 capitalize">${data.type}</div>
+        <div class="col-span-2 text-gray-600">${humanFileSize(data.size)}</div>
+        <div class="col-span-2 text-gray-600">${moment(data.createdAt).format('MMM Do YY')}</div>
+        <div class="col-span-1 flex justify-end space-x-1">
+          <button onclick="downloadFile('${data._id}')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+            <i class="ri-download-cloud-line text-lg"></i>
+          </button>
+          <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
+            <i class="ri-share-line text-lg"></i>
+          </button>
+          <button onclick="deleteFile('${data._id}')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors">
+            <i class="ri-delete-bin-line text-lg"></i>
+          </button>
+        </div>
+      </div>
+      `;
+
+      tableData.innerHTML += ui
+    })
+
+  } catch (err) {
+    toast.error(err.response ? err.response.data.message : err.message)
+  }
+}
+
+const deleteFile = async (id) => {
+  const {data} = await axios.delete(`/api/file/${id}`)
+  toast.success(data.message)
+  fetchFiles()
+  try {
+  } catch (err) {
+    toast.error(err.response ? err.response.data.message : err.message)
+  }
+}
+
+const downloadFile = async (id) => {
+  console.log(id)
+  try {
+    const {data} = await axios.get(`/file/download/${id}`)
+    console.log(data)
+  } catch (err) {
+    toast.error(err.response ? err.response.data.message : err.message)
+  }
+}

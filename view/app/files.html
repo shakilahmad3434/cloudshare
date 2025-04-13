@@ -6,9 +6,12 @@
     <title>My Files - CloudShare</title>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/index.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
     <!-- Load Axios from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
   </head>
   <body class="bg-gray-50 font-sans text-gray-800">
     <div class="flex h-screen overflow-hidden">
@@ -204,93 +207,13 @@
             </div>
 
             <!-- Table Rows -->
-            <div class="divide-y divide-gray-100">
-              <!-- File Row 1 -->
-              <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row">
-                <div class="col-span-5 flex items-center space-x-3">
-                  <div class="w-10 h-10 rounded-lg file-image flex items-center justify-center file-icon">
-                    <i class="ri-image-fill text-xl"></i>
-                  </div>
-                  <div class="truncate">
-                    <span class="font-medium text-gray-800 block truncate">Project_Screenshot.png</span>
-                    <span class="text-xs text-gray-500">Last modified: Apr 10, 2025</span>  
-                  </div>
-                </div>
-                <div class="col-span-2 text-gray-600">Image</div>
-                <div class="col-span-2 text-gray-600">4.28 MB</div>
-                <div class="col-span-2 text-gray-600">Apr 08, 2025</div>
-                <div class="col-span-1 flex justify-end space-x-1">
-                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
-                    <i class="ri-download-cloud-line text-lg"></i>
-                  </button>
-                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
-                    <i class="ri-share-line text-lg"></i>
-                  </button>
-                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors">
-                    <i class="ri-delete-bin-line text-lg"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- File Row 2 -->
-              <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row">
-                <div class="col-span-5 flex items-center space-x-3">
-                  <div class="w-10 h-10 rounded-lg file-doc flex items-center justify-center file-icon">
-                    <i class="ri-file-text-fill text-xl"></i>
-                  </div>
-                  <div class="truncate">
-                    <span class="font-medium text-gray-800 block truncate">Introduction_to_HTML.docx</span>
-                    <span class="text-xs text-gray-500">Last modified: Apr 06, 2025</span>  
-                  </div>
-                </div>
-                <div class="col-span-2 text-gray-600">Document</div>
-                <div class="col-span-2 text-gray-600">1.75 MB</div>
-                <div class="col-span-2 text-gray-600">Apr 05, 2025</div>
-                <div class="col-span-1 flex justify-end space-x-1">
-                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
-                    <i class="ri-download-cloud-line text-lg"></i>
-                  </button>
-                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
-                    <i class="ri-share-line text-lg"></i>
-                  </button>
-                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors">
-                    <i class="ri-delete-bin-line text-lg"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- File Row 3 -->
-              <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row">
-                <div class="col-span-5 flex items-center space-x-3">
-                  <div class="w-10 h-10 rounded-lg file-pdf flex items-center justify-center file-icon">
-                    <i class="ri-file-pdf-fill text-xl"></i>
-                  </div>
-                  <div class="truncate">
-                    <span class="font-medium text-gray-800 block truncate">Financial_Report_Q1.pdf</span>
-                    <span class="text-xs text-gray-500">Last modified: Apr 02, 2025</span>  
-                  </div>
-                </div>
-                <div class="col-span-2 text-gray-600">PDF</div>
-                <div class="col-span-2 text-gray-600">3.42 MB</div>
-                <div class="col-span-2 text-gray-600">Apr 01, 2025</div>
-                <div class="col-span-1 flex justify-end space-x-1">
-                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
-                    <i class="ri-download-cloud-line text-lg"></i>
-                  </button>
-                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
-                    <i class="ri-share-line text-lg"></i>
-                  </button>
-                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors">
-                    <i class="ri-delete-bin-line text-lg"></i>
-                  </button>
-                </div>
-              </div>
-              
+            <div class="divide-y divide-gray-100" id="table-data">
+              <!-- Inject data from JS -->
             </div>
             
             <!-- Table Pagination -->
             <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 bg-gray-50">
-              <p class="text-sm text-gray-600">Showing 1-4 of 56 files</p>
+              <p class="text-sm text-gray-600" id="totalFiles">Showing 1-4 of 56 files</p>
               <div class="flex space-x-1">
                 <button class="p-2 rounded text-gray-500 hover:bg-gray-200 disabled:opacity-50" disabled>
                   <i class="ri-arrow-left-s-line"></i>
@@ -367,16 +290,29 @@
             
             <!-- Progress Bar (Initially Hidden) -->
             <div id="uploadProgress" class="mb-5 hidden">
-              <div class="flex justify-between mb-1">
-                <span class="text-sm font-medium text-gray-700" id="uploadFileName">file.jpg</span>
-                <span class="text-sm font-medium text-gray-700" id="uploadPercent">0%</span>
+              <div class="flex justify-between items-center mb-1">
+                <div>
+                  <span class="text-sm font-medium text-gray-700" id="uploadFileName">file.jpg</span>
+                  <span class="text-xs text-gray-500 ml-2" id="uploadedSize">0 B / 0 B</span>
+                </div>
+                <span class="text-sm font-medium text-emerald-600" id="uploadPercent">0%</span>
               </div>
-              <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
                 <div class="bg-emerald-600 h-2 rounded-full transition-all duration-300" id="progressBar" style="width: 0%"></div>
               </div>
-              <div class="flex justify-between mt-1">
-                <span class="text-xs text-gray-500" id="uploadSpeed">0 KB/s</span>
-                <span class="text-xs text-gray-500" id="uploadRemaining">calculating...</span>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                  <svg class="h-4 w-4 text-gray-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  <span class="text-xs text-gray-600" id="uploadSpeed">0 KB/s</span>
+                </div>
+                <div class="flex items-center">
+                  <svg class="h-4 w-4 text-gray-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span class="text-xs text-gray-600" id="uploadRemaining">calculating...</span>
+                </div>
               </div>
             </div>
             
@@ -385,6 +321,7 @@
               <button 
                 type="submit" 
                 class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-lg transition-colors focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                id="upload-btn"
               >
                 Upload File
               </button>
@@ -405,6 +342,7 @@
     <script src="../js/session.js"></script>
     <script src="../js/toggleSidebar.js"></script>
     <script src="../js/logout.js"></script>
+    <script src="../js/toast.js"></script>
     <script src="../js/files.js"></script>
 </body>
 </html>
