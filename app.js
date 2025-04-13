@@ -17,3 +17,7 @@ app.use(express.urlencoded({extended: false}))
 app.use(express.static('view'))
 app.use('/', routerRoute)
 app.use('/api', userRouter)
+
+app.use((req, res) => {
+  res.status(404).json({message: "Endpoint not found"})
+})

@@ -344,6 +344,7 @@ function backToOptions() {
 const shareFile = async (e) => {
   e.preventDefault()
 
+  const sendBtn = document.getElementById('send-email-btn')
   try {
 
     const form = e.target
@@ -358,12 +359,19 @@ const shareFile = async (e) => {
       fileId: shareId
     }
 
-    const {data} = await axios.post('/api/share', payload)
-    console.log(data)
+    sendBtn.innerHTML = '<i class="ri-loader-2-line mr-2 animate-spin"></i> Processing...'
+    sendBtn.disabled = true
+    // ri-loader-2-line text-lg animate-spin
+
+    await axios.post('/api/share', payload)
+    form.reset()
+    toast.success("File send successfully!")
 
   } catch (err) {
-    console.log(err.response ? err.response.data.message : err.message)
+    toast.error(err.response ? err.response.data.message : err.message)
   } finally {
     shareId = null
+    sendBtn.innerHTML = '<i class="ri-send-plane-fill mr-2"></i>Send Email'
+    sendBtn.disabled = false
   }
 }
