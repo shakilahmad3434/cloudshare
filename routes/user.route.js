@@ -5,6 +5,7 @@ const { signup, login } = require('../controller/user.controller')
 const { createFile, fetchFiles, deleteFile, downloadFile } = require('../controller/file.controller')
 const { fetchDashboard } = require('../controller/dashboard.controller')
 const { verifyToken } = require('../controller/token.controller')
+const { shareFile } = require('../controller/share.controller')
 const router = express.Router()
 
 const storage = multer.diskStorage({
@@ -25,6 +26,7 @@ router.post('/signup', signup)
 router.post('/login', login)
 router.post('/file', upload.single('file'), createFile)
 router.post('/token/verify', verifyToken)
+router.post('/share', shareFile)
 router.delete('/file/:id', deleteFile)
 
 module.exports = router

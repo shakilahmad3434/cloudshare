@@ -80,6 +80,17 @@ const humanFileSize = (size) =>
     ? (size / 1e3).toFixed(2) + ' KB'
     : size + ' B';
 
+const getType = (type) => {
+  const ext = type.split('/').pop()
+  if(ext === "x-msdos-program")
+    return 'exe'
+
+  if(ext === "x-msdownload")
+    return 'msi'
+
+  return type
+}
+
 // Form submission handler
 document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -215,14 +226,14 @@ const fetchFiles = async () => {
             <span class="text-xs text-gray-500">Last modified: ${moment(data.createdAt).format('MMM Do YY, h:mm a')}</span>  
           </div>
         </div>
-        <div class="col-span-2 text-gray-600 capitalize">${data.type}</div>
+        <div class="col-span-2 text-gray-600 capitalize">${data.type.split('/')[0]}</div>
         <div class="col-span-2 text-gray-600">${humanFileSize(data.size)}</div>
         <div class="col-span-2 text-gray-600">${moment(data.createdAt).format('MMM Do YY')}</div>
         <div class="col-span-1 flex justify-end space-x-1">
           <button onclick="downloadFile('${data._id}', '${data.filename}', this)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
             <i class="ri-download-cloud-line text-lg"></i>
           </button>
-          <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
+          <button onclick="openModalForShare('${data._id}')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
             <i class="ri-share-line text-lg"></i>
           </button>
           <button onclick="deleteFile('${data._id}', this)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors">
@@ -265,12 +276,11 @@ const downloadFile = async (id, filename, button) => {
       responseType: 'blob'
     }
     const {data} = await axios.get(`/api/file/download/${id}`, options)
-    const ext = data.type.split('/').pop()
 
     const url = window.URL.createObjectURL(data)
     const a = document.createElement('a')
     a.href=url
-    a.download = `${filename}.${ext}`
+    a.download = `${filename}.${getType(data.type)}`
     a.click()
     a.remove()
   } catch (err) {
@@ -283,5 +293,77 @@ const downloadFile = async (id, filename, button) => {
   } finally {
     button.innerHTML = `<i class="ri-download-cloud-line text-lg"></i>`
     button.disabled = false
+  }
+}
+
+
+// Start a Share File Coding 
+
+let shareId = null
+// Modal toggle function
+function openModalForShare(id) {
+  const modal = document.getElementById('shareModal');
+  modal.classList.toggle('hidden');
+  shareId = id
+}
+
+// Copy link function
+function copyLink() {
+  const linkInput = document.getElementById('shareLink');
+  linkInput.select();
+  document.execCommand('copy');
+  
+  const copyButton = document.getElementById('copyButton');
+  const originalText = copyButton.innerHTML;
+  copyButton.innerHTML = '<i class="ri-check-line mr-2"></i>Copied!';
+  
+  setTimeout(() => {
+    copyButton.innerHTML = originalText;
+  }, 2000);
+}
+
+// Toggle email field
+function toggleEmailField() {
+  const emailField = document.getElementById('emailField');
+  const shareVia = document.getElementById('shareVia');
+  
+  emailField.classList.remove('hidden');
+  shareVia.classList.add('hidden');
+}
+
+// Go back to sharing options
+function backToOptions() {
+  const emailField = document.getElementById('emailField');
+  const shareVia = document.getElementById('shareVia');
+  
+  emailField.classList.add('hidden');
+  shareVia.classList.remove('hidden');
+}
+
+
+const shareFile = async (e) => {
+  e.preventDefault()
+
+  try {
+
+    const form = e.target
+
+    if (!shareId) {
+      console.error("No ID found to share.");
+      return;
+    }
+    const payload = {
+      email: form.elements.email?.value.trim() || "",
+      message: form.elements?.message.value.trim() || "",
+      fileId: shareId
+    }
+
+    const {data} = await axios.post('/api/share', payload)
+    console.log(data)
+
+  } catch (err) {
+    console.log(err.response ? err.response.data.message : err.message)
+  } finally {
+    shareId = null
   }
 }
