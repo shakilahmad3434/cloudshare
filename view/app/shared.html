@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fileorbit - Shared Files</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex h-screen bg-gray-100">
+    <!-- Sidebar -->
+    <div class="w-64 bg-emerald-600 text-white flex flex-col">
+        <!-- User Profile Section -->
+        <div class="p-6 flex flex-col items-center">
+            <div class="w-24 h-24 rounded-full bg-yellow-400 flex items-center justify-center mb-4 border-4 border-white">
+                <div class="w-20 h-20 rounded-full bg-white flex items-center justify-center">
+                  <img src="../images/avt.png" alt="Profile" class="w-full h-full object-cover">
+                </div>
+            </div>
+            <h2 class="text-xl font-bold mb-1">Shakil Ahmad</h2>
+            <p class="text-sm mb-4">shakil@gmail.com</p>
+            <div class="bg-emerald-700/50 px-4 py-2 rounded-lg flex items-center">
+                <i class="ri-hard-drive-2-line mr-2"></i>
+                <span class="text-sm">7.3 GB used</span>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 p-4">
+            <ul class="space-y-2">
+                <li>
+                    <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
+                        <i class="ri-dashboard-line mr-3 text-xl"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
+                        <i class="ri-file-list-line mr-3 text-xl"></i>
+                        <span>My Files</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center px-4 py-3 rounded-lg bg-white text-emerald-600 transition">
+                        <i class="ri-share-line mr-3 text-xl"></i>
+                        <span>Shared</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
+                        <i class="ri-history-line mr-3 text-xl"></i>
+                        <span>History</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
+                        <i class="ri-star-line mr-3 text-xl"></i>
+                        <span>Favorites</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Logout Button -->
+        <div class="p-4">
+            <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
+                <i class="ri-logout-box-line mr-3 text-xl"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Header -->
+        <header class="bg-white border-b flex items-center justify-between px-6 py-4">
+            <div class="flex items-center">
+                <button class="mr-4 text-gray-500">
+                    <i class="ri-menu-line text-xl"></i>
+                </button>
+                <div class="flex items-center">
+                    <i class="ri-leaf-line text-emerald-600 text-2xl mr-2"></i>
+                    <h1 class="text-2xl font-bold text-gray-800">Fileorbit</h1>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <div class="relative mr-4">
+                    <input type="text" placeholder="Search files..." class="bg-gray-100 rounded-lg px-4 py-2 pr-10 w-64 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                    <i class="ri-search-line absolute right-3 top-2.5 text-gray-400"></i>
+                </div>
+                <div class="relative">
+                    <button class="relative p-2">
+                        <i class="ri-notification-3-line text-xl text-gray-500"></i>
+                        <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-yellow-400 ml-4 flex items-center justify-center">
+                    <div class="w-9 h-9 rounded-full bg-white flex items-center justify-center">
+                        <i class="ri-user-3-line text-xl text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Content Area -->
+        <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Shared Files</h2>
+                <p class="text-gray-500">Files and folders shared with you</p>
+            </div>
+
+            <!-- Shared with Me & My Shared Files Tabs -->
+            <div class="mb-6 border-b">
+                <div class="flex">
+                    <button class="py-3 px-5 border-b-2 border-emerald-600 text-emerald-600 font-medium">
+                        Shared with Me
+                    </button>
+                    <button class="py-3 px-5 text-gray-500 hover:text-gray-700">
+                        My Shared Files
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter and Add Button -->
+            <div class="flex items-center justify-between mb-6">
+                <button class="flex items-center text-gray-600 bg-white border rounded-lg px-4 py-2 shadow-sm">
+                    <i class="ri-filter-3-line mr-2"></i>
+                    <span>Filter</span>
+                </button>
+            </div>
+
+            <!-- Files Table -->
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b">
+                            <th class="text-left py-4 px-6 text-gray-500 font-medium">FILENAME</th>
+                            <th class="text-left py-4 px-6 text-gray-500 font-medium">OWNER</th>
+                            <th class="text-left py-4 px-6 text-gray-500 font-medium">SHARED ON</th>
+                            <th class="text-left py-4 px-6 text-gray-500 font-medium">SIZE</th>
+                            <th class="text-left py-4 px-6 text-gray-500 font-medium">ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded bg-blue-100 flex items-center justify-center mr-3">
+                                        <i class="ri-file-text-line text-blue-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Project_Proposal.docx</p>
+                                        <p class="text-sm text-gray-500">Last modified: Apr 12, 2025</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-purple-200 flex items-center justify-center mr-2">
+                                        <span class="text-xs font-medium text-purple-600">JD</span>
+                                    </div>
+                                    <span>John Doe</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-gray-500">Apr 10, 2025</td>
+                            <td class="py-4 px-6 text-gray-500">2.4 MB</td>
+                            <td class="py-4 px-6">
+                                <div class="flex space-x-2">
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="ri-download-line"></i>
+                                    </button>
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded bg-red-100 flex items-center justify-center mr-3">
+                                        <i class="ri-file-pdf-line text-red-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Marketing_Plan_2025.pdf</p>
+                                        <p class="text-sm text-gray-500">Last modified: Apr 08, 2025</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-green-200 flex items-center justify-center mr-2">
+                                        <span class="text-xs font-medium text-green-600">AS</span>
+                                    </div>
+                                    <span>Alex Smith</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-gray-500">Apr 07, 2025</td>
+                            <td class="py-4 px-6 text-gray-500">5.7 MB</td>
+                            <td class="py-4 px-6">
+                                <div class="flex space-x-2">
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="ri-download-line"></i>
+                                    </button>
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded bg-green-100 flex items-center justify-center mr-3">
+                                        <i class="ri-file-excel-line text-green-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Budget_Analysis.xlsx</p>
+                                        <p class="text-sm text-gray-500">Last modified: Apr 05, 2025</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-blue-200 flex items-center justify-center mr-2">
+                                        <span class="text-xs font-medium text-blue-600">SJ</span>
+                                    </div>
+                                    <span>Sarah Johnson</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-gray-500">Apr 03, 2025</td>
+                            <td class="py-4 px-6 text-gray-500">1.2 MB</td>
+                            <td class="py-4 px-6">
+                                <div class="flex space-x-2">
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="ri-download-line"></i>
+                                    </button>
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded bg-blue-100 flex items-center justify-center mr-3">
+                                        <i class="ri-image-line text-blue-500"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">Brand_Assets.zip</p>
+                                        <p class="text-sm text-gray-500">Last modified: Mar 28, 2025</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6">
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-yellow-200 flex items-center justify-center mr-2">
+                                        <span class="text-xs font-medium text-yellow-600">RL</span>
+                                    </div>
+                                    <span>Robert Lee</span>
+                                </div>
+                            </td>
+                            <td class="py-4 px-6 text-gray-500">Mar 25, 2025</td>
+                            <td class="py-4 px-6 text-gray-500">23.8 MB</td>
+                            <td class="py-4 px-6">
+                                <div class="flex space-x-2">
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="ri-download-line"></i>
+                                    </button>
+                                    <button class="text-gray-400 hover:text-gray-600">
+                                        <i class="ri-more-2-fill"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-6 flex items-center justify-between">
+                <div class="text-sm text-gray-500">
+                    Showing 1-4 of 28 files
+                </div>
+                <div class="flex">
+                    <button class="w-10 h-10 flex items-center justify-center rounded-lg border text-gray-500 hover:bg-gray-100">
+                        <i class="ri-arrow-left-s-line"></i>
+                    </button>
+                    <button class="w-10 h-10 flex items-center justify-center rounded-lg border text-white bg-emerald-600 mx-1">
+                        1
+                    </button>
+                    <button class="w-10 h-10 flex items-center justify-center rounded-lg border text-gray-500 hover:bg-gray-100 mx-1">
+                        2
+                    </button>
+                    <button class="w-10 h-10 flex items-center justify-center rounded-lg border text-gray-500 hover:bg-gray-100 mx-1">
+                        3
+                    </button>
+                    <button class="w-10 h-10 flex items-center justify-center rounded-lg border text-gray-500 hover:bg-gray-100">
+                        <i class="ri-arrow-right-s-line"></i>
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
