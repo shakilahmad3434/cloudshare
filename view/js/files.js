@@ -96,6 +96,12 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   try {
     const form = e.target
     const formData = new FormData(form)
+
+    const file = formData.get('file')
+    const size = humanFileSize(file.size)
+    if(size <= "100 MB")
+      return toast.error("🔺 Oops! Your file is too large. Please upload a file smaller than 100MB. 📁")
+
     const options = {
       onUploadProgress: function ({loaded, total, progress, bytes, estimated, rate}) {
         const elapsedTime = (Date.now() - startTime) / 1000; // in seconds
@@ -213,13 +219,13 @@ const fetchFiles = async () => {
         <div class="col-span-2 text-gray-600">${humanFileSize(data.size)}</div>
         <div class="col-span-2 text-gray-600">${moment(data.createdAt).format('MMM Do YY')}</div>
         <div class="col-span-1 flex justify-end space-x-1">
-          <button onclick="downloadFile('${data._id}', '${data.filename}')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+          <button onclick="downloadFile('${data._id}', '${data.filename}', this)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
             <i class="ri-download-cloud-line text-lg"></i>
           </button>
           <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
             <i class="ri-share-line text-lg"></i>
           </button>
-          <button onclick="deleteFile('${data._id}')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors">
+          <button onclick="deleteFile('${data._id}', this)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors">
             <i class="ri-delete-bin-line text-lg"></i>
           </button>
         </div>
@@ -234,25 +240,33 @@ const fetchFiles = async () => {
   }
 }
 
-const deleteFile = async (id) => {
+const deleteFile = async (id, button) => {
+  button.innerHTML = `<i class="ri-loader-2-line text-lg animate-spin"></i>`
+  button.disabled = true
+
   const {data} = await axios.delete(`/api/file/${id}`)
   toast.success(data.message)
   fetchFiles()
   try {
   } catch (err) {
     toast.error(err.response ? err.response.data.message : err.message)
+  } finally {
+    button.innerHTML = `<i class="ri-delete-bin-line text-lg"></i>`
+    button.disabled = false
   }
 }
 
-const downloadFile = async (id,filename) => {
-  console.log(id)
+const downloadFile = async (id, filename, button) => {
   try {
+    button.innerHTML = `<i class="ri-loader-2-line text-lg animate-spin"></i>`
+    button.disabled = true
+
     const options = {
       responseType: 'blob'
     }
     const {data} = await axios.get(`/api/file/download/${id}`, options)
     const ext = data.type.split('/').pop()
-    console.log(filename +"."+ ext)
+
     const url = window.URL.createObjectURL(data)
     const a = document.createElement('a')
     a.href=url
@@ -260,6 +274,14 @@ const downloadFile = async (id,filename) => {
     a.click()
     a.remove()
   } catch (err) {
-    toast.error(err.response ? err.response.data.message : err.message)
+    if(!err.response)
+      return toast.error(err.message)
+
+    const error = await (err.response.data).text()
+    const {message} = JSON.parse(error)
+    toast.error(message)
+  } finally {
+    button.innerHTML = `<i class="ri-download-cloud-line text-lg"></i>`
+    button.disabled = false
   }
 }
