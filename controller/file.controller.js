@@ -66,12 +66,13 @@ const downloadFile = async (req, res) => {
   try {
     const {id} = req.params
     const file = await FileModel.findById(id)
+    const ext = getType(file.type)
     if(!file)
       res.status(404).json({message: "File not found!"})
     
     const filePath = path.join(process.cwd(), file.path)
 
-    res.setHeader('Content-Disposition', `attachment; filename="${file.filename}.${getType(file.type)}"`)
+    res.setHeader('Content-Disposition', `attachment; filename="${file.filename}.${ext.split('/').pop()}"`)
 
     res.sendFile(filePath, (err) => {
       if(err)

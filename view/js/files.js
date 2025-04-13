@@ -83,10 +83,10 @@ const humanFileSize = (size) =>
 const getType = (type) => {
   const ext = type.split('/').pop()
   if(ext === "x-msdos-program")
-    return 'exe'
+    return 'application/exe'
 
   if(ext === "x-msdownload")
-    return 'msi'
+    return 'applicatio/msi'
 
   return type
 }
@@ -276,11 +276,12 @@ const downloadFile = async (id, filename, button) => {
       responseType: 'blob'
     }
     const {data} = await axios.get(`/api/file/download/${id}`, options)
+    const ext = getType(data.type)
 
     const url = window.URL.createObjectURL(data)
     const a = document.createElement('a')
     a.href=url
-    a.download = `${filename}.${getType(data.type)}`
+    a.download = `${filename}.${ext.split('/').pop()}`
     a.click()
     a.remove()
   } catch (err) {
