@@ -22,8 +22,16 @@ router.get('/files', (req, res) => {
   res.sendFile(path.join(process.cwd(), "view", "app/files.html"))
 })
 
+router.get('/shared', (req, res) => {
+  res.sendFile(path.join(process.cwd(), "view", "app/shared.html"))
+})
+
 router.get('/history', (req, res) => {
   res.sendFile(path.join(process.cwd(), "view", "app/history.html"))
+})
+
+router.get('/favorites', (req, res) => {
+  res.sendFile(path.join(process.cwd(), "view", "app/favorites.html"))
 })
 
 module.exports = router;

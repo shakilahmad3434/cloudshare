@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fileorbit - Shared Files</title>
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Load Axios from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
-<body class="flex h-screen bg-gray-100">
+<body class="bg-gray-50 font-sans text-gray-800">
+  <div class="flex h-screen overflow-hidden">
     <!-- Sidebar -->
-    <div class="w-64 bg-emerald-600 text-white flex flex-col">
+    <div class="w-64 bg-emerald-600 text-white flex-shrink-0 shadow-xl overflow-hidden transition-all duration-300" id="sidebar">
         <!-- User Profile Section -->
         <div class="p-6 flex flex-col items-center">
             <div class="w-24 h-24 rounded-full bg-yellow-400 flex items-center justify-center mb-4 border-4 border-white">
@@ -20,7 +24,7 @@
             <h2 class="text-xl font-bold mb-1">Shakil Ahmad</h2>
             <p class="text-sm mb-4">shakil@gmail.com</p>
             <div class="bg-emerald-700/50 px-4 py-2 rounded-lg flex items-center">
-                <i class="ri-hard-drive-2-line mr-2"></i>
+                <i class="ri-database-2-line mr-2"></i>
                 <span class="text-sm">7.3 GB used</span>
             </div>
         </div>
@@ -29,31 +33,31 @@
         <nav class="flex-1 p-4">
             <ul class="space-y-2">
                 <li>
-                    <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
-                        <i class="ri-dashboard-line mr-3 text-xl"></i>
+                    <a href="/dashboard" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
+                        <i class="ri-command-line mr-3 text-xl"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
-                        <i class="ri-file-list-line mr-3 text-xl"></i>
+                    <a href="/files" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
+                        <i class="ri-file-list-3-line mr-3 text-xl"></i>
                         <span>My Files</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center px-4 py-3 rounded-lg bg-white text-emerald-600 transition">
+                    <a href="/shared" class="flex items-center px-4 py-3 rounded-lg bg-white text-emerald-600 transition">
                         <i class="ri-share-line mr-3 text-xl"></i>
                         <span>Shared</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
+                    <a href="/history" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
                         <i class="ri-history-line mr-3 text-xl"></i>
                         <span>History</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
+                    <a href="/favorites" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
                         <i class="ri-star-line mr-3 text-xl"></i>
                         <span>Favorites</span>
                     </a>
@@ -63,47 +67,58 @@
 
         <!-- Logout Button -->
         <div class="p-4">
-            <a href="#" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
-                <i class="ri-logout-box-line mr-3 text-xl"></i>
-                <span>Logout</span>
-            </a>
+          <button onclick="logout()" class="w-full flex items-center px-4 py-3 rounded-lg text-white nav-item transition-all duration-300">
+            <i class="ri-logout-circle-r-line mr-3 text-lg"></i>
+            <span class="font-medium">Logout</span>
+          </button>
         </div>
+
     </div>
 
     <!-- Main Content -->
-    <div class="flex-1 flex flex-col overflow-hidden">
+    <div class="flex-1 flex flex-col overflow-hidden transition duration-300 ease-in-out">
         <!-- Header -->
-        <header class="bg-white border-b flex items-center justify-between px-6 py-4">
+        <header class="bg-white shadow-sm border-b border-gray-200">
+          <div class="flex justify-between items-center py-4 px-6 pl-0">
             <div class="flex items-center">
-                <button class="mr-4 text-gray-500">
-                    <i class="ri-menu-line text-xl"></i>
-                </button>
-                <div class="flex items-center">
-                    <i class="ri-leaf-line text-emerald-600 text-2xl mr-2"></i>
-                    <h1 class="text-2xl font-bold text-gray-800">Fileorbit</h1>
+              <button onclick="toggleSidebar()" class="p-2 rounded-full hover:bg-gray-100 text-gray-600 mr-4">
+                 <img src="../images/sidebar-left-icon.png" alt="sidebar left icon" class="w-6 h-6">
+              </button>
+              <div class="flex items-center justify-center border-b border-white border-opacity-10">
+                <div class="text-3xl font-bold mr-2 text-emerald-600">
+                  <i class="ri-planet-fill"></i>
                 </div>
+                <h1 class="text-2xl font-bold">Fileorbit</h1>
+              </div>
             </div>
-            <div class="flex items-center">
-                <div class="relative mr-4">
-                    <input type="text" placeholder="Search files..." class="bg-gray-100 rounded-lg px-4 py-2 pr-10 w-64 focus:outline-none focus:ring-2 focus:ring-emerald-500">
-                    <i class="ri-search-line absolute right-3 top-2.5 text-gray-400"></i>
+            
+            <div class="flex items-center space-x-3">
+              <!-- Search Bar -->
+              <div class="relative hidden md:block">
+                <input 
+                  type="text" 
+                  placeholder="Search files..." 
+                  class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition w-64 bg-gray-50"
+                />
+                <div class="absolute left-3 top-2.5 text-gray-400">
+                  <i class="ri-search-line"></i>
                 </div>
-                <div class="relative">
-                    <button class="relative p-2">
-                        <i class="ri-notification-3-line text-xl text-gray-500"></i>
-                        <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                    </button>
-                </div>
-                <div class="w-10 h-10 rounded-full bg-yellow-400 ml-4 flex items-center justify-center">
-                    <div class="w-9 h-9 rounded-full bg-white flex items-center justify-center">
-                        <i class="ri-user-3-line text-xl text-gray-400"></i>
-                    </div>
-                </div>
+              </div>
+              
+              <button class="p-2 rounded-full hover:bg-gray-100 text-gray-600 relative">
+                <i class="ri-notification-3-line text-xl"></i>
+                <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
+              </button>
+              
+              <div class="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center overflow-hidden">
+                <img src="../images/avt.png" alt="Profile Picture" class="w-full h-full object-cover" />
+              </div>
             </div>
+          </div>
         </header>
 
         <!-- Content Area -->
-        <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+        <main class="flex-1 overflow-y-auto p-6">
             <div class="mb-6">
                 <h2 class="text-2xl font-bold text-gray-800">Shared Files</h2>
                 <p class="text-gray-500">Files and folders shared with you</p>
@@ -130,178 +145,172 @@
             </div>
 
             <!-- Files Table -->
-            <div class="bg-white rounded-lg shadow overflow-hidden">
-                <table class="w-full">
-                    <thead>
-                        <tr class="border-b">
-                            <th class="text-left py-4 px-6 text-gray-500 font-medium">FILENAME</th>
-                            <th class="text-left py-4 px-6 text-gray-500 font-medium">OWNER</th>
-                            <th class="text-left py-4 px-6 text-gray-500 font-medium">SHARED ON</th>
-                            <th class="text-left py-4 px-6 text-gray-500 font-medium">SIZE</th>
-                            <th class="text-left py-4 px-6 text-gray-500 font-medium">ACTIONS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="py-4 px-6">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 rounded bg-blue-100 flex items-center justify-center mr-3">
-                                        <i class="ri-file-text-line text-blue-500"></i>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium">Project_Proposal.docx</p>
-                                        <p class="text-sm text-gray-500">Last modified: Apr 12, 2025</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="py-4 px-6">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-purple-200 flex items-center justify-center mr-2">
-                                        <span class="text-xs font-medium text-purple-600">JD</span>
-                                    </div>
-                                    <span>John Doe</span>
-                                </div>
-                            </td>
-                            <td class="py-4 px-6 text-gray-500">Apr 10, 2025</td>
-                            <td class="py-4 px-6 text-gray-500">2.4 MB</td>
-                            <td class="py-4 px-6">
-                                <div class="flex space-x-2">
-                                    <button class="text-gray-400 hover:text-gray-600">
-                                        <i class="ri-download-line"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-600">
-                                        <i class="ri-more-2-fill"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="py-4 px-6">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 rounded bg-red-100 flex items-center justify-center mr-3">
-                                        <i class="ri-file-pdf-line text-red-500"></i>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium">Marketing_Plan_2025.pdf</p>
-                                        <p class="text-sm text-gray-500">Last modified: Apr 08, 2025</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="py-4 px-6">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-green-200 flex items-center justify-center mr-2">
-                                        <span class="text-xs font-medium text-green-600">AS</span>
-                                    </div>
-                                    <span>Alex Smith</span>
-                                </div>
-                            </td>
-                            <td class="py-4 px-6 text-gray-500">Apr 07, 2025</td>
-                            <td class="py-4 px-6 text-gray-500">5.7 MB</td>
-                            <td class="py-4 px-6">
-                                <div class="flex space-x-2">
-                                    <button class="text-gray-400 hover:text-gray-600">
-                                        <i class="ri-download-line"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-600">
-                                        <i class="ri-more-2-fill"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b hover:bg-gray-50">
-                            <td class="py-4 px-6">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 rounded bg-green-100 flex items-center justify-center mr-3">
-                                        <i class="ri-file-excel-line text-green-500"></i>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium">Budget_Analysis.xlsx</p>
-                                        <p class="text-sm text-gray-500">Last modified: Apr 05, 2025</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="py-4 px-6">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-blue-200 flex items-center justify-center mr-2">
-                                        <span class="text-xs font-medium text-blue-600">SJ</span>
-                                    </div>
-                                    <span>Sarah Johnson</span>
-                                </div>
-                            </td>
-                            <td class="py-4 px-6 text-gray-500">Apr 03, 2025</td>
-                            <td class="py-4 px-6 text-gray-500">1.2 MB</td>
-                            <td class="py-4 px-6">
-                                <div class="flex space-x-2">
-                                    <button class="text-gray-400 hover:text-gray-600">
-                                        <i class="ri-download-line"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-600">
-                                        <i class="ri-more-2-fill"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-gray-50">
-                            <td class="py-4 px-6">
-                                <div class="flex items-center">
-                                    <div class="w-10 h-10 rounded bg-blue-100 flex items-center justify-center mr-3">
-                                        <i class="ri-image-line text-blue-500"></i>
-                                    </div>
-                                    <div>
-                                        <p class="font-medium">Brand_Assets.zip</p>
-                                        <p class="text-sm text-gray-500">Last modified: Mar 28, 2025</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="py-4 px-6">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 rounded-full bg-yellow-200 flex items-center justify-center mr-2">
-                                        <span class="text-xs font-medium text-yellow-600">RL</span>
-                                    </div>
-                                    <span>Robert Lee</span>
-                                </div>
-                            </td>
-                            <td class="py-4 px-6 text-gray-500">Mar 25, 2025</td>
-                            <td class="py-4 px-6 text-gray-500">23.8 MB</td>
-                            <td class="py-4 px-6">
-                                <div class="flex space-x-2">
-                                    <button class="text-gray-400 hover:text-gray-600">
-                                        <i class="ri-download-line"></i>
-                                    </button>
-                                    <button class="text-gray-400 hover:text-gray-600">
-                                        <i class="ri-more-2-fill"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+              <!-- Table Header -->
+            <div class="flex items-center justify-between px-6 py-3 bg-gray-50 border-b border-gray-200">
+              <h3 class="font-semibold text-gray-700">Recent Shared Files</h3>
+              <div class="flex space-x-2">
+                <button class="p-1.5 rounded text-gray-500 hover:bg-gray-100">
+                  <i class="ri-list-check"></i>
+                </button>
+                <button class="p-1.5 rounded text-gray-500 hover:bg-gray-100">
+                  <i class="ri-apps-line"></i>
+                </button>
+              </div>
             </div>
 
-            <!-- Pagination -->
-            <div class="mt-6 flex items-center justify-between">
-                <div class="text-sm text-gray-500">
-                    Showing 1-4 of 28 files
-                </div>
-                <div class="flex">
-                    <button class="w-10 h-10 flex items-center justify-center rounded-lg border text-gray-500 hover:bg-gray-100">
-                        <i class="ri-arrow-left-s-line"></i>
-                    </button>
-                    <button class="w-10 h-10 flex items-center justify-center rounded-lg border text-white bg-emerald-600 mx-1">
-                        1
-                    </button>
-                    <button class="w-10 h-10 flex items-center justify-center rounded-lg border text-gray-500 hover:bg-gray-100 mx-1">
-                        2
-                    </button>
-                    <button class="w-10 h-10 flex items-center justify-center rounded-lg border text-gray-500 hover:bg-gray-100 mx-1">
-                        3
-                    </button>
-                    <button class="w-10 h-10 flex items-center justify-center rounded-lg border text-gray-500 hover:bg-gray-100">
-                        <i class="ri-arrow-right-s-line"></i>
-                    </button>
-                </div>
+            <!-- Table Column Headers -->
+            <div class="grid grid-cols-12 gap-4 px-6 py-3 border-b border-gray-200 text-sm font-medium text-gray-500 uppercase tracking-wider bg-gray-50">
+              <div class="col-span-5">Filename</div>
+              <div class="col-span-2">Owner</div>
+              <div class="col-span-2">Shared On</div>
+              <div class="col-span-2">Size</div>
+              <div class="col-span-1 text-right">Actions</div>
             </div>
+
+            <div class="divide-y divide-gray-100">
+              <!-- File Row 1 -->
+              <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row">
+                <div class="col-span-5 flex items-center space-x-3">
+                  <div class="w-10 h-10 rounded-lg file-image flex items-center justify-center file-icon">
+                    <i class="ri-file-text-fill text-xl"></i>
+                  </div>
+                  <div class="truncate"> 
+                    <p class="font-medium text-gray-800 block truncate">Project_Proposal.docx</p>
+                    <p class="text-xs text-gray-500">Last modified: Apr 12, 2025</p>
+                  </div>
+                </div>
+                <div class="col-span-2 text-gray-600 flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-purple-200 flex items-center justify-center mr-2">
+                        <span class="text-xs font-medium text-purple-600">JD</span>
+                    </div>
+                    <span>John Doe</span>
+                </div>
+                <div class="col-span-2 text-gray-600">Apr 08, 2025</div>
+                <div class="col-span-2 text-gray-600">4.28 MB</div>
+                <div class="col-span-1 flex justify-end space-x-1">
+                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                    <i class="ri-download-cloud-line text-lg"></i>
+                  </button>
+                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
+                    <i class="ri-more-2-line text-lg"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- File Row 2 -->
+              <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row">
+                <div class="col-span-5 flex items-center space-x-3">
+                  <div class="w-10 h-10 rounded-lg file-image flex items-center justify-center file-icon">
+                    <i class="ri-file-pdf-line text-xl text-red-500"></i>
+                  </div>
+                  <div class="truncate"> 
+                    <p class="font-medium text-gray-800 block truncate">Marketing_Plan_2025.pdf</p>
+                    <p class="text-xs text-gray-500">Last modified: Apr 08, 2025</p>
+                  </div>
+                </div>
+                <div class="col-span-2 text-gray-600 flex items-center">
+                  <div class="w-8 h-8 rounded-full bg-green-200 flex items-center justify-center mr-2">
+                    <span class="text-xs font-medium text-green-600">AS</span>
+                  </div>
+                  <span>Alex Smith</span>
+                </div>
+                <div class="col-span-2 text-gray-600">Apr 07, 2025</div>
+                <div class="col-span-2 text-gray-600">5.07 MB</div>
+                <div class="col-span-1 flex justify-end space-x-1">
+                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                    <i class="ri-download-cloud-line text-lg"></i>
+                  </button>
+                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
+                    <i class="ri-more-2-line text-lg"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- File Row 3 -->
+              <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row">
+                <div class="col-span-5 flex items-center space-x-3">
+                  <div class="w-10 h-10 rounded-lg file-image flex items-center justify-center file-icon">
+                    <i class="ri-file-excel-line text-xl text-green-500"></i>
+                  </div>
+                  <div class="truncate"> 
+                    <p class="font-medium text-gray-800 block truncate">Budget_Analysis.xlsx</p>
+                    <p class="text-xs text-gray-500">Last modified: Apr 05, 2025</p>
+                  </div>
+                </div>
+                <div class="col-span-2 text-gray-600 flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-blue-200 flex items-center justify-center mr-2">
+                        <span class="text-xs font-medium text-blue-600">SJ</span>
+                    </div>
+                    <span>Sarah Johnson</span>
+                </div>
+                <div class="col-span-2 text-gray-600">Apr 03, 2025</div>
+                <div class="col-span-2 text-gray-600">1.02 MB</div>
+                <div class="col-span-1 flex justify-end space-x-1">
+                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                    <i class="ri-download-cloud-line text-lg"></i>
+                  </button>
+                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
+                    <i class="ri-more-2-line text-lg"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- File Row 3 -->
+              <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row">
+                <div class="col-span-5 flex items-center space-x-3">
+                  <div class="w-10 h-10 rounded-lg file-image flex items-center justify-center file-icon">
+                    <i class="ri-image-line text-xl text-blue-500"></i>
+                  </div>
+                  <div class="truncate"> 
+                    <p class="font-medium text-gray-800 block truncate">Brand_Assets.zip</p>
+                    <p class="text-xs text-gray-500">Last modified: Mar 28, 2025</p>
+                  </div>
+                </div>
+                <div class="col-span-2 text-gray-600 flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-yellow-200 flex items-center justify-center mr-2">
+                        <span class="text-xs font-medium text-yellow-600">RL</span>
+                    </div>
+                    <span>Robert Lee</span>
+                </div>
+                <div class="col-span-2 text-gray-600">Mar 25, 2025</div>
+                <div class="col-span-2 text-gray-600">23.02 MB</div>
+                <div class="col-span-1 flex justify-end space-x-1">
+                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+                    <i class="ri-download-cloud-line text-lg"></i>
+                  </button>
+                  <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
+                    <i class="ri-more-2-line text-lg"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Table Pagination -->
+            <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 bg-gray-50">
+              <p class="text-sm text-gray-600">Showing 1-4 of 56 files</p>
+              <div class="flex space-x-1">
+                <button class="p-2 rounded text-gray-500 hover:bg-gray-200 disabled:opacity-50" disabled>
+                  <i class="ri-arrow-left-s-line"></i>
+                </button>
+                <button class="px-3 py-1 rounded bg-emerald-600 text-white">1</button>
+                <button class="px-3 py-1 rounded hover:bg-gray-200 text-gray-700">2</button>
+                <button class="px-3 py-1 rounded hover:bg-gray-200 text-gray-700">3</button>
+                <button class="p-2 rounded text-gray-500 hover:bg-gray-200">
+                  <i class="ri-arrow-right-s-line"></i>
+                </button>
+              </div>
+            </div>
+
+            </div>
+
         </main>
     </div>
+  </div>
+
+  <script src="../js/env.js"></script>
+    <script src="../js/session.js"></script>
+    <script src="../js/logout.js"></script>
+    <script src="../js/toggleSidebar.js"></script>
 </body>
 </html>
