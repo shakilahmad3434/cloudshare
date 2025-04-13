@@ -213,7 +213,7 @@ const fetchFiles = async () => {
         <div class="col-span-2 text-gray-600">${humanFileSize(data.size)}</div>
         <div class="col-span-2 text-gray-600">${moment(data.createdAt).format('MMM Do YY')}</div>
         <div class="col-span-1 flex justify-end space-x-1">
-          <button onclick="downloadFile('${data._id}')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+          <button onclick="downloadFile('${data._id}', '${data.filename}')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
             <i class="ri-download-cloud-line text-lg"></i>
           </button>
           <button class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
@@ -244,11 +244,21 @@ const deleteFile = async (id) => {
   }
 }
 
-const downloadFile = async (id) => {
+const downloadFile = async (id,filename) => {
   console.log(id)
   try {
-    const {data} = await axios.get(`/file/download/${id}`)
-    console.log(data)
+    const options = {
+      responseType: 'blob'
+    }
+    const {data} = await axios.get(`/api/file/download/${id}`, options)
+    const ext = data.type.split('/').pop()
+    console.log(filename +"."+ ext)
+    const url = window.URL.createObjectURL(data)
+    const a = document.createElement('a')
+    a.href=url
+    a.download = `${filename}.${ext}`
+    a.click()
+    a.remove()
   } catch (err) {
     toast.error(err.response ? err.response.data.message : err.message)
   }
