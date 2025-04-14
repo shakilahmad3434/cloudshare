@@ -6,6 +6,7 @@ const { createFile, fetchFiles, deleteFile, downloadFile } = require('../control
 const { fetchDashboard } = require('../controller/dashboard.controller')
 const { verifyToken } = require('../controller/token.controller')
 const { shareFile } = require('../controller/share.controller')
+const AuthMiddleware = require('../middleware/AuthMiddleware')
 const router = express.Router()
 
 const storage = multer.diskStorage({
@@ -19,14 +20,14 @@ const storage = multer.diskStorage({
 })
 const upload = multer({storage: storage})
 
-router.get('/file', fetchFiles)
-router.get('/file/download/:id', downloadFile)
-router.get('/dashboard', fetchDashboard)
 router.post('/signup', signup)
 router.post('/login', login)
-router.post('/file', upload.single('file'), createFile)
+router.get('/file', AuthMiddleware, fetchFiles)
+router.get('/file/download/:id', downloadFile)
+router.get('/dashboard', AuthMiddleware, fetchDashboard)
+router.post('/file', AuthMiddleware, upload.single('file'), createFile)
 router.post('/token/verify', verifyToken)
-router.post('/share', shareFile)
-router.delete('/file/:id', deleteFile)
+router.post('/share', AuthMiddleware, shareFile)
+router.delete('/file/:id', AuthMiddleware, deleteFile)
 
 module.exports = router
