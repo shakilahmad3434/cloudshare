@@ -40,7 +40,22 @@ const login = async (req, res) => {
   }
 }
 
+const updateImage = async (req, res) => {
+  try {
+    const {destination, filename} = req.file
+    const user = await UserModel.findByIdAndUpdate(req.user.id, {image: (destination + filename)})
+
+    if(!user)
+      return res.status(401).json({message: "Invalid Request"})
+
+    res.status(200).json({image: user.image})
+  } catch (err) {
+    res.status(500).json({message: err.message})
+  }
+}
+
 module.exports = {
   signup,
-  login
+  login,
+  updateImage
 }
