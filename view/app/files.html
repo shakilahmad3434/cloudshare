@@ -182,8 +182,152 @@
             </div>
           </div>
 
+          <!-- Alternative: Skeleton Loader for Files Table -->
+            <div class="bg-white rounded-lg shadow overflow-hidden" id="files-table-skeleton">
+              <div class="p-5 border-b border-gray-200 flex items-center">
+                <div class="h-6 w-48 bg-gray-200 rounded animate-pulse"></div>
+                <div class="ml-2 h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
+              </div>
+              
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col" class="px-6 py-3 text-left">
+                        <div class="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left">
+                        <div class="h-4 w-24 bg-gray-200 rounded animate-pulse"></div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left">
+                        <div class="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left">
+                        <div class="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
+                      </th>
+                      <th scope="col" class="px-6 py-3 text-left">
+                        <div class="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-200">
+                    <!-- Skeleton Row 1 -->
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded animate-pulse"></div>
+                          <div class="ml-4">
+                            <div class="h-4 w-32 bg-gray-200 rounded animate-pulse mb-2"></div>
+                            <div class="h-3 w-24 bg-gray-200 rounded animate-pulse"></div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <div class="h-8 w-8 bg-gray-200 rounded-full animate-pulse"></div>
+                          <div class="ml-3">
+                            <div class="h-4 w-28 bg-gray-200 rounded animate-pulse mb-2"></div>
+                            <div class="h-3 w-36 bg-gray-200 rounded animate-pulse"></div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="h-5 w-16 bg-gray-200 rounded animate-pulse"></div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="h-4 w-32 bg-gray-200 rounded animate-pulse"></div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
+                      </td>
+                    </tr>
+                    
+                    <!-- Skeleton Row 2 -->
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded animate-pulse"></div>
+                          <div class="ml-4">
+                            <div class="h-4 w-40 bg-gray-200 rounded animate-pulse mb-2"></div>
+                            <div class="h-3 w-24 bg-gray-200 rounded animate-pulse"></div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <div class="h-8 w-8 bg-gray-200 rounded-full animate-pulse"></div>
+                          <div class="ml-3">
+                            <div class="h-4 w-28 bg-gray-200 rounded animate-pulse mb-2"></div>
+                            <div class="h-3 w-36 bg-gray-200 rounded animate-pulse"></div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="h-5 w-16 bg-gray-200 rounded animate-pulse"></div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="h-4 w-32 bg-gray-200 rounded animate-pulse"></div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
+                      </td>
+                    </tr>
+                    
+                    <!-- Skeleton Row 3 -->
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <div class="flex-shrink-0 h-10 w-10 bg-gray-200 rounded animate-pulse"></div>
+                          <div class="ml-4">
+                            <div class="h-4 w-36 bg-gray-200 rounded animate-pulse mb-2"></div>
+                            <div class="h-3 w-24 bg-gray-200 rounded animate-pulse"></div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                          <div class="h-8 w-8 bg-gray-200 rounded-full animate-pulse"></div>
+                          <div class="ml-3">
+                            <div class="h-4 w-28 bg-gray-200 rounded animate-pulse mb-2"></div>
+                            <div class="h-3 w-36 bg-gray-200 rounded animate-pulse"></div>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="h-5 w-16 bg-gray-200 rounded animate-pulse"></div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="h-4 w-32 bg-gray-200 rounded animate-pulse"></div>
+                      </td>
+                      <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="h-4 w-16 bg-gray-200 rounded animate-pulse"></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <!-- Pagination Skelaton -->
+                <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 bg-gray-50 animate-pulse">
+                  <!-- Left side: Text placeholder -->
+                  <div class="h-5 w-32 bg-gray-300 rounded"></div>
+                  
+                  <!-- Right side: Pagination buttons placeholder -->
+                  <div class="flex space-x-1">
+                    <!-- Previous arrow button -->
+                    <div class="h-9 w-9 bg-gray-300 rounded"></div>
+                    <!-- Page number buttons -->
+                    <div class="h-9 w-9 bg-gray-300 rounded"></div>
+                    <div class="h-9 w-9 bg-gray-300 rounded"></div>
+                    <div class="h-9 w-9 bg-gray-300 rounded"></div>
+                    <!-- Next arrow button -->
+                    <div class="h-9 w-9 bg-gray-300 rounded"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           <!-- Files Table -->
-          <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
+          <div class="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hidden" id="files-table">
             <!-- Table Header -->
             <div class="flex items-center justify-between px-6 py-3 bg-gray-50 border-b border-gray-200">
               <h3 class="font-semibold text-gray-700">Recent Files</h3>

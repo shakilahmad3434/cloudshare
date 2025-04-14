@@ -220,6 +220,8 @@ fileUpload.addEventListener("change", (e) => {
 const fetchFiles = async () => {
   const tableData = document.getElementById('table-data')
   const totalFiles = document.getElementById('totalFiles')
+  const filesTable = document.getElementById('files-table')
+  const filesTableSkeleton = document.getElementById('files-table-skeleton')
   try {
     
     const {data} = await axios.get('/api/file', getToken())
@@ -255,6 +257,8 @@ const fetchFiles = async () => {
       `;
 
       tableData.innerHTML += ui
+      filesTableSkeleton.classList.add('hidden')
+      filesTable.classList.remove('hidden')
     })
 
   } catch (err) {
