@@ -91,6 +91,15 @@ const getType = (type) => {
   return type
 }
 
+const getToken = () => {
+  const options = {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('fileAuthToken')}`
+    }
+  }
+  return options
+}
+
 // Form submission handler
 document.getElementById("uploadForm").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -140,6 +149,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
         uploadFileName.textContent = fileName;
             
       },
+      ...getToken()
     }
 
     uploadBtn.disabled = true
@@ -211,7 +221,8 @@ const fetchFiles = async () => {
   const tableData = document.getElementById('table-data')
   const totalFiles = document.getElementById('totalFiles')
   try {
-    const {data} = await axios.get('/api/file')
+    
+    const {data} = await axios.get('/api/file', getToken())
     tableData.innerHTML = "";
     totalFiles.innerHTML = `Showing 1-4 of ${data.length + 1} files`
     data.forEach((data) => {
@@ -255,7 +266,7 @@ const deleteFile = async (id, button) => {
   button.innerHTML = `<i class="ri-loader-2-line text-lg animate-spin"></i>`
   button.disabled = true
 
-  const {data} = await axios.delete(`/api/file/${id}`)
+  const {data} = await axios.delete(`/api/file/${id}`, getToken())
   toast.success(data.message)
   fetchFiles()
   try {
@@ -273,7 +284,8 @@ const downloadFile = async (id, filename, button) => {
     button.disabled = true
 
     const options = {
-      responseType: 'blob'
+      responseType: 'blob',
+      ...getToken()
     }
     const {data} = await axios.get(`/api/file/download/${id}`, options)
     const ext = getType(data.type)
@@ -364,7 +376,7 @@ const shareFile = async (e) => {
     sendBtn.disabled = true
     // ri-loader-2-line text-lg animate-spin
 
-    await axios.post('/api/share', payload)
+    await axios.post('/api/share', payload, getToken())
     form.reset()
     toast.success("File send successfully!")
 
