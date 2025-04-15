@@ -14,6 +14,14 @@ router.get('/login', (req, res) => {
   res.sendFile(path.join(process.cwd(), "view", "login.html"))
 })
 
+router.get('/forgot-password', (req, res) => {
+  res.sendFile(path.join(process.cwd(), "view", "forgot-password.html"))
+})
+
+router.get('/reset-password', (req, res) => {
+  res.sendFile(path.join(process.cwd(), "view", "reset-password.html"))
+})
+
 router.get('/dashboard', (req, res) => {
   res.sendFile(path.join(process.cwd(), "view", "app/dashboard.html"))
 })

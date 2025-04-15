@@ -15,6 +15,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true,
+    unique: true
   },
   email: {
     type: String,
@@ -39,9 +40,17 @@ const userSchema = new Schema({
     type: Number,
     default: 10737418240
   },
+  resetToken: {
+    type: String
+  },
+  resetTokenExpires: {
+    type: Date
+  }
 }, {timestamps: true})
 
 userSchema.pre('save', async function(next){
+  if(!this.isNew) return next()
+
   const count = await model('User').countDocuments({mobile: this.mobile})
   
   if(count > 0)
@@ -51,6 +60,8 @@ userSchema.pre('save', async function(next){
 })
 
 userSchema.pre('save', async function(next){
+  if(!this.isNew) return next()
+
   const count = await model('User').countDocuments({email: this.email})
 
   if(count > 0)
@@ -60,6 +71,8 @@ userSchema.pre('save', async function(next){
 })
 
 userSchema.pre('save', async function(next) {
+  if(!this.isModified('password')) return next()
+    
   const encryptedPassword = await bcrypt.hash(this.password.toString(), 12)
   this.password = encryptedPassword
 

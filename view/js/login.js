@@ -15,13 +15,26 @@ const login = async (e) => {
     e.preventDefault()
     const form = e.target
     const element = form.elements
+    const remember = element.remember?.checked
+
     const payload = {
       email: element.email?.value || "",
       password: element.password?.value || ""
     }
 
     const {data} = await axios.post('/api/login', payload)
-    localStorage.setItem('fileAuthToken', data.token)
+
+    if(!remember)
+    {
+      sessionStorage.setItem('fileAuthToken', data.token)
+    }
+    else
+    {
+      sessionStorage.setItem('fileAuthToken', data.token)
+      localStorage.setItem('fileAuthToken', data.token)
+    }
+    
+    form.reset()
     toast.success(data.message)
 
     setTimeout(() => {

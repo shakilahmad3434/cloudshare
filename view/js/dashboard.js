@@ -62,10 +62,11 @@ const humanFileSize = (size) =>
 const fetchRecentFiles = async () => {
   const recentFileBox = document.getElementById('recent-file-box')
   try {
-    const {data} = await axios.get('/api/file', getToken())
+    const {data} = await axios.get('/api/file?page=1&limit=5', getToken())
+    console.log(data)
     
     recentFileBox.innerHTML = ""
-    data.forEach((item) => {
+    data.files.forEach((item) => {
       const fileIcon = getFileIcon(item.extension)
       const ui = `<div class="flex items-center border-b pb-3">
                   <div class="w-10 h-10 flex items-center justify-center bg-${fileIcon.split(" ").pop()}-100 rounded-lg mr-3">

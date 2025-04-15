@@ -3,17 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="/images/cloudshare.png">
+    <link rel="icon" type="image/png" href="/images/fileorbit.png">
     <title>Signup - CloudShare</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <link rel="stylesheet" href="./css/index.css">
     <!-- Load Axios from CDN -->
@@ -108,7 +102,7 @@
                             <button 
                                 type="button" 
                                 class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                                onclick="togglePasswordVisibility()"
+                                onclick="togglePasswordVisibility(event)"
                             >
                                 <i class="ri-eye-line" id="togglePassword"></i>
                             </button>
@@ -157,14 +151,14 @@
                     </div>
 
                     <div class="mt-6 grid grid-cols-2 gap-3">
-                        <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                            <i class="ri-google-fill text-xl text-red-500"></i>
-                            <span class="ml-2">Google</span>
-                        </a>
-                        <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                            <i class="ri-microsoft-fill text-xl text-blue-500"></i>
-                            <span class="ml-2">Microsoft</span>
-                        </a>
+                    <button type="button" class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-200">
+                        <i class="ri-google-fill text-xl"></i>
+                        <span class="ml-2">Google</span>
+                    </button>
+                    <button type="button" class="flex items-center justify-center py-2 px-4 border border-gray-300 rounded-md hover:bg-gray-200">
+                        <i class="ri-apple-fill text-xl"></i>
+                        <span class="ml-2">Apple</span>
+                    </button>
                     </div>
                 </div>
             </div>

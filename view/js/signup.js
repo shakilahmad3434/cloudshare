@@ -1,5 +1,16 @@
 axios.defaults.baseURL = SERVER
 
+window.onload = () => {
+  checkSession()
+}
+
+const checkSession = async () => {
+  const session = await getSession()
+  if(session){
+    location.href = '/dashboard'
+  }
+}
+
 const signup = async (e) => {
   try {
     e.preventDefault()

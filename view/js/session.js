@@ -2,7 +2,7 @@ axios.defaults.baseURL = SERVER
 
 const getSession = async () => {
   try {
-    const session = localStorage.getItem('fileAuthToken')
+    const session = localStorage.getItem('fileAuthToken') || sessionStorage.getItem('fileAuthToken')
     
     if(!session)
       return null
