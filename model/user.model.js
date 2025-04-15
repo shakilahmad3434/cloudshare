@@ -30,7 +30,15 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true
-  }
+  },
+  storageUsed: {
+    type: Number,
+    default: 0
+  },
+  storageLimit: {
+    type: Number,
+    default: 10737418240
+  },
 }, {timestamps: true})
 
 userSchema.pre('save', async function(next){

@@ -118,8 +118,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
     const formData = new FormData(form)
 
     const file = formData.get('file')
-    const size = humanFileSize(file.size)
-    if(size <= "100 MB")
+    if(file.size > (100 * 1000 * 1000))
       return toast.error("🔺 Oops! Your file is too large. Please upload a file smaller than 100MB. 📁")
 
     const options = {
@@ -218,54 +217,109 @@ fileUpload.addEventListener("change", (e) => {
 });
 
 
-const fetchFiles = async () => {
-  const tableData = document.getElementById('table-data')
-  const totalFiles = document.getElementById('totalFiles')
-  const filesTable = document.getElementById('files-table')
-  const filesTableSkeleton = document.getElementById('files-table-skeleton')
+let currentPage = 1;
+  const limit = 10;
+
+const fetchFiles = async (page = 1) => {
+  const tableData = document.getElementById('table-data');
+  const totalFiles = document.getElementById('totalFiles');
+  const filesTable = document.getElementById('files-table');
+  const filesTableSkeleton = document.getElementById('files-table-skeleton');
+
   try {
-    
-    const {data} = await axios.get('/api/file', getToken())
-    tableData.innerHTML = "";
-    totalFiles.innerHTML = `Showing 1-4 of ${data.length + 1} files`
-    data.forEach((data) => {
+    const { data } = await axios.get(`/api/file?page=${page}&limit=${limit}`, getToken());
+    const { files, total, page: pageNo, totalPages } = data;
+
+    tableData.innerHTML = '';
+    filesTableSkeleton.classList.add('hidden');
+    filesTable.classList.remove('hidden');
+
+    files.forEach((data) => {
       const ui = `
-      <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row" key="${data._id}">
-        <div class="col-span-5 flex items-center space-x-3">
-          <div class="w-10 h-10 rounded-lg file-image flex items-center justify-center file-icon">
-            <i class="ri-image-fill text-xl"></i>
+        <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row" key="${data._id}">
+          <div class="col-span-5 flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-lg file-image flex items-center justify-center file-icon">
+              <i class="ri-image-fill text-xl"></i>
+            </div>
+            <div class="truncate">
+              <span class="font-medium text-gray-800 block truncate capitalize">${data.filename}</span>
+              <span class="text-xs text-gray-500">Last modified: ${moment(data.createdAt).format('MMM Do YY, h:mm a')}</span>  
+            </div>
           </div>
-          <div class="truncate">
-            <span class="font-medium text-gray-800 block truncate capitalize">${data.filename}</span>
-            <span class="text-xs text-gray-500">Last modified: ${moment(data.createdAt).format('MMM Do YY, h:mm a')}</span>  
+          <div class="col-span-2 text-gray-600 capitalize">${data.type.split('/')[0]}</div>
+          <div class="col-span-2 text-gray-600">${humanFileSize(data.size)}</div>
+          <div class="col-span-2 text-gray-600">${moment(data.createdAt).format('MMM Do YY')}</div>
+          <div class="col-span-1 flex justify-end space-x-1">
+            <button onclick="downloadFile('${data._id}', '${data.filename}', '${data.extension}', this)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+              <i class="ri-download-cloud-line text-lg"></i>
+            </button>
+            <button onclick="openModalForShare('${data._id}')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
+              <i class="ri-share-line text-lg"></i>
+            </button>
+            <button onclick="deleteFile('${data._id}', this)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors">
+              <i class="ri-delete-bin-line text-lg"></i>
+            </button>
           </div>
         </div>
-        <div class="col-span-2 text-gray-600 capitalize">${data.type.split('/')[0]}</div>
-        <div class="col-span-2 text-gray-600">${humanFileSize(data.size)}</div>
-        <div class="col-span-2 text-gray-600">${moment(data.createdAt).format('MMM Do YY')}</div>
-        <div class="col-span-1 flex justify-end space-x-1">
-          <button onclick="downloadFile('${data._id}', '${data.filename}', '${data.extension}', this)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
-            <i class="ri-download-cloud-line text-lg"></i>
-          </button>
-          <button onclick="openModalForShare('${data._id}')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
-            <i class="ri-share-line text-lg"></i>
-          </button>
-          <button onclick="deleteFile('${data._id}', this)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors">
-            <i class="ri-delete-bin-line text-lg"></i>
-          </button>
-        </div>
-      </div>
       `;
+      tableData.innerHTML += ui;
+    });
 
-      tableData.innerHTML += ui
-      filesTableSkeleton.classList.add('hidden')
-      filesTable.classList.remove('hidden')
-    })
-
+    updatePagination(pageNo, totalPages, total);
   } catch (err) {
-    toast.error(err.response ? err.response.data.message : err.message)
+    toast.error(err.response ? err.response.data.message : err.message);
   }
-}
+};
+
+const updatePagination = (page, totalPages, total) => {
+  const totalFiles = document.getElementById('totalFiles');
+  const paginationContainer = document.getElementById('pagination-buttons');
+  paginationContainer.innerHTML = '';
+
+  // Previous button
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'p-2 rounded text-gray-500 hover:bg-gray-200';
+  prevBtn.disabled = page === 1;
+  prevBtn.innerHTML = `<i class="ri-arrow-left-s-line"></i>`;
+  prevBtn.onclick = () => {
+    if (currentPage > 1) {
+      currentPage--;
+      fetchFiles(currentPage);
+    }
+  };
+  paginationContainer.appendChild(prevBtn);
+
+  // Page number buttons
+  for (let i = 1; i <= totalPages; i++) {
+    const pageBtn = document.createElement('button');
+    pageBtn.className = `px-3 py-1 rounded ${i === page ? 'bg-emerald-600 text-white' : 'hover:bg-gray-200 text-gray-700'}`;
+    pageBtn.textContent = i;
+    pageBtn.onclick = () => {
+      currentPage = i;
+      fetchFiles(currentPage);
+    };
+    paginationContainer.appendChild(pageBtn);
+  }
+
+  // Next button
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'p-2 rounded text-gray-500 hover:bg-gray-200';
+  nextBtn.disabled = page === totalPages;
+  nextBtn.innerHTML = `<i class="ri-arrow-right-s-line"></i>`;
+  nextBtn.onclick = () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      fetchFiles(currentPage);
+    }
+  };
+  paginationContainer.appendChild(nextBtn);
+
+  // Showing 1-10 of 56 files
+  const start = (page - 1) * limit + 1;
+  const end = Math.min(start + limit - 1, total);
+  totalFiles.innerHTML = `Showing ${start}-${end} of ${total} files`;
+};
+
 
 const deleteFile = async (id, button) => {
   button.innerHTML = `<i class="ri-loader-2-line text-lg animate-spin"></i>`

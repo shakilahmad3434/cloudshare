@@ -2,6 +2,7 @@ const FileModel = require("../model/file.model");
 const fs = require('fs');
 const path = require('path');
 const { getAccurateExtension } = require('../utils/getAccurateExtension');
+const { default: mongoose } = require("mongoose");
 
 //uploading file coding
 const createFile = async (req, res) => {
@@ -14,11 +15,8 @@ const createFile = async (req, res) => {
     const file = req.file;
 
     const displayFilename = filename || file.originalname || 'unnamed_file';
-    console.log('Filename:', displayFilename);
     
     const extension = getAccurateExtension(file.mimetype, file.originalname);
-    console.log('Detected extension:', extension);
-    console.log('Original MIME type:', file.mimetype);
     
     const payload = {
       user: req.user.id,
@@ -48,9 +46,32 @@ const createFile = async (req, res) => {
 
 const fetchFiles = async (req, res) => {
   try {
-    const {limit} = req.query
-    const file = await FileModel.find({user: req.user.id}).sort({createdAt: -1}).limit(limit)
-    res.status(200).json(file)
+    const page = parseInt(req.query.page) || 0;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+    const userId = new mongoose.Types.ObjectId(req.user.id)
+
+    const result = await FileModel.aggregate([
+      { $match: { user: userId } },
+      {
+        $facet: {
+          files: [
+            { $sort: { createdAt: -1 } },
+            { $skip: skip },
+            { $limit: limit }
+          ],
+          total: [
+            { $count: "count" }
+          ]
+        }
+      }
+    ]);
+
+    const files = result[0].files;
+    const total = result[0].total[0]?.count || 0;
+
+    res.status(200).json({ files, total, page, totalPages: Math.ceil(total / limit) });
+
   } catch (error) {
     res.status(500).json({message: error.message})
   }

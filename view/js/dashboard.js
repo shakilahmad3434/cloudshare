@@ -6,8 +6,10 @@ window.onload = () => {
   fetchSharedFiles()
 }
 
+
 const checkSession = async () => {
   const session = await getSession()
+  console.log(session)
   
   if(!session)
     return location.href = '/login'
