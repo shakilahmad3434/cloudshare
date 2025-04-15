@@ -11,7 +11,7 @@ const userRouter = require('./routes/user.route')
 const app = express()
 app.listen(process.env.PORT || 8080)
 
-app.use(morgan('dev'))
+// app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(express.static('view'))

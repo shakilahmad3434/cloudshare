@@ -156,11 +156,12 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
     // Show progress area
     uploadProgress.classList.remove("hidden");
     const {data} = await axios.post('/api/file', formData, options)
+
     uploadBtn.disabled = false
     fetchFiles()
     // Show success message
     setTimeout(() => {
-      toast.success(`${data.filename} has been uploaded!`)
+      toast.success(`${data.data.filename} has been uploaded!`)
     }, 2000);
 
   } catch (err) {
@@ -243,7 +244,7 @@ const fetchFiles = async () => {
         <div class="col-span-2 text-gray-600">${humanFileSize(data.size)}</div>
         <div class="col-span-2 text-gray-600">${moment(data.createdAt).format('MMM Do YY')}</div>
         <div class="col-span-1 flex justify-end space-x-1">
-          <button onclick="downloadFile('${data._id}', '${data.filename}', this)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
+          <button onclick="downloadFile('${data._id}', '${data.filename}', '${data.extension}', this)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
             <i class="ri-download-cloud-line text-lg"></i>
           </button>
           <button onclick="openModalForShare('${data._id}')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
@@ -282,8 +283,9 @@ const deleteFile = async (id, button) => {
   }
 }
 
-const downloadFile = async (id, filename, button) => {
+const downloadFile = async (id, filename, ext, button) => {
   try {
+
     button.innerHTML = `<i class="ri-loader-2-line text-lg animate-spin"></i>`
     button.disabled = true
 
@@ -292,14 +294,24 @@ const downloadFile = async (id, filename, button) => {
       ...getToken()
     }
     const {data} = await axios.get(`/api/file/download/${id}`, options)
-    const ext = getType(data.type)
+
+    if(!data || data.size === 0)
+      throw new Error('Downloaded file is empty')
 
     const url = window.URL.createObjectURL(data)
+
     const a = document.createElement('a')
-    a.href=url
-    a.download = `${filename}.${ext.split('/').pop()}`
+    a.href = url
+    a.download = `${filename}.${ext}`
+    document.body.appendChild(a)
     a.click()
-    a.remove()
+
+    setTimeout(() => {
+      // Clean up
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    }, 100);
+ 
   } catch (err) {
     if(!err.response)
       return toast.error(err.message)

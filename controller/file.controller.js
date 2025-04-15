@@ -1,37 +1,46 @@
 const FileModel = require("../model/file.model");
-const fs = require('fs')
-const path = require('path')
-
-const getType = (type) => {
-  const ext = type.split('/').pop()
-  if(ext === "x-msdownload")
-    return 'application/exe'
-
-  if(ext === "octet-stream")
-    return 'application/msi'
-
-  return type
-}
+const fs = require('fs');
+const path = require('path');
+const { getAccurateExtension } = require('../utils/getAccurateExtension');
 
 //uploading file coding
 const createFile = async (req, res) => {
-  console.log(req.user)
   try {
-    const {filename} = req.body
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const { filename } = req.body;
     const file = req.file;
+
+    const displayFilename = filename || file.originalname || 'unnamed_file';
+    console.log('Filename:', displayFilename);
+    
+    const extension = getAccurateExtension(file.mimetype, file.originalname);
+    console.log('Detected extension:', extension);
+    console.log('Original MIME type:', file.mimetype);
+    
     const payload = {
       user: req.user.id,
+      filename: displayFilename,
       path: (file.destination + file.filename),
-      filename: filename,
-      type: getType(file.mimetype),
+      type: file.mimetype,
+      extension: extension,
       size: file.size,
     };
 
     const data = await FileModel.create(payload);
-    res.status(200).json(data);
+    res.status(200).json({
+      success: true,
+      data: data
+    });
 
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error('File upload error:', error);
+    res.status(500).json({ 
+      success: false,
+      message: error.message 
+    });
   }
 };
 
@@ -69,20 +78,41 @@ const downloadFile = async (req, res) => {
   try {
     const {id} = req.params
     const file = await FileModel.findById(id)
-    const ext = getType(file.type)
     if(!file)
-      res.status(404).json({message: "File not found!"})
+      return res.status(404).json({message: "File not found!"})
     
     const filePath = path.join(process.cwd(), file.path)
 
-    res.setHeader('Content-Disposition', `attachment; filename="${file.filename}.${ext.split('/').pop()}"`)
+    // Check if file exits on the server
+    if(!fs.existsSync(filePath))
+      return res.status(404).json({message: "File not found on server!"})
 
-    res.sendFile(filePath, (err) => {
-      if(err)
-        res.status(404).json({message: "File not found!"})
+    res.setHeader('Content-Type', file.type || 'application/octet-stream')
+    res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(file.filename)}.${file.extension}"`)
+
+    // Get file stats to set content Length
+    const stats = fs.statSync(filePath)
+    res.setHeader('Content-Length', stats.size)
+
+    // Use streaming for better performance and reliability with large Files
+    const fileStream = fs.createReadStream(filePath)
+
+    // Handle potential errors in the stream
+    fileStream.on('error', (err) => {
+      console.log('File stream error:', err)
+      if(!res.headersSent) {
+        return res.status(500).json({message: "Error streaming file"})
+      }
     })
+
+    // Send the file as a stream
+    fileStream.pipe(res)
+
   } catch (error) {
-    res.status(500).json({message: error.message})
+    console.error("Download error:", error)
+    if(!res.headersSent) {
+      return res.status(500).json({message: error.message})
+    }
   }
 }
 

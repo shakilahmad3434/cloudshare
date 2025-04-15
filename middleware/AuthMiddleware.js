@@ -7,7 +7,6 @@ const AuthMiddleware = (req, res, next) => {
       return res.status(401).json({message: "Invalid Request"})
 
     const [type, token] = authorization.split(" ")
-    console.log(token)
 
     if(type !== "Bearer")
       return res.status(401).json({message: "Invalid Request"})

@@ -24,6 +24,12 @@ const fileSchema = new Schema({
     trim: true,
     lowercase: true
   },
+  extension: {
+    type: String,
+    required: true,
+    trim: true,
+    lowercase: true
+  },
   size: {
     type: Number,
     required: true
