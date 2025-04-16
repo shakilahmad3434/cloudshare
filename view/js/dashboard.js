@@ -36,29 +36,6 @@ const humanFileSize = (size) =>
     ? (size / 1e3).toFixed(2) + ' KB'
     : size + ' B';
 
-// async function dashboard(){
-//   try {
-//     const response = await axios.get('/api/dashboard', getToken())
-//     console.log(response)
-//     const dataMap = {
-//       video: 'video',
-//       audio: 'audio',
-//       image: 'image',
-//       pdf: 'pdf'
-//     }
-
-//     response.data.forEach(({type, total}) => {
-//       const element = document.getElementById(dataMap[type])
-//         if(element){
-//           element.innerHTML = total
-//         }
-//     })
-
-//   } catch (err) {
-//     console.error(err.response ? err.response.data.message : err.message);
-//   }
-// }
-
 const fetchRecentFiles = async () => {
   const recentFileBox = document.getElementById('recent-file-box')
   try {
@@ -77,7 +54,7 @@ const fetchRecentFiles = async () => {
                       <p class="text-xs text-gray-500">${humanFileSize(item.size)} • ${moment(item.createdAt).format('ll')}</p>
                   </div>
                   <div class="flex space-x-2">
-                      <button class="text-gray-500 hover:text-gray-700">
+                      <button onclick="downloadFile('${item._id}', '${item.filename}', '${item.extension}', this)" class="text-gray-500 hover:text-gray-700">
                           <i class="ri-download-line"></i>
                       </button>
                       <button class="text-gray-500 hover:text-gray-700">
