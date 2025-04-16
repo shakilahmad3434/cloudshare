@@ -67,7 +67,7 @@ const forgotPassword = async (req, res) => {
       return res.status(200).json({message: "A password reset link has already been sent. Please check your email."});
 
     const token = crypto.randomBytes(32).toString('hex')
-    const link = `${process.env.DOMAIN}/api/reset-password?token=${token}`
+    const link = `${process.env.DOMAIN}/reset-password?token=${token}`
     
     user.resetToken = token
     user.resetTokenExpires = new Date(Date.now() + 3600000); 
@@ -92,13 +92,15 @@ const forgotPassword = async (req, res) => {
 
 const resetPassword = async(req, res) => {
   try {
-    const {token} = req.query
-    const {password} = req.body
+    const {password, token} = req.body
 
     const user = await UserModel.findOne({resetToken: token})
 
     if(!user)
       return res.status(404).json({message: "Token invalid or expired"})
+
+    if(!user.resetTokenExpires || new Date(user.resetTokenExpires).getTime() < Date.now())
+      return res.status(404).json({message: "Reset link has expired. Please request a new one."})
 
     user.password = password
     user.resetToken = undefined

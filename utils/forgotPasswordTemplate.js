@@ -71,7 +71,6 @@ const forgotPasswordTemplate = (link) => {
           <!-- Footer -->
           <tr>
             <td style="background-color: #f3f4f6; padding: 24px; text-align: center; border-top: 1px solid #e5e7eb;">
-              <img src="/api/placeholder/120/30" alt="CloudShare Logo" style="margin-bottom: 16px; height: 30px;">
               <p style="font-size:13px; color:#6b7280; margin: 0 0 8px 0;">
                 © 2025 CloudShare. All rights reserved.
               </p>
