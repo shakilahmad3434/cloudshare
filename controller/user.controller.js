@@ -102,6 +102,11 @@ const resetPassword = async(req, res) => {
     if(!user.resetTokenExpires || new Date(user.resetTokenExpires).getTime() < Date.now())
       return res.status(404).json({message: "Reset link has expired. Please request a new one."})
 
+    const isMatch = await bcrypt.compareSync(password, user.password)
+
+    if(isMatch)
+      return res.status(409).json({message: "You've entered your current password. Please choose a new password to continue."})
+
     user.password = password
     user.resetToken = undefined
     user.resetTokenExpires = undefined
