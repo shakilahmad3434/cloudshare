@@ -410,14 +410,9 @@
             <!-- File Upload Area -->
             <div class="mb-6">
               <label class="block text-sm font-medium text-gray-700 mb-1">Upload File</label>
-              <div class="upload-zone border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer">
+              <div class="upload-zone border-2 border-dashed border-gray-300 rounded-xl px-8 py-4 text-center cursor-pointer">
                 <input type="file" name="file" id="fileUpload" class="hidden" />
                 <div class="flex flex-col items-center">
-                  <div class="w-16 h-16 mb-4 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600">
-                    <i class="ri-upload-cloud-2-line text-3xl"></i>
-                  </div>
-                  <h4 class="font-medium text-gray-800 mb-1">Drag & drop your file here</h4>
-                  <p class="text-sm text-gray-500 mb-4">or</p>
                   <button 
                     type="button" 
                     onclick="document.getElementById('fileUpload').click()" 
@@ -426,7 +421,7 @@
                     Browse Files
                   </button>
                   <p class="text-xs text-gray-500 mt-4">
-                    Supports: JPG, PNG, PDF, DOCX, MP4, MP3 (Max: 100MB)
+                    All file types supported (up to 100MB).
                   </p>
                 </div>
               </div>
@@ -472,7 +467,7 @@
               <button 
                 type="button" 
                 id="cancelUpload"
-                class="flex-1 border border-gray-300 text-gray-700 font-medium py-3 rounded-lg hover:bg-gray-50 transition-colors focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                class="flex-1 border border-gray-300 text-gray-700 font-medium py-3 rounded-lg hover:bg-gray-200 transition-colors focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-300"
               >
                 Cancel
               </button>
@@ -670,6 +665,8 @@
     <script src="../js/toggleSidebar.js"></script>
     <script src="../js/logout.js"></script>
     <script src="../js/toast.js"></script>
+    <script src="../js/downloadFile.js"></script>
+    <script src="../js/deleteFile.js"></script>
     <script src="../js/files.js"></script>
 
 </body>

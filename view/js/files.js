@@ -23,9 +23,7 @@ const checkSession = async () => {
   document.getElementById('email').innerHTML = session?.email
 }
 
-
 // Modal Functions
-
 function openModal() {
   uploadModal.classList.remove("hidden");
   setTimeout(() => {
@@ -38,6 +36,8 @@ function openModal() {
 function closeModalFunc() {
   modalBackdrop.classList.add("opacity-0");
   modalContent.classList.add("modal-enter");
+  document.getElementById("fileName").value = ""
+  document.getElementById("fileUpload").value = ""
   setTimeout(() => {
     uploadModal.classList.add("hidden");
   }, 300);
@@ -152,60 +152,25 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
     }
 
     uploadBtn.disabled = true
-    // Show progress area
     uploadProgress.classList.remove("hidden");
+
     const {data} = await axios.post('/api/file', formData, options)
 
-    uploadBtn.disabled = false
-    fetchFiles()
-    // Show success message
-    setTimeout(() => {
-      toast.success(`${data.data.filename} has been uploaded!`)
-    }, 2000);
-
-  } catch (err) {
-    // const errr = JSON.parse((err.response.data).text())
-    // console.log(errr)
-    toast.error(err.response ? err.response.data.message : err.message)
-  } finally {
     setTimeout(() => {
       closeModalFunc();
       resetUploadForm();
     }, 2000);
 
+    toast.success(`${data.data.filename} has been uploaded!`)
+    fetchFiles()
+
+  } catch (err) {
+    toast.error(err.response ? err.response.data.message : err.message)
+  } finally {
     uploadBtn.disabled = false
   }
-
 });
 
-
-// Upload zone drag and drop functionality
-const uploadZone = document.querySelector(".upload-zone");
-const fileUpload = document.getElementById("fileUpload");
-
-uploadZone.addEventListener("dragover", (e) => {
-  e.preventDefault();
-  uploadZone.classList.add("border-emerald-500");
-  uploadZone.classList.add("bg-emerald-50");
-});
-
-uploadZone.addEventListener("dragleave", (e) => {
-  e.preventDefault();
-  uploadZone.classList.remove("border-emerald-500");
-  uploadZone.classList.remove("bg-emerald-50");
-});
-
-uploadZone.addEventListener("drop", (e) => {
-  e.preventDefault();
-  uploadZone.classList.remove("border-emerald-500");
-  uploadZone.classList.remove("bg-emerald-50");
-
-  if (e.dataTransfer.files.length) {
-    fileUpload.files = e.dataTransfer.files;
-    const fileName = e.dataTransfer.files[0].name;
-    document.getElementById("fileName").value = fileName.split(".")[0];
-  }
-});
 
 // Handle file selection via the browse button
 fileUpload.addEventListener("change", (e) => {
@@ -213,6 +178,7 @@ fileUpload.addEventListener("change", (e) => {
     const fileName = fileUpload.files[0].name;
     console.log(fileUpload.files[0].name.split(".")[0])
     document.getElementById("fileName").value = fileName.split(".")[0];
+    document.getElementById('fileName').focus()
   }
 });
 
@@ -319,65 +285,6 @@ const updatePagination = (page, totalPages, total) => {
   const end = Math.min(start + limit - 1, total);
   totalFiles.innerHTML = `Showing ${start}-${end} of ${total} files`;
 };
-
-
-const deleteFile = async (id, button) => {
-  button.innerHTML = `<i class="ri-loader-2-line text-lg animate-spin"></i>`
-  button.disabled = true
-
-  const {data} = await axios.delete(`/api/file/${id}`, getToken())
-  toast.success(data.message)
-  fetchFiles()
-  try {
-  } catch (err) {
-    toast.error(err.response ? err.response.data.message : err.message)
-  } finally {
-    button.innerHTML = `<i class="ri-delete-bin-line text-lg"></i>`
-    button.disabled = false
-  }
-}
-
-const downloadFile = async (id, filename, ext, button) => {
-  try {
-
-    button.innerHTML = `<i class="ri-loader-2-line text-lg animate-spin"></i>`
-    button.disabled = true
-
-    const options = {
-      responseType: 'blob',
-      ...getToken()
-    }
-    const {data} = await axios.get(`/api/file/download/${id}`, options)
-
-    if(!data || data.size === 0)
-      throw new Error('Downloaded file is empty')
-
-    const url = window.URL.createObjectURL(data)
-
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${filename}.${ext}`
-    document.body.appendChild(a)
-    a.click()
-
-    setTimeout(() => {
-      // Clean up
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-    }, 100);
- 
-  } catch (err) {
-    if(!err.response)
-      return toast.error(err.message)
-
-    const error = await (err.response.data).text()
-    const {message} = JSON.parse(error)
-    toast.error(message)
-  } finally {
-    button.innerHTML = `<i class="ri-download-cloud-line text-lg"></i>`
-    button.disabled = false
-  }
-}
 
 
 // Start a Share File Coding 

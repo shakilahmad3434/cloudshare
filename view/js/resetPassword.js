@@ -44,6 +44,6 @@ const resetPassword = async (e) => {
     setTimeout(() => {
       errorMessage.parentElement.classList.add('hidden')
       successMessage.parentElement.classList.add('hidden')
-    }, 2000)
+    }, 3000)
   }
 }
