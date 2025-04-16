@@ -15,7 +15,7 @@ window.onload = () => {
 // check session for user logged or not
 const checkSession = async () => {
   const session = await getSession()
-  
+  console.log(session)
   if(!session)
     return location.href = '/login'
   
@@ -188,17 +188,9 @@ let currentPage = 1;
 
 const fetchFiles = async (page = 1) => {
   const tableData = document.getElementById('table-data');
-  const totalFiles = document.getElementById('totalFiles');
-  const filesTable = document.getElementById('files-table');
-  const filesTableSkeleton = document.getElementById('files-table-skeleton');
-
   try {
     const { data } = await axios.get(`/api/file?page=${page}&limit=${limit}`, getToken());
     const { files, total, page: pageNo, totalPages } = data;
-
-    tableData.innerHTML = '';
-    filesTableSkeleton.classList.add('hidden');
-    filesTable.classList.remove('hidden');
 
     files.forEach((data) => {
       const ui = `
