@@ -63,11 +63,14 @@ const forgotPassword = async (req, res) => {
     if(!user)
       return res.status(404).json({message: "User not found! Please check the email and try again."})
 
+    if(user.resetToken && new Date(user.resetTokenExpires).getTime() > Date.now())
+      return res.status(200).json({message: "A password reset link has already been sent. Please check your email."});
+
     const token = crypto.randomBytes(32).toString('hex')
     const link = `${process.env.DOMAIN}/api/reset-password?token=${token}`
     
     user.resetToken = token
-    user.resetTokenExpires = Date.now() 
+    user.resetTokenExpires = new Date(Date.now() + 3600000); 
     await user.save()
 
     const options = {
