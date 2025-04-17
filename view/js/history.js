@@ -38,9 +38,9 @@ const getActivity = (action, email = undefined) => {
 const fetchActivity = async () => {
   try {
     const historyActivity = document.getElementById('history-activity')
-    const {data} = await axios.get('/api/activity', getToken())
+    const {data} = await axios.get('/api/activity?page=1&limit=10', getToken())
     console.log(data)
-    data.forEach((item) => {
+    data.activities.forEach((item) => {
       const filename = item?.filename ? item.filename : `<span class="capitalize">${item.fileId.filename}</span>.${item.fileId.extension}`
       const fileType = item?.filename ? item.filename.split('.').pop() : item.fileId?.type.split('/')[0]
       const [fileAction, fileActivity] = getActivity(item.action, item.shareId?.receiverEmail).split('/')

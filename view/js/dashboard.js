@@ -17,7 +17,6 @@ window.onload = () => {
 // Verify the user is logged in, redirect if not
 const checkSession = async () => {
   const session = await getSession();
-  console.log(session);
   
   if (!session) {
     return location.href = '/login';
@@ -52,7 +51,6 @@ const fetchRecentFiles = async () => {
   
   try {
     const { data } = await axios.get('/api/file?page=1&limit=5', getToken());
-    console.log('Recent files:', data);
     
     recentFileBox.innerHTML = '';
     
@@ -87,10 +85,15 @@ const fetchRecentFiles = async () => {
 const fetchSharedFiles = async () => {
   try {
     const recentActivityBox = document.getElementById('recent-activity-box')
-    const { data } = await axios.get('/api/activity', getToken());
+    const {data} = await axios.get('/api/activity?page=1&limit=5', getToken());
     console.log('Shared files:', data);
 
-    data.forEach((item) => {
+    // const uploads = data.totalUploads || 0;
+    // const downloads = data.totalDownloads || 0;
+
+    // console.log(uploads, downloads)
+
+    data.activities.forEach((item) => {
       const filename = item?.filename ? item.filename : `<span class="capitalize">${item.fileId.filename}</span>.${item.fileId.extension}`
       const [icon, color] = getActivityIcon(item.action).split(" ")
       const ui = `<div class="flex items-start border-b pb-3">
@@ -154,7 +157,6 @@ const safelyDestroyChart = (chartInstance, canvasId) => {
       if (instance.canvas === canvas) {
         try {
           instance.destroy();
-          console.log(`Destroyed chart instance via Chart.js registry`);
         } catch (e) {
           console.warn(`Failed to destroy chart via Chart.js registry: ${e.message}`);
         }
@@ -219,7 +221,6 @@ const initStorageChart = (usedStorage, freeStorage) => {
         }
       }
     });
-    console.log("Storage chart created successfully");
   } catch (e) {
     console.error("Failed to create storage chart:", e);
   }
@@ -270,7 +271,6 @@ const initFileTypeChart = (fileData) => {
         }
       }
     });
-    console.log("File type chart created successfully");
   } catch (e) {
     console.error("Failed to create file type chart:", e);
   }
@@ -301,7 +301,6 @@ const fetchFileDetails = async () => {
     const storageLimit = document.getElementById('storage-limit');
     
     const { data } = await axios.get('/api/file-details', getToken());
-    console.log('File details:', data);
     
     // Calculate storage metrics
     const totalStorage = Number(data.MAX_STORAGE_PER_USER);
