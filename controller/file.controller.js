@@ -33,11 +33,9 @@ const createFile = async (req, res) => {
     // Log the Delete activity
     try {
       await ActivityModel.create({
-        user: req.user.id, // Make sure your auth middleware adds user to req
+        user: req.user.id,
         action: 'upload',
         fileId: data._id,
-        fileName: `${file.filename}.${extension}`,
-        details: `Deleted file: ${file.filename}.${extension}`
       });
     } catch (logError) {
       console.error("Error logging activity:", logError);
@@ -105,16 +103,14 @@ const deleteFile = async (req, res) => {
     // Log the Delete activity
     try {
       await ActivityModel.create({
-        user: req.user.id, // Make sure your auth middleware adds user to req
+        user: req.user.id,
         action: 'delete',
-        fileId: file._id,
-        fileName: `${file.filename}.${file.extension}`,
-        details: `Deleted file: ${file.filename}.${file.extension}`
+        filename: `${file.filename}.${file.extension}`,
       });
     } catch (logError) {
       console.error("Error logging activity:", logError);
     }
-    
+    console.log(file)
     res.status(200).json({message: `File deleted successfully`})
   } catch (error) {
     res.status(500).json({message: error.message})
@@ -139,9 +135,6 @@ const downloadFile = async (req, res) => {
         user: req.user.id, // Make sure your auth middleware adds user to req
         action: 'download',
         fileId: file._id,
-        fileName: `${file.filename}.${file.extension}`,
-        details: `Downloaded file: ${file.filename}.${file.extension}`
-        // timestamps will be automatically added thanks to {timestamps: true} in your schema
       });
     } catch (logError) {
       // Just log the error but don't stop the download

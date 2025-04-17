@@ -16,6 +16,9 @@ const activitySchema = new Schema({
     ref: 'File',
     required: false
   },
+  filename: {
+    type: String
+  },
   shareId: {
     type: mongoose.Types.ObjectId,
     ref: 'Share'

@@ -41,7 +41,9 @@ const fetchActivity = async () => {
     const {data} = await axios.get('/api/activity', getToken())
     console.log(data)
     data.forEach((item) => {
-      const [fileAction, fileActivity] = getActivity(item.action).split('/')
+      const filename = item?.filename ? item.filename : `<span class="capitalize">${item.fileId.filename}</span>.${item.fileId.extension}`
+      const fileType = item?.filename ? item.filename.split('.').pop() : item.fileId?.type.split('/')[0]
+      const [fileAction, fileActivity] = getActivity(item.action, item.shareId?.receiverEmail).split('/')
       const [icon, color] = getActivityIcon(item.action).split(" ")
       const ui = `<div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50">
                     <div class="w-2/5 flex items-center">
@@ -53,8 +55,8 @@ const fetchActivity = async () => {
                             <p class="text-sm text-gray-500">${fileActivity}</p>
                         </div>
                     </div>
-                    <div class="w-1/5 text-sm text-gray-700 capitalize">${item.fileName}</div>
-                    <div class="w-1/5 text-sm text-gray-700 capitalize">${item.fileId?.type.split('/')[0]}</div>
+                    <div class="w-1/5 text-sm text-gray-700">${filename}</div>
+                    <div class="w-1/5 text-sm text-gray-700 capitalize">${fileType}</div>
                     <div class="w-1/5 text-sm text-gray-700">${moment(data.createdAt).format('MMM DD YYYY, h:mm A')}</div>
                 </div>`
       historyActivity.innerHTML +=ui
