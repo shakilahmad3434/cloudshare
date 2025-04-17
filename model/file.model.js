@@ -33,6 +33,10 @@ const fileSchema = new Schema({
   size: {
     type: Number,
     required: true
+  },
+  downloads: {
+    type: Number,
+    default: 0
   }
 }, {timestamps: true})
 

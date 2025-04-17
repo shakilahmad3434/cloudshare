@@ -42,8 +42,6 @@ const createFile = async (req, res) => {
   }
 };
 
-
-
 const fetchFiles = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 0;
@@ -137,9 +135,26 @@ const downloadFile = async (req, res) => {
   }
 }
 
+const fetchFileDetails = async (req, res) => {
+  try {
+    console.log(req.user)
+    const file = await FileModel.find({user: req.user.id})
+    console.log(file)
+    const payload = {
+      file,
+      MAX_STORAGE_PER_USER: process.env.MAX_STORAGE_PER_USER
+    }
+
+    res.status(200).json(payload)
+  } catch (err) {
+    res.status(500).json({message: err.message})
+  }
+}
+
 module.exports = {
   createFile,
   fetchFiles,
   deleteFile,
-  downloadFile
+  downloadFile,
+  fetchFileDetails
 };
