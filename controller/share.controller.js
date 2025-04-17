@@ -1,3 +1,4 @@
+const ActivityModel = require("../model/activity.model");
 const ShareModel = require("../model/share.model");
 const nodemailer = require('nodemailer')
 
@@ -113,9 +114,18 @@ const shareFile = async (req, res) => {
         file: fileId
     }
 
+    const share = await ShareModel.create(payload)
+
+    const activityPayload = {
+        user: req.user.id,
+        action: 'share',
+        fileId: fileId,
+        shareId: share._id,
+      }
+
     await Promise.all([
         conn.sendMail(options),
-        ShareModel.create(payload)
+        await ActivityModel.create(activityPayload)
     ])
 
     res.status(200).json({message: "Email Sent!"})
