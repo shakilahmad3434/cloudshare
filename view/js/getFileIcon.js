@@ -11,3 +11,15 @@ function getFileIcon(ext) {
   };
   return iconMap[ext.toLowerCase()] || 'file emerald';
 }
+
+function getActivityIcon(ext){
+  const iconMap = {
+    upload: 'upload-cloud-2-line blue',
+    rename: 'edit-box-line green',
+    share: 'share-fill purple',
+    delete: 'delete-bin-6-line red',
+    download: 'download-cloud-line yellow'
+  }
+
+  return iconMap[ext.toLowerCase()] || 'file emerald'
+}

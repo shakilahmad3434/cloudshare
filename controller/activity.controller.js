@@ -2,7 +2,7 @@ const ActivityModel = require("../model/activity.model")
 
 const fetchActivity = async (req, res) => {
   try {
-    const activity = await ActivityModel.find()
+    const activity = await ActivityModel.find().populate('fileId').populate('user')
     
     res.status(200).json(activity)
   } catch (err) {
