@@ -4,6 +4,7 @@ window.onload = () => {
   checkSession()
   fetchRecentFiles()
   fetchSharedFiles()
+  fetchFileDetails()
 }
 
 
@@ -75,5 +76,57 @@ const fetchSharedFiles = async () => {
     console.log(data)
   } catch (err) {
     console.error(err.response ? err.response.data.message : err.message);
+  }
+}
+
+const fetchFileDetails = async () => {
+  try {
+    const numberOfAudio = document.getElementById('number-of-audio')
+    const numberOfImage = document.getElementById('number-of-image')
+    const numberOfVideo = document.getElementById('number-of-video')
+    const numberOfDocument = document.getElementById('number-of-document')
+    let usedStorage;
+    let totalStorage;
+    let freeStorage;
+    const {data} = await axios.get('/api/file-details', getToken())
+
+    totalStorage = Number(data.MAX_STORAGE_PER_USER)
+
+    usedStorage = data.file.reduce((acc, x) => acc + x.size, 0)
+    freeStorage = totalStorage - usedStorage
+
+    const fileType = ["image", "audio", "video"]
+    const noOfFile = {
+      image: 0,
+      video:0,
+      audio: 0,
+      document: 0
+    }
+
+    data.file.forEach((item) => {
+      const type = item.type.split("/")[0]
+
+      switch (type) {
+        case "image": noOfFile.image++
+          break;
+        case "video": noOfFile.video++
+          break;
+        case "audio": noOfFile.audio++
+      
+        default: noOfFile.document++
+          break;
+      }
+    })
+
+    numberOfAudio.innerHTML = `Audio: ${noOfFile.audio} files`
+    numberOfVideo.innerHTML = `Videos: ${noOfFile.video} files`
+    numberOfImage.innerHTML = `Images: ${noOfFile.image} files`
+    numberOfDocument.innerHTML = `Documents: ${noOfFile.document} files`
+
+    console.log(noOfFile)
+
+    console.log(freeStorage)
+  } catch (err) {
+    console.log(err.response ? err.response.data.message : err.message)
   }
 }
