@@ -28,7 +28,7 @@
             <p class="text-sm mb-4" id="email">shakil@gmail.com</p>
             <div class="bg-emerald-700/50 px-4 py-2 rounded-lg flex items-center">
                 <i class="ri-database-2-line mr-2"></i>
-                <span class="text-sm">7.3 GB used</span>
+                <span class="text-sm" id="storage-limit">7.3 GB used</span>
             </div>
         </div>
 
@@ -59,12 +59,7 @@
                         <span>History</span>
                     </a>
                 </li>
-                <li>
-                    <a href="/favorites" class="flex items-center px-4 py-3 rounded-lg hover:bg-emerald-700/50 transition">
-                        <i class="ri-star-line mr-3 text-xl"></i>
-                        <span>Favorites</span>
-                    </a>
-                </li>
+
             </ul>
         </nav>
 
@@ -127,81 +122,11 @@
                 <p class="text-gray-500">Files and folders shared with you</p>
             </div>
 
-            <!-- Filters and Exports -->
-            <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-              <div class="flex items-center space-x-3 w-full md:w-auto">
-                <!-- All Files Filter -->
-                <div class="relative inline-block">
-                  <select class="bg-white text-gray-700 font-medium py-2 pl-10 pr-8 border border-gray-300 rounded-lg shadow-sm appearance-none hover:bg-gray-50 cursor-pointer">
-                    <option>All Files</option>
-                    <option>Documents</option>
-                    <option>Images</option>
-                    <option>Videos</option>
-                    <option>Archives</option>
-                  </select>
-                
-                  <!-- Filter icon -->
-                  <div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
-                    <i class="ri-filter-3-line"></i>
-                  </div>
-                
-                  <!-- Dropdown arrow -->
-                  <div class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
-                    <i class="ri-arrow-down-s-line"></i>
-                  </div>
-                </div>
-                
-                <!-- Date Range wise fileter -->
-                <div class="relative inline-block">
-                  <select class="bg-white text-gray-700 font-medium py-2 pl-10 pr-8 border border-gray-300 rounded-lg shadow-sm appearance-none hover:bg-gray-50 cursor-pointer">
-                    <option>Last 30 days</option>
-                    <option>Last 7 days</option>
-                    <option>Today</option>
-                    <option>Custom range</option>
-                  </select>
-                
-                  <!-- Filter icon -->
-                  <div class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
-                    <i class="ri-filter-3-line"></i>
-                  </div>
-                
-                  <!-- Dropdown arrow -->
-                  <div class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
-                    <i class="ri-arrow-down-s-line"></i>
-                  </div>
-                </div>
-
-                <!-- More and Custom Filters  -->
-                <div class="relative">
-                  <button class="bg-white flex items-center text-gray-700 font-medium py-2 px-4 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50">
-                    <i class="ri-filter-3-line mr-2"></i>
-                    More Filters
-                  </button>
-                  <!-- Filter dropdown could be added here -->
-                </div>
-              </div>
-
-              <div class="flex items-center space-x-2">
-                <button class="bg-white flex items-center text-gray-700 font-medium py-2 px-4 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50">
-                    <i class="ri-download-2-line mr-2"></i>
-                    Export Log
-                </button>
-                <div class="bg-white flex items-center border border-gray-300 font-medium py-1.5 px-2 text-gray-700 rounded-lg hover:bg-gray-50 overflow-hidden">
-                    <button class="flex items-center justify-center h-8 w-8 bg-white hover:bg-gray-50">
-                        <i class="ri-list-check text-gray-500"></i>
-                    </button>
-                    <button class="flex items-center justify-center h-8 w-8 bg-gray-100 hover:bg-gray-200">
-                        <i class="ri-layout-grid-line text-gray-700"></i>
-                    </button>
-                </div>
-              </div>
-            </div>
-
             <!-- Files Table -->
             <div class="bg-white rounded-lg shadow-sm overflow-hidden">
               <!-- Table Header -->
               <div class="p-5 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-800">Recent Shared Files <span class="text-sm text-gray-500 font-normal">(Showing 4 of 56)</span></h3>
+                <h3 class="text-lg font-semibold text-gray-800">Recent Shared Files</h3>
               </div>
 
               <div class="overflow-x-auto">
@@ -392,89 +317,6 @@
                   <button class="p-2 rounded text-gray-500 hover:bg-gray-200">
                     <i class="ri-arrow-right-s-line"></i>
                   </button>
-                </div>
-              </div>
-
-              <!-- Analytics Summary Cards -->
-              <div class="mt-8 grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div class="bg-white p-6 rounded-lg shadow">
-                  <div class="flex items-center">
-                    <div class="p-3 rounded-full bg-blue-100 text-blue-500">
-                      <i class="ri-share-line text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                      <h3 class="text-sm font-medium text-gray-500">Total Shares</h3>
-                      <p class="text-2xl font-bold text-gray-900">56</p>
-                    </div>
-                  </div>
-                  <div class="mt-4">
-                    <div class="flex items-center">
-                      <span class="text-green-500 text-sm font-medium flex items-center">
-                        <i class="ri-arrow-up-s-line"></i> 12% 
-                      </span>
-                      <span class="text-gray-500 text-sm ml-2">vs. last month</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-lg shadow">
-                  <div class="flex items-center">
-                    <div class="p-3 rounded-full bg-green-100 text-green-500">
-                      <i class="ri-eye-line text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                      <h3 class="text-sm font-medium text-gray-500">Total Views</h3>
-                      <p class="text-2xl font-bold text-gray-900">128</p>
-                    </div>
-                  </div>
-                  <div class="mt-4">
-                    <div class="flex items-center">
-                      <span class="text-green-500 text-sm font-medium flex items-center">
-                        <i class="ri-arrow-up-s-line"></i> 8% 
-                      </span>
-                      <span class="text-gray-500 text-sm ml-2">vs. last month</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-lg shadow">
-                  <div class="flex items-center">
-                    <div class="p-3 rounded-full bg-red-100 text-red-500">
-                      <i class="ri-download-line text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                      <h3 class="text-sm font-medium text-gray-500">Downloads</h3>
-                      <p class="text-2xl font-bold text-gray-900">37</p>
-                    </div>
-                  </div>
-                  <div class="mt-4">
-                    <div class="flex items-center">
-                      <span class="text-red-500 text-sm font-medium flex items-center">
-                        <i class="ri-arrow-down-s-line"></i> 3% 
-                      </span>
-                      <span class="text-gray-500 text-sm ml-2">vs. last month</span>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="bg-white p-6 rounded-lg shadow">
-                  <div class="flex items-center">
-                    <div class="p-3 rounded-full bg-purple-100 text-purple-500">
-                      <i class="ri-user-shared-line text-xl"></i>
-                    </div>
-                    <div class="ml-4">
-                      <h3 class="text-sm font-medium text-gray-500">Unique Recipients</h3>
-                      <p class="text-2xl font-bold text-gray-900">23</p>
-                    </div>
-                  </div>
-                  <div class="mt-4">
-                    <div class="flex items-center">
-                      <span class="text-green-500 text-sm font-medium flex items-center">
-                        <i class="ri-arrow-up-s-line"></i> 15% 
-                      </span>
-                      <span class="text-gray-500 text-sm ml-2">vs. last month</span>
-                    </div>
-                  </div>
                 </div>
               </div>
 

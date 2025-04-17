@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { getAccurateExtension } = require('../utils/getAccurateExtension');
 const { default: mongoose } = require("mongoose");
+const ActivityModel = require("../model/activity.model");
 
 //uploading file coding
 const createFile = async (req, res) => {
@@ -28,6 +29,20 @@ const createFile = async (req, res) => {
     };
 
     const data = await FileModel.create(payload);
+    console.log(data)
+    // Log the Delete activity
+    try {
+      await ActivityModel.create({
+        user: req.user.id, // Make sure your auth middleware adds user to req
+        action: 'upload',
+        fileId: data._id,
+        fileName: `${file.filename}.${extension}`,
+        details: `Deleted file: ${file.filename}.${extension}`
+      });
+    } catch (logError) {
+      console.error("Error logging activity:", logError);
+    }
+
     res.status(200).json({
       success: true,
       data: data
@@ -86,6 +101,19 @@ const deleteFile = async (req, res) => {
     if(file.path && fs.existsSync(file.path)){
       fs.unlinkSync(file.path)
     }
+
+    // Log the Delete activity
+    try {
+      await ActivityModel.create({
+        user: req.user.id, // Make sure your auth middleware adds user to req
+        action: 'delete',
+        fileId: file._id,
+        fileName: `${file.filename}.${file.extension}`,
+        details: `Deleted file: ${file.filename}.${file.extension}`
+      });
+    } catch (logError) {
+      console.error("Error logging activity:", logError);
+    }
     
     res.status(200).json({message: `File deleted successfully`})
   } catch (error) {
@@ -102,21 +130,32 @@ const downloadFile = async (req, res) => {
     
     const filePath = path.join(process.cwd(), file.path)
 
-    // Check if file exits on the server
     if(!fs.existsSync(filePath))
       return res.status(404).json({message: "File not found on server!"})
+
+    // Log the download activity
+    try {
+      await ActivityModel.create({
+        user: req.user.id, // Make sure your auth middleware adds user to req
+        action: 'download',
+        fileId: file._id,
+        fileName: `${file.filename}.${file.extension}`,
+        details: `Downloaded file: ${file.filename}.${file.extension}`
+        // timestamps will be automatically added thanks to {timestamps: true} in your schema
+      });
+    } catch (logError) {
+      // Just log the error but don't stop the download
+      console.error("Error logging activity:", logError);
+    }
 
     res.setHeader('Content-Type', file.type || 'application/octet-stream')
     res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(file.filename)}.${file.extension}"`)
 
-    // Get file stats to set content Length
     const stats = fs.statSync(filePath)
     res.setHeader('Content-Length', stats.size)
 
-    // Use streaming for better performance and reliability with large Files
     const fileStream = fs.createReadStream(filePath)
 
-    // Handle potential errors in the stream
     fileStream.on('error', (err) => {
       console.log('File stream error:', err)
       if(!res.headersSent) {
