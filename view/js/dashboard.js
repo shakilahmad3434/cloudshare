@@ -86,9 +86,25 @@ const fetchRecentFiles = async () => {
 // Fetch shared files
 const fetchSharedFiles = async () => {
   try {
-    const { data } = await axios.get('/api/share', getToken());
+    const recentActivityBox = document.getElementById('recent-activity-box')
+    const { data } = await axios.get('/api/activity', getToken());
     console.log('Shared files:', data);
-    // Implementation for displaying shared files would go here
+
+    data.forEach((item) => {
+      const filename = item?.filename ? item.filename : `<span class="capitalize">${item.fileId.filename}</span>.${item.fileId.extension}`
+      const [icon, color] = getActivityIcon(item.action).split(" ")
+      const ui = `<div class="flex items-start border-b pb-3">
+                    <div class="w-10 h-10 flex items-center justify-center bg-${color}-100 rounded-lg mr-3">
+                        <i class="ri-${icon} text-${color}-500"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="text-sm font-medium text-gray-800">${filename}</h4>
+                        <p class="text-xs text-gray-500">${moment(data.createdAt).format('MMM DD YYYY, h:mm A')}</p>
+                    </div>
+                  </div>`
+      recentActivityBox.innerHTML +=ui
+    })
+
   } catch (err) {
     console.error('Error fetching shared files:', err.response ? err.response.data.message : err.message);
   }

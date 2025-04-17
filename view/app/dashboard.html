@@ -85,7 +85,7 @@
                 <div class="text-3xl font-bold mr-2 text-emerald-600">
                   <i class="ri-planet-fill"></i>
                 </div>
-                <h1 class="text-2xl font-bold">Fileorbit</h1>
+                <h1 class="text-2xl font-bold">CloudShare</h1>
               </div>
             </div>
             
@@ -233,36 +233,10 @@
                     <div class="bg-white p-5 rounded-lg shadow-sm">
                         <div class="flex items-center justify-between mb-4">
                             <h3 class="text-lg font-semibold text-gray-800">Recent Activity</h3>
-                            <button class="text-sm text-emerald-600 hover:underline">View All</button>
+                            <a href="/history" class="text-sm text-emerald-600 hover:underline">View All</a>
                         </div>
-                        <div class="space-y-4">
-                            <div class="flex items-start border-b pb-3">
-                                <div class="w-10 h-10 flex items-center justify-center bg-emerald-100 rounded-lg mr-3">
-                                    <i class="ri-upload-2-line text-emerald-500"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <h4 class="text-sm font-medium text-gray-800">You uploaded Project_Screenshot.png</h4>
-                                    <p class="text-xs text-gray-500">Apr 08, 2025 • 11:42 AM</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start border-b pb-3">
-                                <div class="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-lg mr-3">
-                                    <i class="ri-share-line text-blue-500"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <h4 class="text-sm font-medium text-gray-800">You shared Introduction_to_HTML.docx with John Smith</h4>
-                                    <p class="text-xs text-gray-500">Apr 05, 2025 • 09:15 AM</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start">
-                                <div class="w-10 h-10 flex items-center justify-center bg-purple-100 rounded-lg mr-3">
-                                    <i class="ri-edit-line text-purple-500"></i>
-                                </div>
-                                <div class="flex-1">
-                                    <h4 class="text-sm font-medium text-gray-800">You edited Financial_Report_Q1.pdf</h4>
-                                    <p class="text-xs text-gray-500">Apr 01, 2025 • 03:22 PM</p>
-                                </div>
-                            </div>
+                        <div class="space-y-4" id="recent-activity-box">
+                            <!-- Inject recent activity by dynamically -->
                         </div>
                     </div>
                 </div>
