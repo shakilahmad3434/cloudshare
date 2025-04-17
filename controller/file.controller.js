@@ -137,9 +137,8 @@ const downloadFile = async (req, res) => {
 
 const fetchFileDetails = async (req, res) => {
   try {
-    console.log(req.user)
     const file = await FileModel.find({user: req.user.id})
-    console.log(file)
+
     const payload = {
       file,
       MAX_STORAGE_PER_USER: process.env.MAX_STORAGE_PER_USER
