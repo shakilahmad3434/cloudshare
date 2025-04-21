@@ -231,6 +231,7 @@ passwordInput.addEventListener('keyup', (e) => {
 const signup = async (e) => {
   e.preventDefault()
   const signupBtn = document.getElementById('signup-btn')
+  const mobile = selectedDialCode.innerHTML + phoneInput.value
 
   if(!validatePhoneNumber(phoneInput.value, selectedCountry.code))
     return toast.error('Error', "Please enter a valid mobile number.")
@@ -243,10 +244,11 @@ const signup = async (e) => {
     const element = form.elements
     const payload = {
       fullname: element.fullname?.value || "",
-      mobile: element.mobile?.value || "",
+      mobile: mobile || "",
       email: element.email?.value || "",
       password: element.password?.value || ""
     }
+    console.log(payload)
 
     signupBtn.innerHTML = `<i class="ri-loader-4-line mr-1 animate-spin"></i> Processing...`
     signupBtn.disabled = true
