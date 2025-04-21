@@ -65,3 +65,27 @@ body {
   border-color: #059669;
   background-color: #f0fdfa;
 }
+
+
+/* ================================== Signup Code ==============================================*/
+.dropdown-container {
+  max-height: 300px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.dropdown-container::-webkit-scrollbar {
+  width: 5px;
+}
+.dropdown-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+.dropdown-container::-webkit-scrollbar-thumb {
+  background: #dddddd;
+  border-radius: 3px;
+}
+.hover-highlight:hover {
+  background-color: #f8fafc;
+}
+.country-selected {
+  background-color: #f0f9ff;
+}
