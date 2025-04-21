@@ -235,7 +235,6 @@ const ensureChartJsLoaded = () => {
       const numberOfImage = document.getElementById('number-of-image');
       const numberOfVideo = document.getElementById('number-of-video');
       const numberOfDocument = document.getElementById('number-of-document');
-      const storageLimit = document.getElementById('storage-limit');
       
       const { data } = await axios.get('/api/file-details', getToken());
       
@@ -248,10 +247,6 @@ const ensureChartJsLoaded = () => {
       document.getElementById('free-storage').innerHTML = `Free: ${humanFileSize(freeStorage)}`
       document.getElementById('total-storage').innerHTML = `Total: ${humanFileSize(totalStorage)}`
   
-      // Update storage display
-      if (storageLimit) {
-        storageLimit.innerHTML = `${humanFileSize(usedStorage)} used`;
-      }
       
       // Count files by type
       const noOfFile = {

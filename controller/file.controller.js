@@ -2,7 +2,6 @@ const FileModel = require("../model/file.model");
 const fs = require('fs');
 const path = require('path');
 const { getAccurateExtension } = require('../utils/getAccurateExtension');
-const { default: mongoose } = require("mongoose");
 const ActivityModel = require("../model/activity.model");
 
 //uploading file coding
@@ -57,31 +56,14 @@ const createFile = async (req, res) => {
 
 const fetchFiles = async (req, res) => {
   try {
-    const page = parseInt(req.query.page) || 0;
+    const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
-    const userId = new mongoose.Types.ObjectId(req.user.id)
 
-    const result = await FileModel.aggregate([
-      { $match: { user: userId } },
-      {
-        $facet: {
-          files: [
-            { $sort: { createdAt: -1 } },
-            { $skip: skip },
-            { $limit: limit }
-          ],
-          total: [
-            { $count: "count" }
-          ]
-        }
-      }
-    ]);
+    const total = await FileModel.countDocuments({user: req.user.id})
+    const files = await FileModel.find({user: req.user.id}).skip(skip).limit(limit).sort({createdAt: -1})
 
-    const files = result[0].files;
-    const total = result[0].total[0]?.count || 0;
-
-    res.status(200).json({ files, total, page, totalPages: Math.ceil(total / limit) });
+    res.status(200).json({ files, currentPage: page, totalPages: Math.ceil(total / limit), total });
 
   } catch (error) {
     res.status(500).json({message: error.message})

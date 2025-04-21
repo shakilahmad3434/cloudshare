@@ -7,6 +7,8 @@ const modalBackdrop = document.getElementById("modalBackdrop");
 const modalContent = document.getElementById("modalContent");
 const closeModal = document.getElementById("closeModal");
 const cancelUpload = document.getElementById("cancelUpload");
+let currentPage = 1;
+const limit = 10;
 
 window.onload = () => {
   checkSession()
@@ -183,17 +185,13 @@ fileUpload.addEventListener("change", (e) => {
 });
 
 
-let currentPage = 1;
-  const limit = 10;
-
 const fetchFiles = async (page = 1) => {
   const tableData = document.getElementById('table-data');
   try {
     const { data } = await axios.get(`/api/file?page=${page}&limit=${limit}`, getToken());
-    const { files, total, page: pageNo, totalPages } = data;
-    console.log(data)
+
     tableData.innerHTML = "";
-    files.forEach((data) => {
+    data.files.forEach((data) => {
       const fileIcon = getFileIcon(data.extension);
       const [iconName, colorName] = fileIcon.split(' ');
       const ui = `
@@ -226,60 +224,67 @@ const fetchFiles = async (page = 1) => {
       tableData.innerHTML += ui;
     });
 
-    updatePagination(pageNo, totalPages, total);
+    updatePagination(data.currentPage, data.totalPages, data.total);
   } catch (err) {
     toast.error("Error",err.response ? err.response.data.message : err.message);
   }
 };
 
-const updatePagination = (page, totalPages, total) => {
-  const totalFiles = document.getElementById('totalFiles');
-  const paginationContainer = document.getElementById('pagination-buttons');
-  paginationContainer.innerHTML = '';
 
-  // Previous button
-  const prevBtn = document.createElement('button');
-  prevBtn.className = 'p-2 rounded text-gray-500 hover:bg-gray-200';
-  prevBtn.disabled = page === 1;
-  prevBtn.innerHTML = `<i class="ri-arrow-left-s-line"></i>`;
-  prevBtn.onclick = () => {
-    if (currentPage > 1) {
-      currentPage--;
-      fetchFiles(currentPage);
-    }
-  };
-  paginationContainer.appendChild(prevBtn);
+const updatePagination = (currentPage, totalPages, total) => {
+  const paginationInfo = document.getElementById('totalFiles');
+  const paginationButtons = document.getElementById('pagination-buttons');
+  paginationButtons.innerHTML = '';
 
-  // Page number buttons
-  for (let i = 1; i <= totalPages; i++) {
-    const pageBtn = document.createElement('button');
-    pageBtn.className = `px-3 py-1 rounded ${i === page ? 'bg-emerald-600 text-white' : 'hover:bg-gray-200 text-gray-700'}`;
-    pageBtn.textContent = i;
-    pageBtn.onclick = () => {
-      currentPage = i;
-      fetchFiles(currentPage);
-    };
-    paginationContainer.appendChild(pageBtn);
+  // Generate pagination buttons
+  let buttonsHTML = `
+  <button id="prevBtn" onclick="prevFun()" class="p-2 rounded text-gray-500 hover:bg-gray-200">
+    <i class="ri-arrow-left-s-line"></i>
+  </button>`;
+
+const visiblePages = getVisiblePages(currentPage, totalPages)
+
+visiblePages.forEach(p => {
+  if (p === '...') {
+    buttonsHTML += `<span class="px-2">...</span>`;
+  } else {
+    buttonsHTML += `<button 
+      class="px-3 py-1 rounded ${p === currentPage ? 'bg-emerald-600 text-white' : 'hover:bg-gray-200 text-gray-700'}"
+      onclick="goToPage(${p})">${p}</button>`;
   }
+});
 
-  // Next button
-  const nextBtn = document.createElement('button');
-  nextBtn.className = 'p-2 rounded text-gray-500 hover:bg-gray-200';
-  nextBtn.disabled = page === totalPages;
-  nextBtn.innerHTML = `<i class="ri-arrow-right-s-line"></i>`;
-  nextBtn.onclick = () => {
-    if (currentPage < totalPages) {
-      currentPage++;
-      fetchFiles(currentPage);
-    }
-  };
-  paginationContainer.appendChild(nextBtn);
+buttonsHTML += `
+  <button id="nextBtn" onclick="nextFun('${totalPages}')" class="p-2 rounded text-gray-500 hover:bg-gray-200">
+    <i class="ri-arrow-right-s-line"></i>
+  </button>`;
 
-  // Showing 1-10 of 56 files
-  const start = (page - 1) * limit + 1;
-  const end = Math.min(start + limit - 1, total);
-  totalFiles.innerHTML = `Showing ${start}-${end} of ${total} files`;
+paginationButtons.innerHTML = buttonsHTML;
+
+paginationInfo.innerHTML = `Showing ${currentPage} - ${totalPages} of ${total} files`;
+
+document.getElementById('prevBtn').disabled = currentPage === 1;
+document.getElementById('nextBtn').disabled = currentPage === totalPages;
 };
+
+function prevFun() {
+  if (currentPage > 1) {
+    currentPage--;
+    fetchFiles(currentPage);
+  }
+}
+
+function goToPage(page) {
+  currentPage = Number(page);
+  fetchFiles(currentPage);
+}
+
+function nextFun(totalPages) {
+  if (currentPage < totalPages) {
+    currentPage++;
+    fetchFiles(currentPage);
+  }
+}
 
 
 // Start a Share File Coding 
