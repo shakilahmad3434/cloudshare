@@ -119,7 +119,7 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
 
     const file = formData.get('file')
     if(file.size > (100 * 1000 * 1000))
-      return toast.error("🔺 Oops! Your file is too large. Please upload a file smaller than 100MB. 📁")
+      return toast.error("Error","🔺 Oops! Your file is too large. Please upload a file smaller than 100MB. 📁")
 
     const options = {
       onUploadProgress: function ({loaded, total, progress, bytes, estimated, rate}) {
@@ -161,11 +161,11 @@ document.getElementById("uploadForm").addEventListener("submit", async (e) => {
       resetUploadForm();
     }, 2000);
 
-    toast.success(`${data.data.filename} has been uploaded!`)
+    toast.success("Success",`${data.data.filename} has been uploaded!`)
     fetchFiles()
 
   } catch (err) {
-    toast.error(err.response ? err.response.data.message : err.message)
+    toast.error("Error",err.response ? err.response.data.message : err.message)
   } finally {
     uploadBtn.disabled = false
   }
@@ -213,7 +213,7 @@ const fetchFiles = async (page = 1) => {
             <button onclick="downloadFile('${data._id}', '${data.filename}', '${data.extension}', this)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors">
               <i class="ri-download-cloud-line text-lg"></i>
             </button>
-            <button onclick="openModalForShare('${data._id}')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
+            <button onclick="openModalForShare('${data._id}', '${data.filename}', '${data.extension}', '${data.type}', '${data.size}', '${iconName}', '${colorName}')" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 transition-colors">
               <i class="ri-share-line text-lg"></i>
             </button>
             <button onclick="deleteFile('${data._id}', this)" class="w-8 h-8 rounded-full flex items-center justify-center text-gray-500 hover:text-red-600 hover:bg-red-50 transition-colors">
@@ -227,7 +227,7 @@ const fetchFiles = async (page = 1) => {
 
     updatePagination(pageNo, totalPages, total);
   } catch (err) {
-    toast.error(err.response ? err.response.data.message : err.message);
+    toast.error("Error",err.response ? err.response.data.message : err.message);
   }
 };
 
@@ -282,18 +282,32 @@ const updatePagination = (page, totalPages, total) => {
 
 
 // Start a Share File Coding 
-
 let shareId = null
+const linkInput = document.getElementById('shareLink');
+const shareFilePreview = document.getElementById('share-file-preview')
+const modal = document.getElementById('shareModal');
+
 // Modal toggle function
-function openModalForShare(id) {
-  const modal = document.getElementById('shareModal');
-  modal.classList.toggle('hidden');
+function openModalForShare(id, filename, extension, type, size, iconName, colorName) {
+  modal.classList.remove('hidden')
+  linkInput.value = `${SERVER}/api/file/download/${id}`;
+  shareFilePreview.innerHTML = `<div class="bg-${colorName}-100 p-3 rounded-xl mr-4 flex items-center justify-center">
+                                <i class="ri-${iconName}-line text-${colorName}-600 text-2xl"></i>
+                              </div>
+                              <div class="flex-1">
+                                <h4 class="font-medium text-gray-800"><span class="capitalize">${filename}</span>.${extension}</h4>
+                                <p class="text-sm text-gray-500">${humanFileSize(size)} • ${type.split('/')[0]}</p>
+                              </div>`;
+  
   shareId = id
+}
+
+function closeModalForShare() {
+  modal.classList.add('hidden')
 }
 
 // Copy link function
 function copyLink() {
-  const linkInput = document.getElementById('shareLink');
   linkInput.select();
   document.execCommand('copy');
   
@@ -305,25 +319,6 @@ function copyLink() {
     copyButton.innerHTML = originalText;
   }, 2000);
 }
-
-// Toggle email field
-function toggleEmailField() {
-  const emailField = document.getElementById('emailField');
-  const shareVia = document.getElementById('shareVia');
-  
-  emailField.classList.remove('hidden');
-  shareVia.classList.add('hidden');
-}
-
-// Go back to sharing options
-function backToOptions() {
-  const emailField = document.getElementById('emailField');
-  const shareVia = document.getElementById('shareVia');
-  
-  emailField.classList.add('hidden');
-  shareVia.classList.remove('hidden');
-}
-
 
 const shareFile = async (e) => {
   e.preventDefault()
@@ -345,14 +340,18 @@ const shareFile = async (e) => {
 
     sendBtn.innerHTML = '<i class="ri-loader-2-line mr-2 animate-spin"></i> Processing...'
     sendBtn.disabled = true
-    // ri-loader-2-line text-lg animate-spin
 
     await axios.post('/api/share', payload, getToken())
+
     form.reset()
-    toast.success("File send successfully!")
+    toast.success("Success","File send successfully!")
+
+    setTimeout(() => {
+      modal.classList.add('hidden')
+    }, 2000)
 
   } catch (err) {
-    toast.error(err.response ? err.response.data.message : err.message)
+    toast.error("Error",err.response ? err.response.data.message : err.message)
   } finally {
     shareId = null
     sendBtn.innerHTML = '<i class="ri-send-plane-fill mr-2"></i>Send Email'

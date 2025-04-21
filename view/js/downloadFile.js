@@ -31,11 +31,11 @@ const downloadFile = async (id, filename, ext, button) => {
  
   } catch (err) {
     if(!err.response)
-      return toast.error(err.message)
+      return toast.error('Error', err.message)
 
     const error = await (err.response.data).text()
     const {message} = JSON.parse(error)
-    toast.error(message)
+    toast.error('Error',message)
   } finally {
     button.innerHTML = `<i class="ri-download-cloud-line text-lg"></i>`
     button.disabled = false
