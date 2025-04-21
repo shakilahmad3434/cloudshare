@@ -1,4 +1,9 @@
 axios.defaults.baseURL = SERVER
+
+// Global Variables
+let currentPage = 1;
+const limit = 10;
+
 window.onload = () => {
   checkSession()
   fetchActivity()
@@ -35,16 +40,19 @@ const getActivity = (action, email = undefined) => {
   }
 }
 
-const fetchActivity = async () => {
+const fetchActivity = async (page = 1) => {
   try {
     const historyActivity = document.getElementById('history-activity')
-    const {data} = await axios.get('/api/activity?page=1&limit=10', getToken())
-    console.log(data)
+    const {data} = await axios.get(`/api/activity?page=${page}&limit=${limit}`, getToken())
+    
+    historyActivity.innerHTML = ""
+
     data.activities.forEach((item) => {
       const filename = item?.filename ? item.filename : `<span class="capitalize">${item.fileId.filename}</span>.${item.fileId.extension}`
       const fileType = item?.filename ? item.filename.split('.').pop() : item.fileId?.type.split('/')[0]
       const [fileAction, fileActivity] = getActivity(item.action, item.shareId?.receiverEmail).split('/')
       const [icon, color] = getActivityIcon(item.action).split(" ")
+
       const ui = `<div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50">
                     <div class="w-2/5 flex items-center">
                         <div class="h-10 w-10 rounded-full bg-${color}-100 flex items-center justify-center mr-4">
@@ -61,7 +69,64 @@ const fetchActivity = async () => {
                 </div>`
       historyActivity.innerHTML +=ui
     })
+
+    updatePagination(data.currentPage, data.totalPages, data.total);
   } catch (err) {
-    console.log(err.response ? err.response.data.message : err.message)
+    toast.error("Error",err.response ? err.response.data.message : err.message)
+  }
+}
+
+const updatePagination = (currentPage, totalPages, total) => {
+  const paginationInfo = document.getElementById('totalFiles');
+  const paginationButtons = document.getElementById('pagination-buttons');
+  paginationButtons.innerHTML = '';
+
+  // Generate pagination buttons
+  let buttonsHTML = `
+  <button id="prevBtn" onclick="prevFun()" class="p-2 rounded text-gray-500 hover:bg-gray-200">
+    <i class="ri-arrow-left-s-line"></i>
+  </button>`;
+
+const visiblePages = getVisiblePages(currentPage, totalPages)
+
+visiblePages.forEach(p => {
+  if (p === '...') {
+    buttonsHTML += `<span class="px-2">...</span>`;
+  } else {
+    buttonsHTML += `<button 
+      class="px-3 py-1 rounded ${p === currentPage ? 'bg-emerald-600 text-white' : 'hover:bg-gray-200 text-gray-700'}"
+      onclick="goToPage(${p})">${p}</button>`;
+  }
+});
+
+buttonsHTML += `
+  <button id="nextBtn" onclick="nextFun('${totalPages}')" class="p-2 rounded text-gray-500 hover:bg-gray-200">
+    <i class="ri-arrow-right-s-line"></i>
+  </button>`;
+
+paginationButtons.innerHTML = buttonsHTML;
+
+paginationInfo.innerHTML = `Showing ${currentPage} - ${totalPages} of ${total} files`;
+
+document.getElementById('prevBtn').disabled = currentPage === 1;
+document.getElementById('nextBtn').disabled = currentPage === totalPages;
+};
+
+function prevFun() {
+  if (currentPage > 1) {
+    currentPage--;
+    fetchActivity(currentPage);
+  }
+}
+
+function goToPage(page) {
+  currentPage = Number(page);
+  fetchActivity(currentPage);
+}
+
+function nextFun(totalPages) {
+  if (currentPage < totalPages) {
+    currentPage++;
+    fetchActivity(currentPage);
   }
 }

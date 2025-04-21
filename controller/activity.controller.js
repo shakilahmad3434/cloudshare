@@ -7,22 +7,22 @@ const fetchActivity = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const [activities, total, uploads, downloads] = await Promise.all([
-      ActivityModel.find()
+      ActivityModel.find({user: req.user.id})
         .populate('fileId')
         .populate('shareId')
         .sort({ createdAt: -1 }) // Latest first
         .skip(skip)
         .limit(limit),
       
-      ActivityModel.countDocuments(), // Total count
-      ActivityModel.countDocuments({ action: 'upload' }),
-      ActivityModel.countDocuments({ action: 'download' })
+      ActivityModel.countDocuments({user:req.user.id}), // Total count
+      ActivityModel.countDocuments({user:req.user.id},{ action: 'upload' }),
+      ActivityModel.countDocuments({user:req.user.id},{ action: 'download' })
     ]);
     
     res.status(200).json({
       currentPage: page,
       totalPages: Math.ceil(total / limit),
-      totalItems: total,
+      total,
       totalUploads: uploads,
       totalDownloads: downloads,
       activities
