@@ -1,4 +1,9 @@
 axios.defaults.baseURL = SERVER
+
+// Global Variables
+let currentPage = 1;
+const limit = 10;
+
 window.onload = () => {
   checkSession(),
   fetchShared()
@@ -32,14 +37,14 @@ const humanFileSize = (size) =>
     ? (size / 1e3).toFixed(2) + ' KB'
     : size + ' B';
 
-const fetchShared = async () => {
+const fetchShared = async (page = 1) => {
   try {
     const recentSharedFiles = document.getElementById('recent-shared-files')
-    const {data} = await axios.get('/api/share', getToken())
-
+    const {data} = await axios.get(`/api/share?page=${page}&limit=${limit}`, getToken())
+    
     recentSharedFiles.innerHTML = ""
-    data.forEach((data) => {
-      console.log(data)
+
+    data.history.forEach((data) => {
       const fileIcon = getFileIcon(data.file.extension);
       const [iconName, colorName] = fileIcon.split(' ');
       const ui = `
@@ -50,7 +55,7 @@ const fetchShared = async () => {
               <i class="ri-${iconName}-line text-${colorName}-500 text-xl"></i>
             </div>
             <div class="ml-4">
-              <div class="text-sm font-medium text-gray-900"><span class="capitalize truncate max-w-[200px] inline-block overflow-hidden whitespace-nowrap">${data.file.filename}</span>.${data.file.extension}</div>
+              <div class="text-sm font-medium text-gray-900"><span class="capitalize truncate">${data.file.filename}</span>.${data.file.extension}</div>
               <div class="text-sm text-gray-500">${humanFileSize(data.file.size)}</div>
             </div>
           </div>
@@ -74,8 +79,66 @@ const fetchShared = async () => {
       </tr>`;
       recentSharedFiles.innerHTML +=ui
     })
+
+    updatePagination(data.currentPage, data.totalPages, data.total);
    
   } catch (err) {
     toast.error(err.response ? err.response.data.message : err.message)
+  }
+}
+
+
+const updatePagination = (currentPage, totalPages, total) => {
+  const paginationInfo = document.getElementById('totalFiles');
+  const paginationButtons = document.getElementById('pagination-buttons');
+  paginationButtons.innerHTML = '';
+
+  // Generate pagination buttons
+  let buttonsHTML = `
+  <button id="prevBtn" onclick="prevFun()" class="p-2 rounded text-gray-500 hover:bg-gray-200">
+    <i class="ri-arrow-left-s-line"></i>
+  </button>`;
+
+const visiblePages = getVisiblePages(currentPage, totalPages)
+
+visiblePages.forEach(p => {
+  if (p === '...') {
+    buttonsHTML += `<span class="px-2">...</span>`;
+  } else {
+    buttonsHTML += `<button 
+      class="px-3 py-1 rounded ${p === currentPage ? 'bg-emerald-600 text-white' : 'hover:bg-gray-200 text-gray-700'}"
+      onclick="goToPage(${p})">${p}</button>`;
+  }
+});
+
+buttonsHTML += `
+  <button id="nextBtn" onclick="nextFun('${totalPages}')" class="p-2 rounded text-gray-500 hover:bg-gray-200">
+    <i class="ri-arrow-right-s-line"></i>
+  </button>`;
+
+paginationButtons.innerHTML = buttonsHTML;
+
+paginationInfo.innerHTML = `Showing ${currentPage} - ${totalPages} of ${total} files`;
+
+document.getElementById('prevBtn').disabled = currentPage === 1;
+document.getElementById('nextBtn').disabled = currentPage === totalPages;
+};
+
+function prevFun() {
+  if (currentPage > 1) {
+    currentPage--;
+    fetchShared(currentPage);
+  }
+}
+
+function goToPage(page) {
+  currentPage = Number(page);
+  fetchShared(currentPage);
+}
+
+function nextFun(totalPages) {
+  if (currentPage < totalPages) {
+    currentPage++;
+    fetchShared(currentPage);
   }
 }

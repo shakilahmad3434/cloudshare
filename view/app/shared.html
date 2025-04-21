@@ -152,20 +152,12 @@
               </div>
 
               <!-- Table Pagination -->
-              <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 bg-gray-50">
-                <p class="text-sm text-gray-600">Showing 1-4 of 56 files</p>
-                <div class="flex space-x-1">
-                  <button class="p-2 rounded text-gray-500 hover:bg-gray-200 disabled:opacity-50" disabled>
-                    <i class="ri-arrow-left-s-line"></i>
-                  </button>
-                  <button class="px-3 py-1 rounded bg-emerald-600 text-white">1</button>
-                  <button class="px-3 py-1 rounded hover:bg-gray-200 text-gray-700">2</button>
-                  <button class="px-3 py-1 rounded hover:bg-gray-200 text-gray-700">3</button>
-                  <button class="p-2 rounded text-gray-500 hover:bg-gray-200">
-                    <i class="ri-arrow-right-s-line"></i>
-                  </button>
-                </div>
+            <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200 bg-gray-50">
+              <p class="text-sm text-gray-600" id="totalFiles">Showing 1-4 of 56 files</p>
+              <div class="flex space-x-1" id="pagination-buttons">
+                
               </div>
+            </div>
 
         </div>
       </main>
@@ -179,5 +171,6 @@
     <script src="../js/toast.js"></script>
     <script src="../js/getFileIcon.js"></script>
     <script src="../js/shared.js"></script>
+    <script src="../js/getVisiblePages.js"></script>
 </body>
 </html>

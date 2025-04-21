@@ -137,9 +137,14 @@ const shareFile = async (req, res) => {
 
 const fetchShared = async (req, res) =>{
     try {
-        const {limit} = req.query
-        const history = await ShareModel.find({user: req.user.id}).populate('file').sort({createdAt: -1}).limit(limit)
-        res.status(200).json(history)
+        const page = parseInt(req.query.page) || 1
+        const limit = parseInt(req.query.limit) || 10
+        const skip = (page - 1) * limit
+
+        const total = await ShareModel.countDocuments({user:req.user.id})
+        const history = await ShareModel.find({user: req.user.id}).skip(skip).limit(limit).sort({createdAt: -1}).populate('file')
+
+        res.status(200).json({history, currentPage: page, totalPages: Math.ceil(total / limit), total})
     } catch (err) {
         res.status(500).json({message: err.message})
     }
