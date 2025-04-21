@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fileorbit - Shared Files</title>
+    <link rel="icon" type="image/png" href="../images/fileorbit.png">
+    <title>Shared Files - CloudShare</title>
+    <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/toast.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="stylesheet" href="../css/index.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
-    <!-- Load Axios from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
 </head>
@@ -151,155 +150,7 @@
                     </tr>
                   </thead>
                   <tbody class="bg-white divide-y divide-gray-200" id="recent-shared-files">
-                    <!-- Project Proposal Row -->
-                    <!-- <tr class="hover:bg-gray-50">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-blue-50 rounded-lg">
-                            <i class="ri-file-word-2-line text-blue-500 text-xl"></i>
-                          </div>
-                          <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">Project_Proposal.docx</div>
-                            <div class="text-sm text-gray-500">2.4 MB</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0 h-8 w-8 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs font-medium">JD</div>
-                          <div class="ml-3">
-                            <div class="text-sm font-medium text-gray-900">John Doe</div>
-                            <div class="text-sm text-gray-500">john.doe@example.com</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Apr 12, 2025</div>
-                        <div class="text-sm text-gray-500">09:32 AM</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <i class="ri-eye-line text-gray-500 mr-1"></i>
-                          <span class="text-sm text-gray-500">Viewed 2 hours ago</span>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        May 12, 2025
-                      </td>
-                    </tr> -->
-        
-                    <!-- Marketing Plan Row -->
-                    <!-- <tr class="hover:bg-gray-50">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-red-50 rounded-lg">
-                            <i class="ri-file-pdf-line text-red-500 text-xl"></i>
-                          </div>
-                          <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">Marketing_Plan_2025.pdf</div>
-                            <div class="text-sm text-gray-500">5.4 MB</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0 h-8 w-8 rounded-full bg-green-500 flex items-center justify-center text-white text-xs font-medium">AS</div>
-                          <div class="ml-3">
-                            <div class="text-sm font-medium text-gray-900">Alex Smith</div>
-                            <div class="text-sm text-gray-500">alex@example.com</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Apr 10, 2025</div>
-                        <div class="text-sm text-gray-500">14:15 PM</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <i class="ri-download-line text-gray-500 mr-1"></i>
-                          <span class="text-sm text-gray-500">Downloaded 1 day ago</span>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        No expiration
-                      </td>
-                    </tr> -->
-        
-                    <!-- Budget Analysis Row -->
-                    <!-- <tr class="hover:bg-gray-50">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-green-50 rounded-lg">
-                            <i class="ri-file-excel-2-line text-green-500 text-xl"></i>
-                          </div>
-                          <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">Budget_Analysis.xlsx</div>
-                            <div class="text-sm text-gray-500">8.4 MB</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0 h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-medium">SJ</div>
-                          <div class="ml-3">
-                            <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
-                            <div class="text-sm text-gray-500">sarah@example.com</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Mar 15, 2025</div>
-                        <div class="text-sm text-gray-500">10:15 PM</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <i class="ri-chat-1-line text-gray-500 mr-1"></i>
-                          <span class="text-sm text-gray-500">Added comment 3 days ago</span>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        Apr 30, 2025
-                      </td>  
-                    </tr> -->
-        
-                    <!-- Brand Assets Row -->
-                    <!-- <tr class="hover:bg-gray-50">
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-blue-50 rounded-lg">
-                            <i class="ri-file-zip-line text-blue-500 text-xl"></i>
-                          </div>
-                          <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-900">Brand_Assets.zip</div>
-                            <div class="text-sm text-gray-500">50.0 MB</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="flex-shrink-0 h-8 w-8 rounded-full bg-yellow-500 flex items-center justify-center text-white text-xs font-medium">RL</div>
-                          <div class="ml-3">
-                            <div class="text-sm font-medium text-gray-900">Robert Lee</div>
-                            <div class="text-sm text-gray-500">robert@example.com</div>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Jan 20, 2025</div>
-                        <div class="text-sm text-gray-500">04:15 AM</div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="flex items-center">
-                          <div class="w-16 bg-gray-200 rounded-full h-2">
-                            <div class="bg-green-500 h-2 rounded-full" style="width: 75%"></div>
-                          </div>
-                          <span class="ml-2 text-sm text-gray-500">75% viewed</span>
-                        </div>
-                      </td>
-                      <td class="px-6 py-4 whitespace-nowrap">
-                        <span class="text-sm text-red-500 font-medium">Expired</span>
-                      </td>
-                    </tr> -->
+                    <!-- insert by js dynamically -->
                   </tbody>
                 </table>
               </div>
@@ -325,10 +176,12 @@
     </div>
   </div>
 
-  <script src="../js/env.js"></script>
+    <script src="../js/env.js"></script>
     <script src="../js/session.js"></script>
-    <script src="../js/logout.js"></script>
     <script src="../js/toggleSidebar.js"></script>
+    <script src="../js/logout.js"></script>
+    <script src="../js/toast.js"></script>
+    <script src="../js/getFileIcon.js"></script>
     <script src="../js/shared.js"></script>
 </body>
 </html>

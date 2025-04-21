@@ -40,27 +40,23 @@ const fetchShared = async () => {
     recentSharedFiles.innerHTML = ""
     data.forEach((data) => {
       console.log(data)
+      const fileIcon = getFileIcon(data.file.extension);
+      const [iconName, colorName] = fileIcon.split(' ');
       const ui = `
       <tr class="hover:bg-gray-50">
         <td class="px-6 py-4 whitespace-nowrap">
           <div class="flex items-center">
-            <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-blue-50 rounded-lg">
-              <i class="ri-file-word-2-line text-blue-500 text-xl"></i>
+            <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-${colorName}-50 rounded-lg">
+              <i class="ri-${iconName}-line text-${colorName}-500 text-xl"></i>
             </div>
             <div class="ml-4">
-              <div class="text-sm font-medium text-gray-900 capitalize">${data.file.filename}.${data.file.type.split('/').pop()}</div>
+              <div class="text-sm font-medium text-gray-900"><span class="capitalize truncate max-w-[200px] inline-block overflow-hidden whitespace-nowrap">${data.file.filename}</span>.${data.file.extension}</div>
               <div class="text-sm text-gray-500">${humanFileSize(data.file.size)}</div>
             </div>
           </div>
         </td>
         <td class="px-6 py-4 whitespace-nowrap">
-          <div class="flex items-center">
-            <div class="flex-shrink-0 h-8 w-8 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs font-medium">JD</div>
-            <div class="ml-3">
-              <div class="text-sm font-medium text-gray-900">John Doe</div>
               <div class="text-sm text-gray-500">${data.receiverEmail}</div>
-            </div>
-          </div>
         </td>
         <td class="px-6 py-4 whitespace-nowrap">
           <div class="text-sm text-gray-900">${moment(data.createdAt).format("ll")}</div>

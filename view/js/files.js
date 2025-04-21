@@ -192,6 +192,7 @@ const fetchFiles = async (page = 1) => {
     const { data } = await axios.get(`/api/file?page=${page}&limit=${limit}`, getToken());
     const { files, total, page: pageNo, totalPages } = data;
     console.log(data)
+    tableData.innerHTML = "";
     files.forEach((data) => {
       const fileIcon = getFileIcon(data.extension);
       const [iconName, colorName] = fileIcon.split(' ');
