@@ -191,13 +191,15 @@ const fetchFiles = async (page = 1) => {
   try {
     const { data } = await axios.get(`/api/file?page=${page}&limit=${limit}`, getToken());
     const { files, total, page: pageNo, totalPages } = data;
-
+    console.log(data)
     files.forEach((data) => {
+      const fileIcon = getFileIcon(data.extension);
+      const [iconName, colorName] = fileIcon.split(' ');
       const ui = `
         <div class="grid grid-cols-12 gap-4 px-6 py-4 items-center transition-all duration-200 file-row" key="${data._id}">
           <div class="col-span-5 flex items-center space-x-3">
-            <div class="w-10 h-10 rounded-lg file-image flex items-center justify-center file-icon">
-              <i class="ri-image-fill text-xl"></i>
+            <div class="w-10 h-10 flex items-center justify-center bg-${colorName}-100 rounded-lg mr-3">
+            <i class="ri-${iconName}-line text-${colorName}-500 text-xl"></i>
             </div>
             <div class="truncate">
               <span class="font-medium text-gray-800 block truncate capitalize">${data.filename}</span>
