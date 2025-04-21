@@ -11,8 +11,9 @@ const checkSession = async () => {
 checkSession()
 
 const login = async (e) => {
+  e.preventDefault()
+  const loginBtn = document.getElementById('login-btn')
   try {
-    e.preventDefault()
     const form = e.target
     const element = form.elements
     const remember = element.remember?.checked
@@ -21,6 +22,9 @@ const login = async (e) => {
       email: element.email?.value || "",
       password: element.password?.value || ""
     }
+
+    loginBtn.innerHTML = `<i class="ri-loader-4-line mr-1 animate-spin"></i> Processing...`
+    loginBtn.disabled = true
 
     const {data} = await axios.post('/api/login', payload)
 
@@ -35,13 +39,16 @@ const login = async (e) => {
     }
     
     form.reset()
-    toast.success(data.message)
+    toast.success('Success', data.message)
 
     setTimeout(() => {
       location.href = '/dashboard'
-    }, 3000)
+    }, 2000)
 
   } catch (err) {
-    toast.error(err.response ? err.response.data.message : err.message)
+    toast.error('Error', err.response ? err.response.data.message : err.message)
+  } finally {
+    loginBtn.innerHTML = `Sign in <i class="ri-arrow-right-line ml-1"></i>`
+    loginBtn.disabled = false
   }
 }

@@ -125,7 +125,7 @@ const shareFile = async (req, res) => {
 
     await Promise.all([
         conn.sendMail(options),
-        await ActivityModel.create(activityPayload)
+        ActivityModel.create(activityPayload)
     ])
 
     res.status(200).json({message: "Email Sent!"})

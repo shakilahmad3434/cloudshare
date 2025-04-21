@@ -4,15 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/png" href="/images/fileorbit.png">
-    <title>Signup - CloudShare</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow" />
+    <meta name="bingbot" content="index, follow" />
+    <meta name="title" property="og:title" content="Sign Up for CloudShare | Secure Cloud File Storage">
+    <meta name="description" content="Create your CloudShare account and start managing, uploading, and sharing files securely. Fast, encrypted cloud storage built for you." />
+    <meta name="keywords" content="CloudShare signup, create cloud account, secure file storage, cloud file handling, free cloud storage, encrypted file sharing, cloud file management" />
+    <title>Sign Up for CloudShare | Secure Cloud File Storage</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/toast.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
-    <link rel="stylesheet" href="./css/index.css">
-    <!-- Load Axios from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 </head>
 <body>
     <div class="bg-gray-50 min-h-screen flex flex-col justify-center items-center p-4 animate__animated animate__fadeIn">
@@ -122,6 +127,7 @@
                     <!-- Sign Up Button -->
                     <button 
                         type="submit" 
+                        id="signup-btn"
                         class="w-full flex justify-center items-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
                     >
                         Create Account
