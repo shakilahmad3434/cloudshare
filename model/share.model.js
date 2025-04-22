@@ -14,7 +14,7 @@ const shareSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: "File",
     required: true
-  }
+  },
 },{timestamps: true})
 
 const ShareModel = model('Share', shareSchema)

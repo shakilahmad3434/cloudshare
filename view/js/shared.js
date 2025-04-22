@@ -41,7 +41,7 @@ const fetchShared = async (page = 1) => {
   try {
     const recentSharedFiles = document.getElementById('recent-shared-files')
     const {data} = await axios.get(`/api/share?page=${page}&limit=${limit}`, getToken())
-    
+    console.log(data)
     recentSharedFiles.innerHTML = ""
 
     data.history.forEach((data) => {
@@ -70,12 +70,16 @@ const fetchShared = async (page = 1) => {
         <td class="px-6 py-4 whitespace-nowrap">
           <div class="flex items-center">
             <i class="ri-eye-line text-gray-500 mr-1"></i>
-            <span class="text-sm text-gray-500">Viewed 2 hours ago</span>
+            <span class="text-sm text-gray-500">Viewed ${data.track ? moment(data.track.seenAt).fromNow(): "N/A"}</span>
           </div>
         </td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-          May 12, 2025
-        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm ${data.link && moment().isAfter(data.link.expiresAt) ? 'text-red-500' : 'text-gray-500'}">
+        ${data.link 
+          ? moment().isAfter(data.link.expiresAt) 
+            ? "Expired" 
+            : `Expires ${moment(data.link.expiresAt).fromNow()}` 
+          : "N/A"}
+      </td>
       </tr>`;
       recentSharedFiles.innerHTML +=ui
     })

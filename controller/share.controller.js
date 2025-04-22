@@ -5,6 +5,7 @@ const crypto = require('crypto')
 const { getEmailTemplate } = require("../utils/getEmailTemplate");
 const LinkModel = require("../model/link.model");
 const TrackModel = require("../model/track.model");
+const { default: mongoose } = require("mongoose");
 
 const conn = nodemailer.createTransport({
   service: 'gmail',
@@ -83,7 +84,75 @@ const fetchShared = async (req, res) =>{
         const skip = (page - 1) * limit
 
         const total = await ShareModel.countDocuments({user:req.user.id})
-        const history = await ShareModel.find({user: req.user.id}).skip(skip).limit(limit).sort({createdAt: -1}).populate('file')
+
+        const history = await ShareModel.aggregate([
+          {
+            $match: { user: new mongoose.Types.ObjectId(req.user.id) }
+          },
+          {
+            $sort: { createdAt: -1 }
+          },
+          {
+            $skip: skip
+          },
+          {
+            $limit: limit
+          },
+          {
+            $lookup: {
+              from: 'files', // collection name (not model name)
+              localField: 'file',
+              foreignField: '_id',
+              as: 'file'
+            }
+          },
+          {
+            $unwind: '$file'
+          },
+          {
+            $lookup: {
+              from: 'links',
+              localField: 'file._id',
+              foreignField: 'file',
+              as: 'link'
+            }
+          },
+          {
+            $unwind: {
+              path: '$link',
+              preserveNullAndEmptyArrays: true
+            }
+          },
+          {
+            $lookup: {
+              from: 'tracks',
+              let: { email: '$receiverEmail', fileId: '$file._id' },
+              pipeline: [
+                {
+                  $match: {
+                    $expr: {
+                      $and: [
+                        { $eq: ['$email', '$$email'] },
+                        { $eq: ['$file', '$$fileId'] }
+                      ]
+                    }
+                  }
+                },
+                {
+                  $limit: 1
+                }
+              ],
+              as: 'track'
+            }
+          },
+          {
+            $unwind: {
+              path: '$track',
+              preserveNullAndEmptyArrays: true
+            }
+          }
+        ]);        
+        // const history = await ShareModel.find({user: req.user.id}).skip(skip).limit(limit).sort({createdAt: -1}).populate('file')
 
         res.status(200).json({history, currentPage: page, totalPages: Math.ceil(total / limit), total})
     } catch (err) {
@@ -93,7 +162,7 @@ const fetchShared = async (req, res) =>{
 
 const emailTrack = async (req, res) => {
   try {
-    const {token} = req. params
+    const {token} = req.params
     const track = await TrackModel.findOne({token})
 
     if(track && !track.seenAt){
