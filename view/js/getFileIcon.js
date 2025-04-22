@@ -67,12 +67,14 @@ function getFileIcon(ext) {
 
 
 function getActivityIcon(ext){
+  console.log(ext)
   const iconMap = {
     upload: 'upload-cloud-2-line blue',
     rename: 'edit-box-line green',
     share: 'share-fill purple',
     delete: 'delete-bin-6-line red',
-    download: 'download-cloud-line yellow'
+    download: 'download-cloud-line yellow',
+    'shared-download': 'mail-download-line emerald'
   }
 
   return iconMap[ext.toLowerCase()] || 'file emerald'

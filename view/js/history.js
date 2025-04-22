@@ -35,6 +35,7 @@ const getActivity = (action, email = undefined) => {
     case 'share': return `File Shared/You shared a file with ${email}`
     case 'delete': return 'File Deleted/You moved a file to trash'
     case 'download': return 'File Downloaded/You downloaded a file'
+    case 'shared-download': return `File Shared Downloaded/You downloaded a shared file`
     default:
       break;
   }
@@ -44,7 +45,7 @@ const fetchActivity = async (page = 1) => {
   try {
     const historyActivity = document.getElementById('history-activity')
     const {data} = await axios.get(`/api/activity?page=${page}&limit=${limit}`, getToken())
-    
+    console.log(data)
     historyActivity.innerHTML = ""
 
     data.activities.forEach((item) => {
