@@ -6,6 +6,7 @@
     <link rel="icon" type="image/png" href="../images/fileorbit.png">
     <title>CloudShare - Dashboard</title>
     <link rel="stylesheet" href="../css/index.css">
+    <link rel="stylesheet" href="../css/toast.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
@@ -20,8 +21,13 @@
         <!-- User Profile Section -->
         <div class="p-6 flex flex-col items-center">
             <div class="w-24 h-24 rounded-full bg-yellow-400 flex items-center justify-center mb-4 border-4 border-white">
-                <div class="w-20 h-20 rounded-full bg-white flex items-center justify-center">
-                  <img src="../images/avt.png" alt="Profile" class="w-full h-full object-cover">
+                <div class="relative group w-20 h-20 rounded-full overflow-hidden cursor-pointer" onclick="changeProfilePic()">
+                    <img src="../images/avt.png" alt="Profile"
+                         class="w-full h-full object-cover"
+                         id="pic" />
+                    <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                      <i class="ri-upload-cloud-line text-3xl text-white"></i>
+                    </div>
                 </div>
             </div>
             <h2 class="text-xl font-bold mb-1 capitalize" id="fullname">Shakil Ahmad</h2>
@@ -220,6 +226,7 @@
     <script src="../js/chart.js"></script>
     <script src="../js/getFileIcon.js"></script>
     <script src="../js/downloadFile.js"></script>
+    <script src="../js/toast.js"></script>
     <script src="../js/dashboard.js"></script>
     
 </body>

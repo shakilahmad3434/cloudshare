@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
 const crypto = require('crypto')
+const path = require('path')
 const forgotPasswordTemplete = require('../utils/forgotPasswordTemplate')
 
 
@@ -121,16 +122,37 @@ const resetPassword = async(req, res) => {
 
 const updateImage = async (req, res) => {
   try {
-    const {destination, filename} = req.file
+    const {destination, filename} = req.file;
+    console.log(destination + filename)
+
     const user = await UserModel.findByIdAndUpdate(req.user.id, {image: (destination + filename)})
 
     if(!user)
       return res.status(401).json({message: "Invalid Request"})
 
-    res.status(200).json({image: user.image})
+    res.status(200).json({image: process.cwd()+user.image})
   } catch (err) {
     res.status(500).json({message: err.message})
   }
+}
+
+const fetchImage = async (req, res)=>{
+    try {
+        const {image} = await UserModel.findById(req.user.id)
+        if(!image)
+          return res.status(404).json({message: 'Image not found'})
+        
+        const file = path.join(process.cwd(), image)
+        console.log(file)
+        res.sendFile(file, (err)=>{
+            if(err)
+                res.status(404).json({message: 'Image not found'})
+        })
+    }
+    catch(err)
+    {
+        res.status(500).json({message: err.message})
+    } 
 }
 
 module.exports = {
@@ -138,5 +160,6 @@ module.exports = {
   login,
   forgotPassword,
   resetPassword,
-  updateImage
+  updateImage,
+  fetchImage
 }
