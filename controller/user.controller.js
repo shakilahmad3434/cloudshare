@@ -143,7 +143,7 @@ const fetchImage = async (req, res)=>{
           return res.status(404).json({message: 'Image not found'})
         
         const file = path.join(process.cwd(), image)
-        console.log(file)
+
         res.sendFile(file, (err)=>{
             if(err)
                 res.status(404).json({message: 'Image not found'})

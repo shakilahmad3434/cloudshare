@@ -6,6 +6,7 @@ const limit = 10;
 
 window.onload = () => {
   checkSession()
+  fetchImage()
   fetchActivity()
 }
 

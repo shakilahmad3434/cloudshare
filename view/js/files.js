@@ -12,6 +12,7 @@ const limit = 10;
 
 window.onload = () => {
   checkSession()
+  fetchImage()
   fetchFiles()
 }
 // check session for user logged or not

@@ -5,7 +5,8 @@ let currentPage = 1;
 const limit = 10;
 
 window.onload = () => {
-  checkSession(),
+  checkSession()
+  fetchImage()
   fetchShared()
 }
 
