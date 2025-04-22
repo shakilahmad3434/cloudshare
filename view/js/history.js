@@ -45,7 +45,7 @@ const fetchActivity = async (page = 1) => {
   try {
     const historyActivity = document.getElementById('history-activity')
     const {data} = await axios.get(`/api/activity?page=${page}&limit=${limit}`, getToken())
-    console.log(data)
+
     historyActivity.innerHTML = ""
 
     data.activities.forEach((item) => {
@@ -66,7 +66,7 @@ const fetchActivity = async (page = 1) => {
                     </div>
                     <div class="w-1/5 text-sm text-gray-700">${filename}</div>
                     <div class="w-1/5 text-sm text-gray-700 capitalize">${fileType}</div>
-                    <div class="w-1/5 text-sm text-gray-700">${moment(data.createdAt).format('MMM DD YYYY, h:mm A')}</div>
+                    <div class="w-1/5 text-sm text-gray-700">${moment(item.createdAt).format('MMM DD YYYY, h:mm A')}</div>
                 </div>`
       historyActivity.innerHTML +=ui
     })

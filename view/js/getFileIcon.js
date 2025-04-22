@@ -67,7 +67,6 @@ function getFileIcon(ext) {
 
 
 function getActivityIcon(ext){
-  console.log(ext)
   const iconMap = {
     upload: 'upload-cloud-2-line blue',
     rename: 'edit-box-line green',

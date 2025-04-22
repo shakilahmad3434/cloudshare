@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 const crypto = require('crypto')
 const { getEmailTemplate } = require("../utils/getEmailTemplate");
 const LinkModel = require("../model/link.model");
+const TrackModel = require("../model/track.model");
 
 const conn = nodemailer.createTransport({
   service: 'gmail',
@@ -23,13 +24,13 @@ const shareFile = async (req, res) => {
       timeStyle: 'short',
     });
 
-    const link = `${process.env.DOMAIN}/api/shared/download/${token}`
+    const link = `${process.env.DOMAIN}/api/track/email-open/${token}`
 
     const options = {
       from: process.env.SMTP_EMAIL,
       to: email,
       subject: 'CloudShare - New File Received',
-      html: getEmailTemplate(link, req.user.fullname, message, readableExpiry)
+      html: getEmailTemplate(link, req.user.fullname, message, readableExpiry, token)
     }
 
     const payload = {
@@ -54,10 +55,18 @@ const shareFile = async (req, res) => {
       expiresAt
     }
 
+    const trackPayload = {
+      token,
+      email,
+      file: fileId,
+    };
+    
+
     await Promise.all([
         conn.sendMail(options),
         ActivityModel.create(activityPayload),
-        LinkModel.create(shareLinkPayload)
+        LinkModel.create(shareLinkPayload),
+        TrackModel.create(trackPayload)
     ])
 
     res.status(200).json({message: "Email Sent!"})
@@ -82,7 +91,25 @@ const fetchShared = async (req, res) =>{
     }
 }
 
+const emailTrack = async (req, res) => {
+  try {
+    const {token} = req. params
+    const track = await TrackModel.findOne({token})
+
+    if(track && !track.seenAt){
+      track.seenAt = new Date();
+      await track.save()
+    }
+
+  res.redirect(`${process.env.DOMAIN}/api/shared/download/${token}`);
+
+  } catch (err) {
+    res.status(500).json({message: err.message})
+  }
+}
+
 module.exports = {
   shareFile,
-  fetchShared
+  fetchShared,
+  emailTrack
 }

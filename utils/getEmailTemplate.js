@@ -1,4 +1,4 @@
-const getEmailTemplate = (link, SENDER_NAME, OPTIONAL_MESSAGE, EXPIRATION_DATE = "23 Apr 2025") => {
+const getEmailTemplate = (link, SENDER_NAME, OPTIONAL_MESSAGE, EXPIRATION_DATE, token) => {
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +7,7 @@ const getEmailTemplate = (link, SENDER_NAME, OPTIONAL_MESSAGE, EXPIRATION_DATE =
     <title>CloudShare - Shared File</title>
 </head>
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f7fa; color: #333333;">
+
     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-spacing: 0; border-radius: 10px">
         <tr>
             <td style="padding: 20px 0; text-align: center; background-color: #009966;">
