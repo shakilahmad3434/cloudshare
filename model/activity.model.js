@@ -9,7 +9,7 @@ const activitySchema = new Schema({
   action: {
     type: String,
     required: true,
-    enum: ['upload', 'download', 'delete', 'rename', 'create', 'share']
+    enum: ['upload', 'download', 'delete', 'rename', 'create', 'share', 'shared-download']
   },
   fileId: {
     type: mongoose.Types.ObjectId,

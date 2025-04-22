@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { getAccurateExtension } = require('../utils/getAccurateExtension');
 const ActivityModel = require("../model/activity.model");
+const LinkModel = require("../model/link.model");
 
 //uploading file coding
 const createFile = async (req, res) => {
@@ -28,7 +29,7 @@ const createFile = async (req, res) => {
     };
 
     const data = await FileModel.create(payload);
-    console.log(data)
+
     // Log the Delete activity
     try {
       await ActivityModel.create({
@@ -92,7 +93,7 @@ const deleteFile = async (req, res) => {
     } catch (logError) {
       console.error("Error logging activity:", logError);
     }
-    console.log(file)
+
     res.status(200).json({message: `File deleted successfully`})
   } catch (error) {
     res.status(500).json({message: error.message})
@@ -114,7 +115,7 @@ const downloadFile = async (req, res) => {
     // Log the download activity
     try {
       await ActivityModel.create({
-        user: req.user.id, // Make sure your auth middleware adds user to req
+        user: file.user, // Make sure your auth middleware adds user to req
         action: 'download',
         fileId: file._id,
       });
@@ -149,6 +150,44 @@ const downloadFile = async (req, res) => {
   }
 }
 
+const sharedDownloadFile = async (req, res) => {
+  try {
+    const {token} = req.params
+    const link = await LinkModel.findOne({token}).populate('file')
+
+    if(!link)
+      return res.status(404).json({message: "Invalid or expired link."})
+
+    if(new Date() > link.expiresAt)
+      return res.status(410).json({ message: 'This link has expired.' })
+
+    const file = link.file
+    const filePath = path.join(process.cwd(), file.path);
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({ message: 'File not found on server.' });
+    }
+
+    await ActivityModel.create({
+      user: file.user,
+      action: 'shared-download',
+      fileId: file._id,
+    });
+
+    res.setHeader('Content-Type', file.type || 'application/octet-stream');
+    res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(file.filename)}.${file.extension}"`);
+
+    const stats = fs.statSync(filePath);
+    res.setHeader('Content-Length', stats.size);
+
+    const fileStream = fs.createReadStream(filePath);
+    fileStream.pipe(res);
+
+  } catch (err) {
+    res.status(500).json({message: err.message})
+  }
+}
+
 const fetchFileDetails = async (req, res) => {
   try {
     const file = await FileModel.find({user: req.user.id})
@@ -169,5 +208,6 @@ module.exports = {
   fetchFiles,
   deleteFile,
   downloadFile,
+  sharedDownloadFile,
   fetchFileDetails
 };

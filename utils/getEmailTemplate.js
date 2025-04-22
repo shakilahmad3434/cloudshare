@@ -9,7 +9,7 @@ const getEmailTemplate = (link, SENDER_NAME, OPTIONAL_MESSAGE, EXPIRATION_DATE =
 <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f4f7fa; color: #333333;">
     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-spacing: 0; border-radius: 10px">
         <tr>
-            <td style="padding: 20px 0; text-align: center; background-color: oklch(69.6% 0.17 162.48)">
+            <td style="padding: 20px 0; text-align: center; background-color: #009966;">
                 <h1 style="text-align: center; color: #fff;">CloudShare</h1>
                 <p style="margin: 5px 0 0; color: #ffffff; font-size: 14px; font-style: italic;">India's best file sharing platform</p>
             </td>

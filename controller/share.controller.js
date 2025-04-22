@@ -1,7 +1,9 @@
 const ActivityModel = require("../model/activity.model");
 const ShareModel = require("../model/share.model");
 const nodemailer = require('nodemailer');
+const crypto = require('crypto')
 const { getEmailTemplate } = require("../utils/getEmailTemplate");
+const LinkModel = require("../model/link.model");
 
 const conn = nodemailer.createTransport({
   service: 'gmail',
@@ -14,13 +16,20 @@ const conn = nodemailer.createTransport({
 const shareFile = async (req, res) => {
   try {
     const {email, fileId, message} = req.body
-    const link = `${process.env.DOMAIN}/api/file/download/${fileId}`
+    const token = crypto.randomBytes(16).toString('hex')
+    const expiresAt = new Date(Date.now() + 3600000)
+    const readableExpiry = expiresAt.toLocaleString('en-IN', {
+      dateStyle: 'full',
+      timeStyle: 'short',
+    });
+
+    const link = `${process.env.DOMAIN}/api/shared/download/${token}`
 
     const options = {
       from: process.env.SMTP_EMAIL,
       to: email,
       subject: 'CloudShare - New File Received',
-      html: getEmailTemplate(link, req.user.fullname, message)
+      html: getEmailTemplate(link, req.user.fullname, message, readableExpiry)
     }
 
     const payload = {
@@ -38,9 +47,17 @@ const shareFile = async (req, res) => {
         shareId: share._id,
       }
 
+    const shareLinkPayload = {
+      file: fileId,
+      token,
+      email,
+      expiresAt
+    }
+
     await Promise.all([
         conn.sendMail(options),
-        ActivityModel.create(activityPayload)
+        ActivityModel.create(activityPayload),
+        LinkModel.create(shareLinkPayload)
     ])
 
     res.status(200).json({message: "Email Sent!"})
